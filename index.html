@@ -9,19 +9,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="펌프산정"/>
-<!-- PWA 아이콘 -->
-<link rel="manifest" href="./manifest.json"/>
-<link rel="icon" type="image/x-icon" href="./icons/favicon.ico"/>
-<link rel="icon" type="image/png" sizes="32x32" href="./icons/icon-32x32.png"/>
-<link rel="icon" type="image/png" sizes="16x16" href="./icons/icon-16x16.png"/>
-<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"/>
-<link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-152x152.png"/>
-<link rel="apple-touch-icon" sizes="144x144" href="./icons/icon-144x144.png"/>
-<link rel="apple-touch-icon" sizes="128x128" href="./icons/icon-128x128.png"/>
-<link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192x192.png"/>
-<!-- iOS Splash / status bar -->
-<meta name="msapplication-TileImage" content="./icons/icon-144x144.png"/>
-<meta name="msapplication-TileColor" content="#1d4ed8"/>
 <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
@@ -52,29 +39,8 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
 .brand-title{font-size:13px;font-weight:800;color:var(--c-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .brand-sub{font-size:10px;color:var(--c-muted)}
 .hdr-btns{display:flex;gap:6px;flex-shrink:0}
-/* ── PWA 설치 버튼 (헤더) ── */
-.btn-pwa{
-  display:none;padding:7px 12px;
-  background:linear-gradient(135deg,#1d4ed8,#0ea5e9);
-  color:#fff;border:none;border-radius:8px;
-  font-size:12px;font-family:var(--font);font-weight:700;
-  cursor:pointer;gap:5px;white-space:nowrap;
-  box-shadow:0 2px 10px rgba(29,78,216,.35);
-  transition:all .2s;animation:pwa-btn-appear .4s ease;
-}
-.btn-pwa.show{display:flex;align-items:center}
-.btn-pwa:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(29,78,216,.45)}
-.btn-pwa:active{transform:translateY(0)}
-.pwa-install-ico{font-size:14px}
-@keyframes pwa-btn-appear{
-  from{opacity:0;transform:scale(.85) translateY(-4px)}
-  to{opacity:1;transform:scale(1) translateY(0)}
-}
-/* ── PWA 배너 아이콘 ── */
-.pwa-banner-icon{
-  width:46px;height:46px;border-radius:10px;flex-shrink:0;
-  box-shadow:0 2px 8px rgba(0,0,0,.15);
-}
+.btn-pwa{display:none;padding:6px 10px;background:var(--c-accent);color:#fff;border:none;border-radius:6px;font-size:12px;font-family:var(--font);cursor:pointer}
+.btn-pwa.show{display:flex;align-items:center;gap:4px}
 .btn-g,.btn-b{padding:6px 10px;border:none;border-radius:6px;font-size:12px;font-family:var(--font);cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap;min-height:34px}
 .btn-g{background:#e2e8f0;color:var(--c-dark)}.btn-b{background:var(--c-primary);color:#fff}
 .btn-g:hover{background:#cbd5e1}.btn-b:hover{background:var(--c-primary2)}
@@ -407,16 +373,20 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
 .a4-sum-card.done{border-color:#bbf7d0;background:#f0fdf4}
 .a4-sum-card.done::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#16a34a,#059669)}
 .a4-sum-card.pending{opacity:.5}
-.a4-sc-ico{font-size:20px;margin-bottom:4px}
-.a4-sc-tit{font-size:11px;font-weight:700;color:var(--c-dark);margin-bottom:4px}
-.a4-sc-val{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--c-primary)}
-.a4-sc-badge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;display:inline-block;margin-top:3px}
+.a4-sc-ico{font-size:22px;margin-bottom:4px}
+.a4-sc-tit{font-size:13px;font-weight:700;color:var(--c-dark);margin-bottom:4px}
+.a4-sc-val{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--c-primary)}
+.a4-sc-badge{font-size:11px;font-weight:700;padding:1px 6px;border-radius:10px;display:inline-block;margin-top:3px}
 .a4-sc-badge.done{background:#bbf7d0;color:#15803d}
 .a4-sc-badge.pending{background:#e2e8f0;color:#64748b}
 
 /* A4 */
 .a4-actions{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
-.a4-preview-wrap{background:#94a3b8;padding:20px;border-radius:12px;min-height:400px;display:flex;justify-content:center}
+.a4-preview-wrap{background:#94a3b8;padding:20px;border-radius:12px;min-height:400px;display:flex;justify-content:center;overflow-x:hidden}
+@media(max-width:640px){
+  .a4-preview-wrap{padding:8px 4px;border-radius:8px}
+  .a4-page{border-radius:0}
+}
 .a4-page{background:#fff;width:794px;padding:24px 28px;box-shadow:0 4px 24px rgba(0,0,0,.3);transform-origin:top center;border-radius:4px}
 .a4-print-wrapper{display:none}
 @media print{
@@ -430,100 +400,74 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
   .a4-print-page-break{page-break-before:always;break-before:page}
 }
 .a4-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid var(--c-primary)}
-.a4-title{font-size:14px;font-weight:800;color:var(--c-primary)}
-.a4-subtitle{font-size:9px;color:var(--c-muted);margin-top:2px}
-.a4-company{font-size:9px;color:var(--c-muted);text-align:right}
-.a4-meta-table{width:100%;border-collapse:collapse;font-size:9px;margin-bottom:10px}
+.a4-title{font-size:16px;font-weight:800;color:var(--c-primary)}
+.a4-subtitle{font-size:11px;color:var(--c-muted);margin-top:2px}
+.a4-company{font-size:11px;color:var(--c-muted);text-align:right}
+.a4-meta-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px}
 .a4-meta-table td{padding:3px 7px;border:1px solid #e2e8f0}
 .a4-meta-table td.k{background:#f1f5f9;font-weight:700;color:var(--c-muted);width:18%}
-.a4-section-tit{font-size:11px;font-weight:800;color:var(--c-primary);padding:4px 0;border-bottom:2px solid var(--c-border2);margin-bottom:8px}
+.a4-section-tit{font-size:13px;font-weight:800;color:var(--c-primary);padding:4px 0;border-bottom:2px solid var(--c-border2);margin-bottom:8px}
 .a4-pump-sec{margin-bottom:12px}
-.a4-pump-tit{font-size:10px;font-weight:700;color:var(--c-dark);margin-bottom:5px;padding:4px 8px;background:var(--c-header);border-left:3px solid var(--c-primary);border-radius:0 4px 4px 0}
-.a4-result-table{width:100%;border-collapse:collapse;font-size:9px;margin-bottom:5px}
+.a4-pump-tit{font-size:12px;font-weight:700;color:var(--c-dark);margin-bottom:5px;padding:4px 8px;background:var(--c-header);border-left:3px solid var(--c-primary);border-radius:0 4px 4px 0}
+.a4-result-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:5px}
 .a4-result-table th{background:#dbeafe;padding:3px 6px;text-align:center;font-weight:700;border:1px solid #bfdbfe}
 .a4-result-table td{padding:3px 6px;border:1px solid #e2e8f0;text-align:center}
 .a4-result-table td.mc{font-family:var(--mono);font-weight:600}
-.a4-calc-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:6px;font-size:8px;margin-bottom:4px}
+.a4-calc-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:6px;font-size:10px;margin-bottom:4px}
 .a4-calc-row{display:flex;justify-content:space-between;padding:1px 0;border-bottom:1px dashed #e2e8f0}
 .a4-calc-row:last-child{border-bottom:none;font-weight:700}
-.a4-law{padding-top:6px;border-top:1px solid #e2e8f0;font-size:7px;color:#94a3b8;margin-top:6px}
+.a4-law{padding-top:6px;border-top:1px solid #e2e8f0;font-size:9px;color:#94a3b8;margin-top:6px}
 
-/* 모바일 미리보기 — 삼각자 스타일 통일 */
-.mp-box{
-  background:#fff;
-  border-radius:0 24px 24px 24px; /* 좌상단 직각 */
-  max-width:440px;width:100%;
-  max-height:92vh;overflow:hidden;
-  box-shadow:0 24px 64px rgba(0,0,0,.35);
-  position:relative;
-}
-.mp-box::before{
-  content:'';position:absolute;top:0;left:0;
-  width:0;height:0;border-style:solid;
-  border-width:44px 44px 0 0;
-  border-color:var(--c-primary) transparent transparent transparent;
-}
-.mp-box::after{
-  content:'';position:absolute;top:0;left:0;
-  width:0;height:0;border-style:solid;
-  border-width:24px 24px 0 0;
-  border-color:rgba(255,255,255,.35) transparent transparent transparent;
-}
-.mp-hd{padding:14px 18px 12px 52px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--c-border);background:#fff;position:sticky;top:0;z-index:2}
-.mp-tit{font-weight:800;font-size:13px;color:var(--c-primary)}
-.mp-cls{background:none;border:none;font-size:20px;cursor:pointer;color:var(--c-muted);padding:4px;border-radius:6px;transition:.15s;line-height:1}
-.mp-cls:hover{background:var(--c-bg);color:var(--c-dark)}
-.mp-phone{padding:10px;background:#1c1c1e}
-.mp-screen{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 0 0 7px #333,0 0 0 9px #555;max-height:52vh;overflow-y:auto}
-.mp-content{padding:10px}
-.mp-footer{display:flex;border-top:1px solid var(--c-border);padding:8px 16px 12px;gap:8px;background:#fff;flex-wrap:wrap;border-radius:0 0 24px 24px}
-.mp-btn{flex:1;min-width:90px;padding:9px;border:none;border-radius:8px;font-size:12px;font-family:var(--font);font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:.18s}
-.mp-btn.jpg{background:var(--c-primary);color:#fff}
-.mp-btn.share{background:#f1f5f9;color:var(--c-dark)}
+/* ════════════════════════════════════════════════
+   Galaxy S24 Ultra 모바일 미리보기
+   실제 규격: 6.8인치 QHD+ (3088×1440) | CSS: 360×773px
+════════════════════════════════════════════════ */
+.mp-modal-ov{display:none;position:fixed;inset:0;background:rgba(5,10,20,.88);z-index:1100;align-items:center;justify-content:center;padding:12px}
+.mp-modal-ov.open{display:flex}
+.mp-wrap{display:flex;flex-direction:column;align-items:center;gap:0;max-height:98vh}
+.mp-hd{width:100%;max-width:400px;padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.06);border-radius:14px 14px 0 0;border:1px solid rgba(255,255,255,.1);border-bottom:none}
+.mp-tit{font-weight:800;font-size:13px;color:#fff;display:flex;align-items:center;gap:6px}
+.mp-tit-badge{font-size:9px;font-weight:700;background:rgba(99,179,237,.2);color:#90cdf4;padding:2px 7px;border-radius:10px;border:1px solid rgba(99,179,237,.3)}
+.mp-cls{background:rgba(255,255,255,.12);border:none;color:#fff;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.15s;line-height:1}
+.mp-cls:hover{background:rgba(255,255,255,.25)}
+/* S24 Ultra 본체 */
+.s24-frame{position:relative;width:360px;background:linear-gradient(160deg,#1a1a1a 0%,#0d0d0d 40%,#1c1c1c 100%);border-radius:42px;border:1px solid #2a2a2a;box-shadow:0 0 0 1px #444,0 0 0 2px #1a1a1a,0 0 0 4px #333,0 20px 60px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.07);padding:14px 10px;flex-shrink:0}
+.s24-frame::before{content:'';position:absolute;top:12px;left:0;bottom:12px;width:3px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.08) 30%,rgba(255,255,255,.12) 50%,rgba(255,255,255,.08) 70%,transparent);border-radius:42px 0 0 42px}
+.s24-frame::after{content:'';position:absolute;top:12px;right:0;bottom:12px;width:3px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.06) 30%,rgba(255,255,255,.1) 50%,rgba(255,255,255,.06) 70%,transparent);border-radius:0 42px 42px 0}
+.s24-camera-bar{height:28px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;flex-shrink:0;position:relative}
+.s24-punch{width:10px;height:10px;background:radial-gradient(circle at 35% 35%,#2a2a2a,#000);border-radius:50%;box-shadow:0 0 0 1px #1a1a1a,0 0 6px rgba(0,0,0,.8)}
+.s24-btn-vol{position:absolute;left:-13px;top:72px;width:4px;height:32px;background:linear-gradient(90deg,#222,#333,#222);border-radius:2px 0 0 2px}
+.s24-btn-vol2{position:absolute;left:-13px;top:114px;width:4px;height:32px;background:linear-gradient(90deg,#222,#333,#222);border-radius:2px 0 0 2px}
+.s24-btn-pwr{position:absolute;right:-13px;top:96px;width:4px;height:44px;background:linear-gradient(270deg,#222,#333,#222);border-radius:0 2px 2px 0}
+.s24-spen{position:absolute;right:-13px;bottom:28px;width:4px;height:16px;background:linear-gradient(270deg,#1a1a1a,#2a2a2a);border-radius:0 2px 2px 0}
+/* 화면: 340×680px */
+.s24-screen{width:340px;height:680px;background:#fff;border-radius:32px;overflow:hidden;position:relative;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.s24-statusbar{position:absolute;top:0;left:0;right:0;height:28px;background:linear-gradient(180deg,rgba(29,78,216,.95),rgba(29,78,216,.8));display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:10;flex-shrink:0}
+.s24-time{font-size:11px;font-weight:700;color:#fff;font-family:var(--mono)}
+.s24-icons{font-size:10px;color:rgba(255,255,255,.9);display:flex;gap:3px;align-items:center}
+.s24-content{position:absolute;top:28px;left:0;right:0;bottom:18px;overflow-y:auto;overflow-x:hidden;background:#fff;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.s24-content::-webkit-scrollbar{display:none}
+.s24-home-bar{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:96px;height:4px;background:rgba(0,0,0,.18);border-radius:2px;pointer-events:none;z-index:10}
+.s24-inner{padding:10px 10px 20px;font-size:12px}
+.mp-footer{width:100%;max-width:400px;display:flex;gap:8px;padding:10px 16px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-top:none;border-radius:0 0 14px 14px;flex-wrap:wrap}
+.mp-btn{flex:1;min-width:100px;padding:10px;border:none;border-radius:9px;font-size:12px;font-family:var(--font);font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:.18s}
+.mp-btn.jpg{background:var(--c-primary);color:#fff;box-shadow:0 2px 8px rgba(29,78,216,.4)}
+.mp-btn.jpg:hover{background:var(--c-primary2);transform:translateY(-1px)}
+.mp-btn.share{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.mp-btn.share:hover{background:rgba(255,255,255,.25)}
+/* 소형 화면 축소 */
+@media(max-width:420px){.s24-frame{transform:scale(.88);transform-origin:top center;margin-bottom:-50px}}
+@media(max-width:360px){.s24-frame{transform:scale(.78);transform-origin:top center;margin-bottom:-80px}}
+@media(max-height:700px){.s24-screen{height:480px}}
 
 /* PWA */
-/* ── PWA 설치 배너 ── */
-.pwa-banner{
-  position:fixed;bottom:-120px;left:0;right:0;
-  background:linear-gradient(135deg,#0f172a 0%,#1d4ed8 100%);
-  padding:14px 16px calc(14px + env(safe-area-inset-bottom));
-  display:flex;align-items:center;gap:12px;
-  z-index:900;
-  box-shadow:0 -4px 24px rgba(29,78,216,.4);
-  border-radius:16px 16px 0 0;
-  transition:bottom .38s cubic-bezier(.16,1,.3,1);
-}
+.pwa-banner{position:fixed;bottom:-110px;left:0;right:0;background:#fff;border-top:1px solid var(--c-border);padding:12px 16px;display:flex;align-items:center;gap:10px;z-index:900;box-shadow:0 -4px 16px rgba(0,0,0,.12);transition:bottom .35s ease}
 .pwa-banner.show{bottom:0}
-.pwa-banner-icon{
-  width:48px;height:48px;border-radius:12px;flex-shrink:0;
-  box-shadow:0 2px 10px rgba(0,0,0,.25);
-  border:2px solid rgba(255,255,255,.2);
-}
-.pwa-banner-text{flex:1;min-width:0}
-.pwa-banner-title{font-weight:800;font-size:13px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pwa-banner-sub{font-size:10px;color:#93c5fd;margin-top:2px;font-weight:600}
-.pwa-banner-install{
-  padding:9px 16px;
-  background:#fff;color:#1d4ed8;
-  border:none;border-radius:10px;
-  font-size:12px;font-family:var(--font);font-weight:800;
-  cursor:pointer;white-space:nowrap;flex-shrink:0;
-  box-shadow:0 2px 10px rgba(0,0,0,.2);
-  transition:all .15s;
-}
-.pwa-banner-install:hover{background:#eff6ff;transform:scale(1.03)}
-.pwa-banner-close{
-  background:rgba(255,255,255,.15);border:none;
-  color:#fff;width:30px;height:30px;border-radius:8px;
-  cursor:pointer;font-size:14px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font);transition:background .15s;
-}
-.pwa-banner-close:hover{background:rgba(255,255,255,.28)}
-@keyframes pwa-pulse{
-  0%,100%{box-shadow:0 2px 10px rgba(29,78,216,.35)}
-  50%{box-shadow:0 2px 20px rgba(29,78,216,.7),0 0 0 4px rgba(29,78,216,.15)}
-}
+.pwa-banner-text{flex:1}
+.pwa-banner-title{font-weight:700;font-size:13px;color:var(--c-dark)}
+.pwa-banner-sub{font-size:10px;color:var(--c-muted);margin-top:1px}
+.pwa-banner-install{padding:7px 12px;background:var(--c-primary);color:#fff;border:none;border-radius:8px;font-size:12px;font-family:var(--font);font-weight:700;cursor:pointer;white-space:nowrap}
+.pwa-banner-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--c-muted);padding:4px}
 .pwa-update-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--c-accent);color:#fff;padding:7px 16px;text-align:center;font-size:13px;font-weight:700;z-index:1001;gap:10px;align-items:center;justify-content:center}
 .pwa-update-bar.show{display:flex}
 .pwa-update-bar button{padding:3px 10px;background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:6px;cursor:pointer;font-family:var(--font)}
@@ -592,10 +536,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
       </div>
     </div>
     <div class="hdr-btns">
-      <button class="btn-pwa" id="btnPwaInstall" onclick="pwaTriggerInstall()" title="홈 화면에 앱 설치">
-  <span class="pwa-install-ico">📲</span>
-  <span class="btn-txt">앱 설치</span>
-</button>
+      <button class="btn-pwa" id="btnPwaInstall" onclick="pwaTriggerInstall()">📲 <span class="btn-txt">설치</span></button>
       <button class="btn-g" onclick="resetAll()">🔄 <span class="btn-txt">초기화</span></button>
       <button class="btn-b" onclick="exportJpg()">📸 <span class="btn-txt">JPG저장</span></button>
     </div>
@@ -1467,26 +1408,57 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
   </div><!-- /.bottom-sheet -->
 </div><!-- /.bs-overlay -->
 
-<div class="modal-ov" id="mpModal">
-  <div class="mp-box">
-    <div class="mp-hd"><span class="mp-tit" id="mpTitle">📱 모바일 미리보기</span><button class="mp-cls" onclick="closeModal('mpModal')">✕</button></div>
-    <div class="mp-phone"><div class="mp-screen"><div class="mp-content" id="mpContent"></div></div></div>
+<!-- Galaxy S24 Ultra 모바일 미리보기 모달 -->
+<div class="mp-modal-ov modal-ov" id="mpModal" onclick="if(event.target===this)closeModal('mpModal')">
+  <div class="mp-wrap">
+    <!-- 헤더 -->
+    <div class="mp-hd">
+      <span class="mp-tit">
+        📱 모바일 미리보기
+        <span class="mp-tit-badge">Galaxy S24 Ultra</span>
+      </span>
+      <button class="mp-cls" onclick="closeModal('mpModal')" title="닫기">✕</button>
+    </div>
+
+    <!-- Galaxy S24 Ultra 본체 (id=s24Frame — JPG 전체 캡처 대상) -->
+    <div class="s24-frame" id="s24Frame">
+      <!-- 측면 버튼들 -->
+      <div class="s24-btn-vol"></div>
+      <div class="s24-btn-vol2"></div>
+      <div class="s24-btn-pwr"></div>
+      <div class="s24-spen"></div>
+      <!-- 카메라 펀치홀 -->
+      <div class="s24-camera-bar">
+        <div class="s24-punch"></div>
+      </div>
+      <!-- 화면 -->
+      <div class="s24-screen">
+        <!-- 상태바 -->
+        <div class="s24-statusbar">
+          <span class="s24-time" id="s24Time">9:41</span>
+          <span class="s24-icons">▲ WiFi ◆ 5G 🔋</span>
+        </div>
+        <!-- 콘텐츠 스크롤 영역 -->
+        <div class="s24-content">
+          <div class="s24-inner" id="mpContent"></div>
+        </div>
+        <!-- 홈 인디케이터 -->
+        <div class="s24-home-bar"></div>
+      </div>
+    </div>
+
+    <!-- 하단 버튼 -->
     <div class="mp-footer">
-      <button class="mp-btn jpg" onclick="exportMpJpg()">📸 JPG 저장</button>
+      <button class="mp-btn jpg" onclick="exportMpJpg()">📸 전체화면 JPG 저장</button>
       <button class="mp-btn share" onclick="shareMp()">🔗 공유하기</button>
     </div>
   </div>
 </div>
 
-<!-- PWA 설치 배너 (하단 슬라이드업) -->
 <div class="pwa-banner" id="pwaBanner">
-  <img src="./icons/icon-72x72.png" alt="앱 아이콘" class="pwa-banner-icon" onerror="this.style.display='none'"/>
-  <div class="pwa-banner-text">
-    <div class="pwa-banner-title">📲 앱으로 설치하기</div>
-    <div class="pwa-banner-sub">홈 화면에 추가하면 오프라인에서도 사용 가능합니다</div>
-  </div>
-  <button class="pwa-banner-install" id="btnBannerInstall">✅ 지금 설치</button>
-  <button class="pwa-banner-close" onclick="pwaDismissBanner()" title="닫기">✕</button>
+  <div class="pwa-banner-text"><div class="pwa-banner-title">💧 설비펌프 용량 산정</div><div class="pwa-banner-sub">홈 화면에 추가하면 더 빠르게 사용할 수 있어요</div></div>
+  <button class="pwa-banner-install" id="btnBannerInstall">지금 설치</button>
+  <button class="pwa-banner-close" onclick="pwaDismissBanner()">✕</button>
 </div>
 <div class="pwa-update-bar" id="pwaUpdateBar">새 버전이 있습니다 <button onclick="pwaApplyUpdate()">업데이트 적용</button></div>
 <div class="net-toast" id="netToast"></div>
@@ -1529,6 +1501,21 @@ let _wsSub     = 'ws_hoist'; // 'ws_hoist' | 'ws_boost'
    공통 유틸
 ═══════════════════════════════════════════════ */
 function today(){ return new Date().toISOString().slice(0,10); }
+
+/* ── Canvas roundRect 폴리필 (iOS Safari ≤ 15 등 구형 대응) ── */
+if(typeof CanvasRenderingContext2D!=='undefined' && !CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
+    const rv=typeof r==='number'?[r,r,r,r]:(Array.isArray(r)?r:[r]);
+    const [tl=0,tr=0,br=0,bl=0]=rv.length===1?[rv[0],rv[0],rv[0],rv[0]]:rv;
+    this.beginPath();
+    this.moveTo(x+tl,y);
+    this.lineTo(x+w-tr,y); this.quadraticCurveTo(x+w,y,x+w,y+tr);
+    this.lineTo(x+w,y+h-br); this.quadraticCurveTo(x+w,y+h,x+w-br,y+h);
+    this.lineTo(x+bl,y+h); this.quadraticCurveTo(x,y+h,x,y+h-bl);
+    this.lineTo(x,y+tl); this.quadraticCurveTo(x,y,x+tl,y);
+    this.closePath(); return this;
+  };
+}
 function showToast(m,d=2600){ const t=document.getElementById('toastEl'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),d); }
 function openModal(id){ document.getElementById(id).classList.add('open'); }
 function closeModal(id){ document.getElementById(id).classList.remove('open'); }
@@ -1643,20 +1630,379 @@ function applyProj(){
   updateA4(); closeBS(); showToast('✅ 프로젝트 정보 적용 완료');
 }
 
-/* ── A4 스케일링 ── */
-function scaleA4(){ const w=document.getElementById('a4Wrap'),p=document.getElementById('a4Page'); if(!w||!p) return; const s=Math.min(1,(w.clientWidth-32)/794); p.style.transform=`scale(${s})`; p.style.transformOrigin='top center'; p.style.marginBottom=`${p.offsetHeight*s-p.offsetHeight}px`; }
-window.addEventListener('resize',scaleA4);
+/* ── A4 스케일링 — 모바일: ISO A4 전체화면 비율 ── */
+function scaleA4(){
+  const w = document.getElementById('a4Wrap');
+  const p = document.getElementById('a4Page');
+  if(!w || !p) return;
+
+  const wrapW = w.clientWidth;
+  const isMobile = wrapW < 640;
+
+  if(isMobile){
+    /* 모바일: wrap 폭에 꽉 차게 스케일 → A4 비율(1:√2 = 1:1.4142) 유지 */
+    const availW = wrapW - 16; /* 좌우 패딩 8px */
+    const s = availW / 794;
+    p.style.transform = `scale(${s})`;
+    p.style.transformOrigin = 'top center';
+    p.style.width = '794px';
+    /* 스케일 후 실제 차지 높이 보정 */
+    const scaledH = p.offsetHeight * s;
+    w.style.minHeight = scaledH + 'px';
+    p.style.marginBottom = (scaledH - p.offsetHeight) + 'px';
+  } else {
+    /* 데스크탑/태블릿: 최대 1.0 스케일 */
+    const s = Math.min(1, (wrapW - 40) / 794);
+    p.style.transform = `scale(${s})`;
+    p.style.transformOrigin = 'top center';
+    p.style.width = '794px';
+    w.style.minHeight = '';
+    p.style.marginBottom = `${p.offsetHeight * s - p.offsetHeight}px`;
+  }
+}
+window.addEventListener('resize', scaleA4);
 
 /* ── JPG 저장 ── */
 async function exportJpg(){ const p=document.getElementById('a4Page'); if(!p){showToast('⚠️ A4 없음');return;} showToast('📸 생성 중...',1400); const pr=p.style.transform; p.style.transform='none'; await new Promise(r=>setTimeout(r,100)); const c=await html2canvas(p,{scale:2,useCORS:true,backgroundColor:'#fff',width:794,windowWidth:794}); p.style.transform=pr; const a=document.createElement('a'); a.href=c.toDataURL('image/jpeg',.92); a.download=`설비펌프산정_${proj.name}_${today()}.jpg`; a.click(); showToast('📸 JPG 저장 완료!'); }
-async function exportMpJpg(){ const s=document.querySelector('.mp-screen'); if(!s)return; showToast('📸 생성 중...',1400); const c=await html2canvas(s,{scale:2,useCORS:true,backgroundColor:'#fff'}); const a=document.createElement('a'); a.href=c.toDataURL('image/jpeg',.92); a.download=`펌프산정_모바일_${today()}.jpg`; a.click(); showToast('📸 저장 완료!'); }
-async function shareMp(){
-  const s=document.querySelector('.mp-screen'); if(!s) return;
-  const c=await html2canvas(s,{scale:2,useCORS:true,backgroundColor:'#fff'});
-  if(navigator.share){ c.toBlob(async b=>{ try{ await navigator.share({title:'설비펌프 산정결과',files:[new File([b],`펌프산정_${today()}.jpg`,{type:'image/jpeg'})]}); showToast('✅ 공유 완료!'); }catch(e){if(e.name!=='AbortError')showToast('공유 취소됨');}},'image/jpeg'); }
-  else { c.toBlob(async b=>{ try{ await navigator.clipboard.write([new ClipboardItem({'image/png':b})]); showToast('📋 클립보드 복사 완료!',3000); }catch(e){ const a=document.createElement('a'); a.href=c.toDataURL('image/jpeg',.92); a.download=`공유_${today()}.jpg`; a.click(); showToast('📸 공유용 JPG 저장'); }}); }
+/* ════════════════════════════════════════════════════
+   S24 Ultra JPG — RESULTS → Canvas 직접 렌더링
+   S24 Ultra 프레임 + 전체 콘텐츠 세로 출력
+════════════════════════════════════════════════════ */
+async function exportMpJpg(){
+  /* ── 산정된 펌프 수집 ── */
+  const keys = PUMP_ORDER.filter(k => RESULTS[k]);
+  if(!keys.length){ showToast('⚠️ 먼저 펌프를 산정하세요'); return; }
+  showToast('📸 JPG 생성 중...', 3000);
+
+  /* ── 상수 (CSS px 기준 — canvas scale로 2× 확대) ── */
+  const PX = 2;          // 출력 해상도 배율
+  const FW = 392;        // 프레임 전체 폭 (화면340 + 베젤26×2)
+  const BEZEL_H = 16;    // 상하 베젤
+  const CAM_H   = 38;    // 카메라 영역
+  const SB_H    = 26;    // 상태바
+  const SCR_X   = 26;    // 화면 시작 X (좌베젤)
+  const SCR_W   = 340;   // 화면 폭
+  const PAD     = 14;    // 콘텐츠 좌우 패딩
+  const CW      = SCR_W - PAD * 2;  // 콘텐츠 폭 (312px)
+  const GAP     = 12;    // 펌프 간 여백
+  const ROW_H   = 24;    // 사양 행 높이
+  const HERO_H  = 56;    // 히어로 박스 높이
+
+  const C = {
+    phoneDark:  '#0d0d0d',
+    phoneEdge:  '#2a2a2a',
+    screen:     '#f8fafc',
+    primary:    '#1d4ed8',
+    primary2:   '#1e40af',
+    dark:       '#0f172a',
+    muted:      '#64748b',
+    border:     '#e2e8f0',
+    head:       '#dbeafe',
+    heroText:   '#fde047',
+    hero: ['#1d4ed8','#0f766e','#7c3aed','#ea580c'],
+  };
+
+  /* ── 사양 행 데이터 생성 ── */
+  function specRows(r, k){
+    const dr = (k==='pit'||k==='rain');
+    const rows = [
+      ['형식', r.typeStr],
+      ['용도', r.purpose],
+      ['유량', r.Q_lpm.toFixed(2) + ' LPM'],
+      ['양정', r.H.toFixed(2) + ' m'],
+      ['동력', r.hpStr + ' HP  (' + (selHP(r.P_calc).v * 0.7457).toFixed(3) + ' kW)'],
+      ['구경', 'Ø ' + r.pipe + (r.pipeMain ? ' / 주Ø' + r.pipeMain : '') + ' mm'],
+      ['전원', r.power],
+      ['수량', r.qty],
+    ];
+    if(dr && r.solidLabel) rows.push(['고형물', r.solidLabel]);
+    if(dr) rows.push(['집수정', 'Ø450 이상 / D600 이상']);
+    return rows;
+  }
+
+  /* ── 펌프 1개 높이 계산 ── */
+  function pumpBlockH(r, k){
+    return 6           // 상단 여백
+      + 36             // 제목 바
+      + 8              // 간격
+      + HERO_H         // 히어로 4박스
+      + 8              // 간격
+      + 22             // "선정사양" 헤더
+      + specRows(r, k).length * ROW_H
+      + 10;            // 하단 여백
+  }
+
+  /* ── 콘텐츠 전체 높이 계산 ── */
+  const HDR_H    = 88;   // 앱 헤더 배너
+  const FOOTER_H = 20;   // 워터마크
+  let contentH = HDR_H;
+  keys.forEach(k => { contentH += pumpBlockH(RESULTS[k], k) + GAP; });
+  contentH += FOOTER_H;
+
+  /* ── 전체 프레임 높이 ── */
+  const FRAME_H = BEZEL_H + CAM_H + SB_H + contentH + BEZEL_H;
+
+  /* ── Canvas 생성 ── */
+  const cv = document.createElement('canvas');
+  cv.width  = FW  * PX;
+  cv.height = FRAME_H * PX;
+  const ctx = cv.getContext('2d');
+  ctx.scale(PX, PX);
+
+  /* ────────────────────────────────────────
+     S24 Ultra 폰 본체
+  ──────────────────────────────────────── */
+  /* 외형 그라디언트 */
+  const bodyG = ctx.createLinearGradient(0, 0, FW, FRAME_H);
+  bodyG.addColorStop(0,   '#262626');
+  bodyG.addColorStop(0.3, '#0d0d0d');
+  bodyG.addColorStop(0.7, '#111111');
+  bodyG.addColorStop(1,   '#1e1e1e');
+  ctx.fillStyle = bodyG;
+  ctx.beginPath();
+  ctx.roundRect(0, 0, FW, FRAME_H, 40);
+  ctx.fill();
+
+  /* 외곽 테두리 (광택) */
+  ctx.strokeStyle = 'rgba(255,255,255,.10)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.roundRect(0.75, 0.75, FW-1.5, FRAME_H-1.5, 40);
+  ctx.stroke();
+
+  /* 측면 버튼 — 좌측 볼륨 (2개) */
+  const btnR = 3;
+  [[BEZEL_H+CAM_H+60, 32], [BEZEL_H+CAM_H+104, 32]].forEach(([y,h])=>{
+    ctx.fillStyle = '#333';
+    ctx.beginPath(); ctx.roundRect(-btnR, y, btnR+1, h, 1); ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.08)'; ctx.lineWidth=0.5;
+    ctx.beginPath(); ctx.roundRect(-btnR, y, btnR+1, h, 1); ctx.stroke();
+  });
+  /* 우측 전원 */
+  ctx.fillStyle = '#333';
+  ctx.beginPath(); ctx.roundRect(FW-1, BEZEL_H+CAM_H+90, btnR+1, 44, 1); ctx.fill();
+  /* S-Pen 슬롯 (우측 하단) */
+  ctx.fillStyle = '#1a1a1a';
+  ctx.beginPath(); ctx.roundRect(FW-2, FRAME_H-70, 3, 22, 1); ctx.fill();
+
+  /* ── 카메라 영역 ── */
+  const camY  = BEZEL_H + CAM_H/2;
+  const camCX = FW/2;
+  /* 렌즈 홀 */
+  const lg = ctx.createRadialGradient(camCX, camY, 0, camCX, camY, 7);
+  lg.addColorStop(0, '#1a1a1a'); lg.addColorStop(1, '#000');
+  ctx.beginPath(); ctx.arc(camCX, camY, 6, 0, Math.PI*2);
+  ctx.fillStyle = lg; ctx.fill();
+  /* 렌즈 테두리 */
+  ctx.strokeStyle = '#333'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.arc(camCX, camY, 6.5, 0, Math.PI*2); ctx.stroke();
+  /* 내부 반사 */
+  ctx.beginPath(); ctx.arc(camCX-1.5, camY-1.5, 2, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(80,120,200,.35)'; ctx.fill();
+
+  /* ── 상태바 ── */
+  const sbY = BEZEL_H + CAM_H;
+  const sbG = ctx.createLinearGradient(SCR_X, sbY, SCR_X, sbY+SB_H);
+  sbG.addColorStop(0, 'rgba(29,78,216,.97)');
+  sbG.addColorStop(1, 'rgba(14,53,160,.90)');
+  ctx.fillStyle = sbG;
+  ctx.fillRect(SCR_X, sbY, SCR_W, SB_H);
+  /* 시각 */
+  const now = new Date();
+  const hh  = now.getHours(), mm = String(now.getMinutes()).padStart(2,'0');
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 11px "JetBrains Mono", monospace';
+  ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+  ctx.fillText(`${hh}:${mm}`, SCR_X+10, sbY + SB_H/2);
+  /* 아이콘 */
+  ctx.font = '9px sans-serif'; ctx.textAlign = 'right';
+  ctx.fillText('▲  WiFi  5G  🔋', SCR_X + SCR_W - 10, sbY + SB_H/2);
+  ctx.textAlign = 'left';
+
+  /* ── 화면 배경 ── */
+  const SCR_Y = sbY + SB_H;
+  ctx.fillStyle = C.screen;
+  ctx.fillRect(SCR_X, SCR_Y, SCR_W, contentH);
+
+  /* ────────────────────────────────────────
+     콘텐츠 렌더링
+  ──────────────────────────────────────── */
+  let cy = SCR_Y;
+  const cx = SCR_X;
+
+  /* 앱 헤더 배너 */
+  const hG = ctx.createLinearGradient(cx, cy, cx + SCR_W, cy + HDR_H);
+  hG.addColorStop(0, '#0c1a2e');
+  hG.addColorStop(0.5, '#1d4ed8');
+  hG.addColorStop(1, '#1e40af');
+  ctx.fillStyle = hG;
+  ctx.fillRect(cx, cy, SCR_W, HDR_H);
+  /* 헤더 텍스트 */
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText('💧 설비펌프 용량 자동선정 산출서', cx + PAD, cy + 10);
+  ctx.fillStyle = 'rgba(255,255,255,.65)';
+  ctx.font = '8.5px sans-serif';
+  ctx.fillText('국토교통부 고시 제2021-851호  별표1·5·6 기반  8종 펌프', cx + PAD, cy + 28);
+  ctx.fillStyle = '#93c5fd';
+  ctx.font = 'bold 10px sans-serif';
+  ctx.fillText('📋 ' + (proj.name || '설비펌프 산정'), cx + PAD, cy + 46);
+  ctx.fillStyle = 'rgba(255,255,255,.5)';
+  ctx.font = '8.5px sans-serif';
+  ctx.fillText('작성자: ' + (proj.author||'—') + '   일자: ' + (proj.date||today()), cx+PAD, cy+62);
+  /* 산정 뱃지 */
+  ctx.fillStyle = 'rgba(255,255,255,.12)';
+  ctx.beginPath(); ctx.roundRect(cx+PAD, cy+74, 56, 11, 4); ctx.fill();
+  ctx.fillStyle = '#bfdbfe'; ctx.font = '7.5px sans-serif';
+  ctx.fillText('MANMIN-Ver2.0', cx+PAD+4, cy+75.5);
+  cy += HDR_H;
+
+  /* 각 펌프 블록 */
+  keys.forEach((k, ki) => {
+    const r    = RESULTS[k];
+    const meta = PUMP_META[k];
+    const rows = specRows(r, k);
+    cy += 6;
+
+    /* 제목 바 */
+    ctx.fillStyle = C.head;
+    ctx.fillRect(cx, cy, SCR_W, 36);
+    /* 좌측 강조 선 */
+    const titleAccent = ctx.createLinearGradient(cx, cy, cx, cy+36);
+    titleAccent.addColorStop(0, C.primary); titleAccent.addColorStop(1, '#0ea5e9');
+    ctx.fillStyle = titleAccent;
+    ctx.fillRect(cx, cy, 4, 36);
+    /* 제목 텍스트 */
+    ctx.fillStyle = C.dark;
+    ctx.font = 'bold 11px sans-serif'; ctx.textBaseline = 'middle';
+    ctx.fillText(meta.ico + ' ' + meta.lbl, cx+12, cy+18);
+    /* 법령 태그 */
+    ctx.fillStyle = 'rgba(29,78,216,.12)';
+    ctx.beginPath(); ctx.roundRect(cx+SCR_W-46, cy+10, 36, 14, 5); ctx.fill();
+    ctx.fillStyle = C.primary; ctx.font = '8px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(meta.law, cx+SCR_W-28, cy+17); ctx.textAlign='left';
+    cy += 36 + 8;
+
+    /* 히어로 4박스 */
+    const heroItems = [
+      { lbl:'유량 Q',   val: r.Q_lpm.toFixed(2), unit:'LPM' },
+      { lbl:'양정 H',   val: r.H.toFixed(2),      unit:'m' },
+      { lbl:'계산동력', val: r.P_calc.toFixed(3),  unit:'HP' },
+      { lbl:'선정동력', val: r.hpStr,              unit:'HP' },
+    ];
+    const bw = Math.floor((SCR_W - PAD*2 - 3*5) / 4);  // 박스 폭
+    heroItems.forEach((d, i) => {
+      const bx = cx + PAD + i * (bw + 5);
+      /* 박스 그라디언트 */
+      const hbG = ctx.createLinearGradient(bx, cy, bx+bw, cy+HERO_H);
+      const base = C.hero[i];
+      hbG.addColorStop(0, base); hbG.addColorStop(1, base + 'cc');
+      ctx.fillStyle = hbG;
+      ctx.beginPath(); ctx.roundRect(bx, cy, bw, HERO_H, 7); ctx.fill();
+      /* 광택 오버레이 */
+      ctx.fillStyle = 'rgba(255,255,255,.08)';
+      ctx.beginPath(); ctx.roundRect(bx, cy, bw, HERO_H/2, [7,7,0,0]); ctx.fill();
+      /* 텍스트 */
+      ctx.textBaseline = 'top'; ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '7px sans-serif';
+      ctx.fillText(d.lbl, bx+bw/2, cy+6);
+      ctx.fillStyle = C.heroText; ctx.font = 'bold 13px "JetBrains Mono",monospace';
+      ctx.fillText(d.val, bx+bw/2, cy+17);
+      ctx.fillStyle = 'rgba(255,255,255,.65)'; ctx.font = '8px sans-serif';
+      ctx.fillText(d.unit, bx+bw/2, cy+37);
+    });
+    ctx.textAlign = 'left'; cy += HERO_H + 8;
+
+    /* 선정사양 헤더 */
+    ctx.fillStyle = C.primary2;
+    ctx.beginPath(); ctx.roundRect(cx+PAD, cy, CW, 22, [5,5,0,0]); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 9.5px sans-serif'; ctx.textBaseline = 'middle';
+    ctx.fillText('✅  펌프 선정 사양', cx+PAD+8, cy+11);
+    cy += 22;
+
+    /* 사양 행 */
+    rows.forEach((row, idx) => {
+      ctx.fillStyle = idx%2===0 ? '#f1f5f9' : '#fff';
+      ctx.fillRect(cx+PAD, cy, CW, ROW_H);
+      /* 구분선 */
+      ctx.strokeStyle = C.border; ctx.lineWidth = 0.5;
+      ctx.beginPath(); ctx.moveTo(cx+PAD, cy+ROW_H); ctx.lineTo(cx+PAD+CW, cy+ROW_H); ctx.stroke();
+      /* 키 */
+      ctx.fillStyle = C.muted; ctx.font = '9px sans-serif'; ctx.textBaseline = 'middle';
+      ctx.fillText(row[0], cx+PAD+8, cy+ROW_H/2);
+      /* 값 */
+      ctx.fillStyle = C.dark; ctx.font = 'bold 9px sans-serif';
+      ctx.fillText(row[1], cx+PAD+62, cy+ROW_H/2);
+      cy += ROW_H;
+    });
+
+    /* 하단 구분선 */
+    if(ki < keys.length-1){
+      ctx.strokeStyle = 'rgba(29,78,216,.15)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(cx, cy+4); ctx.lineTo(cx+SCR_W, cy+4); ctx.stroke();
+    }
+    cy += GAP + 4;
+  });
+
+  /* 워터마크 */
+  cy = SCR_Y + contentH - FOOTER_H;
+  ctx.fillStyle = 'rgba(100,116,139,.5)';
+  ctx.font = '7.5px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(
+    'MANMIN-Ver2.0  ·  Engineer Kim Manmin  ·  ' + today(),
+    cx + SCR_W/2, cy + FOOTER_H/2
+  );
+  ctx.textAlign = 'left';
+
+  /* ── 화면 하단 라운드 처리 ── */
+  ctx.fillStyle = C.phoneDark;
+  ctx.beginPath();
+  ctx.roundRect(cx, SCR_Y+contentH-1, SCR_W, BEZEL_H+2, [0,0,30,30]);
+  ctx.fill();
+
+  /* 홈 인디케이터 */
+  ctx.fillStyle = 'rgba(255,255,255,.28)';
+  ctx.beginPath(); ctx.roundRect(FW/2-44, FRAME_H-14, 88, 4, 2); ctx.fill();
+
+  /* ── 다운로드 ── */
+  const a = document.createElement('a');
+  a.href = cv.toDataURL('image/jpeg', 0.95);
+  a.download = `설비펌프_S24_${today()}.jpg`;
+  a.click();
+  showToast(`📸 완료! ${keys.length}종 · ${FW}×${FRAME_H}px`);
 }
-function openMP(srcId,title){ const s=document.getElementById(srcId); document.getElementById('mpContent').innerHTML=s?s.innerHTML:''; document.getElementById('mpTitle').textContent='📱 '+title; openModal('mpModal'); }
+
+async function shareMp(){
+  await exportMpJpg();
+}
+
+
+
+function openMP(srcId, title){
+  const s = document.getElementById(srcId);
+  const inner = document.getElementById('mpContent');
+
+  if(s && inner){
+    /* 소스 복제 후 계산 과정 블록 제거 */
+    const clone = s.cloneNode(true);
+    /* .cbox 전체 제거 (계산 과정 + EPI 장비선정계산서) — 단, spec-box(선정사양)는 유지 */
+    clone.querySelectorAll('.cbox').forEach(el => el.remove());
+    inner.innerHTML = clone.innerHTML;
+  } else if(inner) {
+    inner.innerHTML = '<div style="padding:20px;text-align:center;color:#94a3b8">결과를 먼저 산정하세요</div>';
+  }
+
+  /* 모달 제목 업데이트 */
+  const tit = document.querySelector('.mp-tit');
+  if(tit) tit.childNodes[0].textContent = '📱 ' + title + ' ';
+
+  /* 현재 시각 */
+  const tEl = document.getElementById('s24Time');
+  if(tEl){ const now=new Date(); tEl.textContent=`${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`; }
+
+  openModal('mpModal');
+}
 
 /* ═══════════════════════════════════════════════
    A4 업데이트 — ★★★ 6종 전부 순서대로 출력 ★★★
@@ -1689,7 +2035,7 @@ function buildSummaryCards(){
       <div class="a4-sc-tit">${m.lbl}</div>
       ${r ? `<div class="a4-sc-val">${r.Q_lpm.toFixed(2)} LPM / ${r.H.toFixed(2)} m<br>${r.hpStr} HP</div>
              <div class="a4-sc-badge done">✓ 완료</div>` 
-           : `<div class="a4-sc-val" style="color:#94a3b8;font-size:10px">산정 대기 중</div>
+           : `<div class="a4-sc-val" style="color:#94a3b8;font-size:12px">산정 대기 중</div>
               <div class="a4-sc-badge pending">미완료</div>`}
     </div>`;
   }).join('');
@@ -1701,7 +2047,7 @@ function buildA4Sec(key, r){
   const epi=r.epi;
   const wAvg=(epi&&epi.effA>0&&epi.effB>0)?((epi.effA+epi.effB)/2).toFixed(1):'—';
   return `<div class="a4-pump-sec">
-  <div class="a4-pump-tit">${m.ico} ${m.lbl} <span style="font-size:8px;color:#64748b;font-weight:400">${m.law} | HP: ${r.hpStr} | Q: ${r.Q_lpm.toFixed(2)} LPM | H: ${r.H.toFixed(2)} m</span></div>
+  <div class="a4-pump-tit">${m.ico} ${m.lbl} <span style="font-size:10px;color:#64748b;font-weight:400">${m.law} | HP: ${r.hpStr} | Q: ${r.Q_lpm.toFixed(2)} LPM | H: ${r.H.toFixed(2)} m</span></div>
   <table class="a4-result-table">
     <thead><tr><th>항목</th><th>기호</th><th>계산값</th><th>선정값</th><th>단위</th></tr></thead>
     <tbody>
@@ -1717,11 +2063,11 @@ function buildA4Sec(key, r){
     </tbody>
   </table>
   <div class="a4-calc-box">
-    <div style="font-weight:700;color:#1d4ed8;margin-bottom:3px;font-size:9px">▶ 계산 과정</div>
+    <div style="font-weight:700;color:#1d4ed8;margin-bottom:3px;font-size:11px">▶ 계산 과정</div>
     ${r.calcRows.map(c=>`<div class="a4-calc-row"><span>${c.k}</span><span style="font-family:var(--mono)">${c.v}</span></div>`).join('')}
   </div>
   ${epi?`<div class="a4-calc-box" style="margin-top:4px;border-color:#bfdbfe;background:#eff6ff">
-    <div style="font-weight:700;color:#1d4ed8;margin-bottom:3px;font-size:9px">▶ EPI / 장비선정계산서</div>
+    <div style="font-weight:700;color:#1d4ed8;margin-bottom:3px;font-size:11px">▶ EPI / 장비선정계산서</div>
     <div class="a4-calc-row"><span>제어방식</span><span>${epi.ctrl||'—'}</span></div>
     <div class="a4-calc-row"><span>KS 인증</span><span>${epi.ks||'—'}</span></div>
     <div class="a4-calc-row"><span>고효율 인증</span><span>${epi.cert||'—'}</span></div>
@@ -2215,181 +2561,14 @@ document.addEventListener('DOMContentLoaded',()=>{
 /* ══ PWA ══ */
 (function(){
   var _p=null,_sr=null,_dis=false;
-  /* ════════════════════════════════════════════════
-   PWA — Service Worker 등록 + 설치 프롬프트 완전 구현
-   MANMIN-Ver2.0 | Engineer Kim Manmin
-════════════════════════════════════════════════ */
-(function() {
-  'use strict';
-
-  var _deferredPrompt = null;   /* beforeinstallprompt 이벤트 저장 */
-  var _swReg          = null;   /* Service Worker 등록 참조 */
-  var _dismissed      = false;  /* 배너 닫음 여부 */
-  var _installed      = false;  /* 설치 완료 여부 */
-
-  /* ── Service Worker 등록 ── */
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('./sw.js', { scope: './' })
-        .then(function(reg) {
-          _swReg = reg;
-          console.log('[PWA] ✅ SW 등록 완료 | scope:', reg.scope);
-
-          /* 업데이트 감지 */
-          reg.addEventListener('updatefound', function() {
-            var newWorker = reg.installing;
-            if (!newWorker) return;
-            newWorker.addEventListener('statechange', function() {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                console.log('[PWA] 🔄 새 버전 감지');
-                var bar = document.getElementById('pwaUpdateBar');
-                if (bar) bar.classList.add('show');
-              }
-            });
-          });
-
-          /* SW 체크 — 24시간마다 */
-          setInterval(function() { reg.update(); }, 24 * 60 * 60 * 1000);
-        })
-        .catch(function(err) {
-          console.info('[PWA] SW 등록 실패 (로컬 파일 실행 시 정상):', err.message);
-        });
-
-      /* controllerchange 시 자동 새로고침 */
-      navigator.serviceWorker.addEventListener('controllerchange', function() {
-        if (!window._pwaReloading) {
-          window._pwaReloading = true;
-          console.log('[PWA] 🔄 새 SW 활성화 — 페이지 새로고침');
-          location.reload();
-        }
-      });
-    });
-  }
-
-  /* ── beforeinstallprompt — 설치 가능 시점 감지 ── */
-  window.addEventListener('beforeinstallprompt', function(e) {
-    e.preventDefault();
-    _deferredPrompt = e;
-    console.log('[PWA] 📲 설치 프롬프트 준비 완료');
-
-    /* 헤더 설치 버튼 표시 */
-    var btn = document.getElementById('btnPwaInstall');
-    if (btn) {
-      btn.classList.add('show');
-      /* 펄스 애니메이션으로 주의 유도 */
-      btn.style.animation = 'pwa-btn-appear .4s ease, pwa-pulse 2s ease-in-out 1s 3';
-    }
-
-    /* 배너 표시 (2초 후, 닫지 않은 경우만) */
-    if (!_dismissed && !sessionStorage.getItem('pwa-dismissed')) {
-      setTimeout(function() {
-        if (!_installed) {
-          var banner = document.getElementById('pwaBanner');
-          if (banner) banner.classList.add('show');
-        }
-      }, 2000);
-    }
-  });
-
-  /* ── 설치 실행 함수 ── */
-  function _triggerInstall() {
-    if (!_deferredPrompt) {
-      /* 이미 설치됐거나 지원 안 됨 */
-      _showToastPwa('이미 설치되었거나 이 브라우저에서는 지원되지 않습니다.');
-      return;
-    }
-    var banner = document.getElementById('pwaBanner');
-    if (banner) banner.classList.remove('show');
-
-    _deferredPrompt.prompt();
-    _deferredPrompt.userChoice.then(function(result) {
-      console.log('[PWA] 사용자 선택:', result.outcome);
-      if (result.outcome === 'accepted') {
-        console.log('[PWA] ✅ 설치 수락');
-      } else {
-        console.log('[PWA] ❌ 설치 취소');
-        /* 취소 시 배너 잠시 후 재표시 */
-        sessionStorage.setItem('pwa-dismissed', '1');
-      }
-      _deferredPrompt = null;
-    });
-  }
-
-  /* ── 공개 함수 ── */
-  window.pwaTriggerInstall = _triggerInstall;
-
-  window.pwaDismissBanner = function() {
-    _dismissed = true;
-    sessionStorage.setItem('pwa-dismissed', '1');
-    var banner = document.getElementById('pwaBanner');
-    if (!banner) return;
-    banner.style.transition = 'transform .32s cubic-bezier(.32,1,.5,1), opacity .28s';
-    banner.style.transform  = 'translateY(110%)';
-    banner.style.opacity    = '0';
-    setTimeout(function() {
-      banner.classList.remove('show');
-      banner.style.cssText = '';
-    }, 350);
-  };
-
-  window.pwaApplyUpdate = function() {
-    var bar = document.getElementById('pwaUpdateBar');
-    if (bar) bar.classList.remove('show');
-    if (_swReg && _swReg.waiting) {
-      _swReg.waiting.postMessage({ type: 'SKIP_WAITING' });
-    }
-  };
-
-  /* ── 배너 버튼 이벤트 ── */
-  document.addEventListener('DOMContentLoaded', function() {
-    var bannerBtn = document.getElementById('btnBannerInstall');
-    if (bannerBtn) {
-      bannerBtn.addEventListener('click', function() {
-        _triggerInstall();
-      });
-    }
-  });
-
-  /* ── appinstalled 이벤트 ── */
-  window.addEventListener('appinstalled', function() {
-    _installed = true;
-    _deferredPrompt = null;
-    console.log('[PWA] 🎉 앱 설치 완료');
-
-    /* 헤더 버튼 + 배너 숨김 */
-    var btn    = document.getElementById('btnPwaInstall');
-    var banner = document.getElementById('pwaBanner');
-    if (btn)    btn.classList.remove('show');
-    if (banner) banner.classList.remove('show');
-
-    /* 완료 토스트 */
-    _showToastPwa('✅ 홈 화면에 설치 완료! 앱으로 바로 실행할 수 있습니다.');
-
-    /* 완료 토스트 (기존 UI) */
-    var done = document.getElementById('pwaDoneToast');
-    if (done) {
-      done.classList.add('show');
-      setTimeout(function() { done.classList.remove('show'); }, 4000);
-    }
-  });
-
-  /* ── 이미 설치된 경우 감지 ── */
-  if (window.matchMedia('(display-mode: standalone)').matches ||
-      window.navigator.standalone === true) {
-    _installed = true;
-    console.log('[PWA] 📱 독립 실행형(앱) 모드로 실행 중');
-    document.documentElement.classList.add('pwa-standalone');
-  }
-
-  /* ── 유틸 ── */
-  function _showToastPwa(msg) {
-    var t = document.getElementById('toastEl');
-    if (!t) return;
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(function() { t.classList.remove('show'); }, 3500);
-  }
-})();
+  if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js',{scope:'./'}).then(function(r){_sr=r;r.addEventListener('updatefound',function(){var n=r.installing;if(!n)return;n.addEventListener('statechange',function(){if(n.state==='installed'&&navigator.serviceWorker.controller)document.getElementById('pwaUpdateBar').classList.add('show');});});}).catch(function(e){console.info('[SW]',e.message);});navigator.serviceWorker.addEventListener('controllerchange',function(){if(!window._pwaR){window._pwaR=true;location.reload();}});});}
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();_p=e;var b=document.getElementById('btnPwaInstall');if(b)b.classList.add('show');if(!_dis&&!sessionStorage.getItem('pwa-dismissed'))setTimeout(function(){document.getElementById('pwaBanner').classList.add('show');},2000);});
+  document.addEventListener('DOMContentLoaded',function(){var bb=document.getElementById('btnBannerInstall');if(bb)bb.addEventListener('click',function(){document.getElementById('pwaBanner').classList.remove('show');_ex();});});
+  window.pwaTriggerInstall=function(){document.getElementById('pwaBanner').classList.remove('show');_ex();};
+  function _ex(){if(!_p){showToast('📱 Safari → 공유(□↑) → 홈 화면에 추가');return;}_p.prompt();_p.userChoice.then(function(r){_p=null;if(r.outcome==='accepted'){_hu();_dt();}});}
+  window.pwaDismissBanner=function(){_dis=true;sessionStorage.setItem('pwa-dismissed','1');var b=document.getElementById('pwaBanner');b.style.transition='transform .3s,opacity .25s';b.style.transform='translateY(100%)';b.style.opacity='0';setTimeout(function(){b.classList.remove('show');b.style='';},320);};
+  window.pwaApplyUpdate=function(){document.getElementById('pwaUpdateBar').classList.remove('show');if(_sr&&_sr.waiting)_sr.waiting.postMessage({type:'SKIP_WAITING'});};
+  window.addEventListener('appinstalled',function(){_p=null;_hu();_dt();});
   if(window.matchMedia('(display-mode:standalone)').matches||navigator.standalone)_hu();
   function _hu(){var b=document.getElementById('btnPwaInstall'),n=document.getElementById('pwaBanner');if(b)b.classList.remove('show');if(n)n.classList.remove('show');}
   function _dt(){var t=document.getElementById('pwaDoneToast');if(!t)return;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3500);}
