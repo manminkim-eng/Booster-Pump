@@ -1,0 +1,63 @@
+{
+  "name": "설비펌프 용량 자동선정 시스템",
+  "short_name": "펌프산정",
+  "description": "기계설비 기술기준(국토교통부 고시 제2021-851호) 기반 냉난방·오배수·급수급탕 8종 펌프 용량 자동 산정 시스템 [MANMIN-Ver2.0]",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#1d4ed8",
+  "background_color": "#eff6ff",
+  "lang": "ko",
+  "categories": ["engineering", "utilities", "productivity"],
+  "icons": [
+    { "src": "icons/icon-72x72.png",   "sizes": "72x72",   "type": "image/png" },
+    { "src": "icons/icon-96x96.png",   "sizes": "96x96",   "type": "image/png" },
+    { "src": "icons/icon-128x128.png", "sizes": "128x128", "type": "image/png" },
+    { "src": "icons/icon-144x144.png", "sizes": "144x144", "type": "image/png" },
+    { "src": "icons/icon-152x152.png", "sizes": "152x152", "type": "image/png" },
+    { "src": "icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-256x256.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "icons/icon-384x384.png", "sizes": "384x384", "type": "image/png" },
+    { "src": "icons/icon-512x512.png", "sizes": "512x512", "type": "image/png" },
+    {
+      "src": "icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "설비펌프 용량 자동선정 시스템"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "냉난방 펌프 산정",
+      "short_name": "냉난방",
+      "description": "냉난방 순환펌프 용량 산정",
+      "url": "./index.html#heat",
+      "icons": [{ "src": "icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "오배수 펌프 산정",
+      "short_name": "오배수",
+      "description": "오·배수 펌프 용량 산정",
+      "url": "./index.html#drain",
+      "icons": [{ "src": "icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "급수급탕 펌프 산정",
+      "short_name": "급수급탕",
+      "description": "급수·급탕 펌프 용량 산정",
+      "url": "./index.html#hw",
+      "icons": [{ "src": "icons/icon-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

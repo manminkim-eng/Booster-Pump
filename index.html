@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<title>💧 설비펌프 용량 자동선정 시스템 [MANMIN-Ver2.0]</title>
+<meta name="description" content="기계설비 기술기준 기반 냉난방순환펌프·오배수펌프·급수급탕펌프 8종 자동 산정"/>
+<meta name="theme-color" content="#1d4ed8"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="펌프산정"/>
+<!-- PWA 아이콘 -->
+<link rel="manifest" href="./manifest.json"/>
+<link rel="icon" type="image/x-icon" href="./icons/favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/icon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="./icons/icon-16x16.png"/>
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"/>
+<link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-152x152.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="./icons/icon-144x144.png"/>
+<link rel="apple-touch-icon" sizes="128x128" href="./icons/icon-128x128.png"/>
+<link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192x192.png"/>
+<!-- iOS Splash / status bar -->
+<meta name="msapplication-TileImage" content="./icons/icon-144x144.png"/>
+<meta name="msapplication-TileColor" content="#1d4ed8"/>
+<link rel="preconnect" href="https://cdn.jsdelivr.net"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --c-bg:#eff6ff;--c-surface:#fff;--c-border:#bfdbfe;
+  --c-border2:#93c5fd;--c-primary:#1d4ed8;--c-primary2:#2563eb;
+  --c-dark:#0f172a;--c-header:#dbeafe;--c-tab:#93c5fd;
+  --c-accent:#f97316;--c-muted:#3b4a6b;
+  --r:10px;--sh:0 2px 12px rgba(0,0,0,.08);
+  --font:'Pretendard',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-size:14px;line-height:1.55;min-height:100vh}
+.mono{font-family:var(--mono)!important}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--c-bg)}
+::-webkit-scrollbar-thumb{background:var(--c-border2);border-radius:10px}
+
+/* HEADER */
+.app-header{position:sticky;top:0;z-index:50;background:var(--c-header);border-bottom:1px solid var(--c-border);box-shadow:var(--sh)}
+.header-inner{max-width:1300px;margin:0 auto;padding:0 16px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand-logo{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-icon{font-size:26px;flex-shrink:0}
+.brand-texts{min-width:0}
+.brand-title{font-size:13px;font-weight:800;color:var(--c-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-sub{font-size:10px;color:var(--c-muted)}
+.hdr-btns{display:flex;gap:6px;flex-shrink:0}
+/* ── PWA 설치 버튼 (헤더) ── */
+.btn-pwa{
+  display:none;padding:7px 12px;
+  background:linear-gradient(135deg,#1d4ed8,#0ea5e9);
+  color:#fff;border:none;border-radius:8px;
+  font-size:12px;font-family:var(--font);font-weight:700;
+  cursor:pointer;gap:5px;white-space:nowrap;
+  box-shadow:0 2px 10px rgba(29,78,216,.35);
+  transition:all .2s;animation:pwa-btn-appear .4s ease;
+}
+.btn-pwa.show{display:flex;align-items:center}
+.btn-pwa:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(29,78,216,.45)}
+.btn-pwa:active{transform:translateY(0)}
+.pwa-install-ico{font-size:14px}
+@keyframes pwa-btn-appear{
+  from{opacity:0;transform:scale(.85) translateY(-4px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+/* ── PWA 배너 아이콘 ── */
+.pwa-banner-icon{
+  width:46px;height:46px;border-radius:10px;flex-shrink:0;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+.btn-g,.btn-b{padding:6px 10px;border:none;border-radius:6px;font-size:12px;font-family:var(--font);cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap;min-height:34px}
+.btn-g{background:#e2e8f0;color:var(--c-dark)}.btn-b{background:var(--c-primary);color:#fff}
+.btn-g:hover{background:#cbd5e1}.btn-b:hover{background:var(--c-primary2)}
+
+/* TAB BAR */
+.tab-bar{background:var(--c-tab);border-bottom:1px solid var(--c-border2);position:sticky;top:58px;z-index:40;overflow-x:auto}
+.tab-bar-inner{max-width:1300px;margin:0 auto;padding:0 16px;display:flex;gap:2px;align-items:flex-end;min-height:44px}
+.tb{padding:8px 14px;background:transparent;border:none;border-bottom:3px solid transparent;font-size:13px;font-family:var(--font);font-weight:600;color:var(--c-muted);cursor:pointer;white-space:nowrap;transition:.2s;min-height:40px}
+.tb.active{color:var(--c-primary);border-bottom-color:var(--c-accent);background:rgba(255,255,255,.5)}
+
+/* MAIN */
+.main-wrap{max-width:1300px;margin:0 auto;padding:16px 16px 100px}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* 프로젝트 배너 */
+.proj-banner{background:linear-gradient(135deg,var(--c-primary),#0ea5e9);border-radius:var(--r);padding:12px 18px;color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:14px;box-shadow:0 4px 16px rgba(29,78,216,.25)}
+.proj-banner-left{display:flex;align-items:center;gap:10px}
+.proj-banner-ico{font-size:24px}
+.proj-banner-name{font-size:15px;font-weight:800}
+.proj-banner-meta{font-size:11px;opacity:.85;display:flex;gap:10px;flex-wrap:wrap;margin-top:2px}
+.pbtn{padding:6px 12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:6px;font-size:11px;font-family:var(--font);font-weight:600;cursor:pointer;min-height:32px}
+.pbtn:hover{background:rgba(255,255,255,.35)}
+
+/* ★★★ 6펌프 상태 표시 배지판 ★★★ */
+.pump-status-bar{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:14px;background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r);padding:10px 12px}
+.psb-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 4px;border-radius:8px;transition:.2s;cursor:pointer;border:2px solid transparent}
+.psb-item.done{background:#f0fdf4;border-color:#bbf7d0}
+.psb-item.active-pump{background:#eff6ff;border-color:var(--c-border2)}
+.psb-ico{font-size:18px}
+.psb-lbl{font-size:9px;font-weight:700;color:var(--c-muted);text-align:center;line-height:1.3}
+.psb-status{font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px}
+.psb-status.done{background:#bbf7d0;color:#15803d}
+.psb-status.pending{background:#e2e8f0;color:#64748b}
+.psb-item.done .psb-lbl{color:#15803d}
+@media(max-width:640px){.pump-status-bar{grid-template-columns:repeat(4,1fr)}}
+
+/* PUMP TABS */
+.pump-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.pt-btn{padding:7px 14px;background:var(--c-surface);border:2px solid var(--c-border);border-radius:8px;font-size:12px;font-family:var(--font);font-weight:600;color:var(--c-muted);cursor:pointer;transition:.2s;min-height:38px}
+.pt-btn.active{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+.pt-btn:hover:not(.active){border-color:var(--c-border2);color:var(--c-dark)}
+.pump-panel{display:none}.pump-panel.active{display:block}
+
+/* ★★★ 서브탭 (난방/냉방, PIT/우수, 순환/재순환) ★★★ */
+.sub-tabs{display:flex;gap:6px;margin-bottom:12px}
+.sub-tab{flex:1;padding:9px 8px;background:var(--c-surface);border:2px solid var(--c-border);border-radius:8px;font-size:12px;font-family:var(--font);font-weight:700;color:var(--c-muted);cursor:pointer;text-align:center;transition:.2s;min-height:40px;display:flex;align-items:center;justify-content:center;gap:5px;position:relative}
+.sub-tab.active{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+.sub-tab.done-badge::after{content:'✓';position:absolute;top:-6px;right:-6px;background:#16a34a;color:#fff;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;line-height:16px}
+.sub-tab:hover:not(.active){border-color:var(--c-border2)}
+
+/* CALC GRID — 좌·중·우 카드 높이 통일 */
+.calc-grid{display:grid;grid-template-columns:300px 1fr 1fr;gap:14px;align-items:stretch}
+.calc-col-left,.calc-col-mid,.calc-col-right{display:flex;flex-direction:column}
+.calc-col-left .card,.calc-col-mid .card{flex:1;display:flex;flex-direction:column}
+.calc-col-left .card-body,.calc-col-mid .card-body{flex:1}
+.calc-col-right{position:sticky;top:115px}
+@media(max-width:1100px){.calc-grid{grid-template-columns:260px 1fr 1fr}}
+@media(max-width:900px){
+  .calc-grid{grid-template-columns:1fr 1fr;align-items:start}
+  .calc-col-right{grid-column:1/-1;position:static}
+  .calc-col-left .card,.calc-col-mid .card{flex:none}
+}
+@media(max-width:640px){
+  .calc-grid{grid-template-columns:1fr;align-items:start}
+  .calc-col-right{position:static}
+  .calc-col-left .card,.calc-col-mid .card{flex:none}
+}
+
+/* CARD */
+.card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.card-head{padding:10px 14px;background:var(--c-header);display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--c-border)}
+.card-ico{font-size:16px}
+.card-tit{font-weight:700;font-size:13px;color:var(--c-dark);flex:1}
+.card-body{padding:14px;display:flex;flex-direction:column;gap:9px}
+
+/* FORM */
+.flbl{display:block;font-size:11px;font-weight:600;color:var(--c-muted);margin-bottom:3px}
+.finput,.fselect{width:100%;padding:7px 10px;border:1px solid var(--c-border);border-radius:6px;font-size:13px;font-family:var(--font);background:var(--c-surface);color:var(--c-dark);transition:.15s;min-height:34px}
+.finput:focus,.fselect:focus{outline:none;border-color:var(--c-primary);box-shadow:0 0 0 2px rgba(29,78,216,.12)}
+.input-sfx{display:flex;align-items:center}
+.input-sfx .finput{border-radius:6px 0 0 6px;flex:1}
+.sfx{padding:7px 9px;background:var(--c-header);border:1px solid var(--c-border);border-left:none;border-radius:0 6px 6px 0;font-size:11px;color:var(--c-muted);white-space:nowrap;min-height:34px;display:flex;align-items:center}
+.fgrp{display:flex;flex-direction:column;flex:1}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* NB */
+.nb{border-radius:8px;padding:9px 11px;border-left:3px solid;margin-top:2px}
+.nb .nb-tit{font-size:11px;font-weight:700;margin-bottom:3px}
+.nb .nb-txt{font-size:11px;line-height:1.5}
+.nb.blue{background:#eff6ff;border-color:#3b82f6;color:#1e40af}
+.nb.org{background:#fff7ed;border-color:var(--c-accent);color:#9a3412}
+.nb.grn{background:#f0fdf4;border-color:#16a34a;color:#166534}
+.nb.red{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.nb.sky{background:#f0fdfa;border-color:#0d9488;color:#134e4a}
+
+/* BADGE */
+.cbadge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:12px;border:1px solid}
+.cbadge.org{background:#fff7ed;color:#c2410c;border-color:#fed7aa}
+.cbadge.grn{background:#f0fdf4;color:#15803d;border-color:#bbf7d0}
+.cbadge.blue{background:#eff6ff;color:#1d4ed8;border-color:#93c5fd}
+.cbadge.sky{background:#f0fdfa;color:#0d9488;border-color:#5eead4}
+
+/* RESULT HERO */
+.result-placeholder{text-align:center;padding:36px 16px;color:var(--c-muted)}
+.rph-ico{font-size:36px;margin-bottom:6px}
+.rph-tit{font-weight:700;font-size:14px;margin-bottom:4px}
+.rph-sub{font-size:11px}
+.drh-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.drh-box{border-radius:10px;padding:12px 10px;text-align:center;color:#fff}
+.drh-box.rect{background:linear-gradient(135deg,#1d4ed8,#0f766e)}
+.drh-box.circ{background:linear-gradient(135deg,#0d9488,#0891b2)}
+.drh-box.flat{background:linear-gradient(135deg,#7c3aed,#1d4ed8)}
+.drh-box.vel{background:linear-gradient(135deg,#f97316,#dc2626)}
+.drh-lbl{font-size:9px;opacity:.85;margin-bottom:3px;font-weight:600}
+.drh-val{font-family:var(--mono);font-size:20px;font-weight:700;line-height:1}
+.drh-unit{font-size:9px;opacity:.8;margin-top:2px}
+.drh-sub{font-size:8px;opacity:.7;margin-top:3px}
+
+/* CBOX */
+.cbox{background:#f8fafc;border:1px solid var(--c-border);border-radius:8px;padding:10px}
+.cbox-tit{font-size:11px;font-weight:700;color:var(--c-primary);margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid var(--c-border)}
+.crow{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:11px}
+.crow+.crow{border-top:1px dashed #e2e8f0}
+.ck{color:var(--c-muted)}.cv{font-weight:600;color:var(--c-dark)}
+.crow.total{background:var(--c-header);margin:4px -10px -10px;padding:5px 10px;border-radius:0 0 8px 8px;font-weight:700}
+
+/* SPEC BOX */
+.spec-box{background:var(--c-header);border:1px solid var(--c-border2);border-radius:8px;padding:10px}
+.spec-tit{font-size:11px;font-weight:700;color:var(--c-primary);margin-bottom:6px}
+.spec-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:11px;border-bottom:1px solid var(--c-border)}
+.spec-row:last-child{border-bottom:none}
+.sk{color:var(--c-muted)}.sv{font-weight:700;color:var(--c-primary);font-family:var(--mono)}
+
+/* CALC BTN */
+.calc-btn{width:100%;padding:11px;background:var(--c-primary);color:#fff;border:none;border-radius:8px;font-size:14px;font-family:var(--font);font-weight:700;cursor:pointer;transition:.2s;min-height:42px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:2px}
+.calc-btn:hover{background:var(--c-primary2);transform:translateY(-1px)}
+
+/* SEG */
+.seg-ctrl{display:flex;background:var(--c-header);border:1px solid var(--c-border);border-radius:8px;padding:3px;gap:3px}
+.seg-btn{flex:1;padding:5px 6px;background:transparent;border:none;border-radius:6px;font-size:11px;font-family:var(--font);font-weight:600;color:var(--c-muted);cursor:pointer;transition:.2s;min-height:30px}
+.seg-btn.active{background:var(--c-primary);color:#fff}
+
+.div-line{height:1px;background:var(--c-border);margin:6px 0}
+.section-label{font-size:11px;font-weight:700;color:var(--c-primary);padding:2px 0 5px;border-bottom:1px solid var(--c-border);margin-bottom:7px}
+
+/* REF */
+.ref-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.rt-btn{padding:6px 12px;background:var(--c-surface);border:1px solid var(--c-border);border-radius:6px;font-size:12px;font-family:var(--font);font-weight:600;color:var(--c-muted);cursor:pointer;min-height:32px}
+.rt-btn.active{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+.ref-panel{display:none}.ref-panel.active{display:block}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(15,23,42,.92);color:#fff;padding:9px 18px;border-radius:24px;font-size:13px;font-weight:600;z-index:9999;opacity:0;pointer-events:none;transition:.3s;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* MODAL */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;padding:16px}
+.modal-ov.open{display:flex}
+.modal-box{background:#fff;border-radius:16px;max-width:900px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--c-border);position:sticky;top:0;background:#fff;z-index:1;border-radius:16px 16px 0 0}
+.modal-tit{font-weight:700;font-size:15px;color:var(--c-dark)}
+.modal-cls{background:none;border:none;font-size:20px;cursor:pointer;color:var(--c-muted);padding:4px;border-radius:4px}
+.modal-body{padding:18px}
+
+/* FAB — Teal 펄스 (덕트 앱 동일) */
+.fab{
+  position:fixed;bottom:24px;right:24px;z-index:200;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#0f766e,#0d9488);
+  color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 4px 20px rgba(15,118,110,.5);transition:all .2s;
+  display:flex;align-items:center;justify-content:center;
+  animation:fab-pulse 2.5s ease-in-out infinite;
+}
+.fab:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(15,118,110,.7)}
+@keyframes fab-pulse{
+  0%,100%{box-shadow:0 4px 20px rgba(15,118,110,.5)}
+  50%{box-shadow:0 4px 30px rgba(15,118,110,.9),0 0 0 8px rgba(15,118,110,.12)}
+}
+
+/* ══ 도움말&설정 모달 — 화면 중앙 배치 ══ */
+.bs-overlay{
+  position:fixed;inset:0;
+  background:rgba(12,26,46,.55);
+  z-index:800;
+  display:none;
+  align-items:center;        /* 수직 중앙 */
+  justify-content:center;    /* 수평 중앙 */
+  padding:16px;
+  opacity:0;
+  transition:opacity .25s;
+}
+.bs-overlay.open{
+  display:flex;
+  opacity:1;
+}
+/* 중앙 팝인 모달 */
+.bottom-sheet{
+  background:#fff;
+  border-radius:16px;          /* 전체 라운드 */
+  width:min(720px,96vw);
+  max-height:86vh;
+  display:flex;flex-direction:column;
+  box-shadow:0 20px 60px rgba(12,26,46,.35),0 4px 16px rgba(0,0,0,.12);
+  transform:scale(.94) translateY(16px);
+  transition:transform .3s cubic-bezier(.16,1,.3,1), opacity .25s;
+  opacity:0;
+}
+.bottom-sheet::before,.bottom-sheet::after{display:none}
+.bs-overlay.open .bottom-sheet{
+  transform:scale(1) translateY(0);
+  opacity:1;
+}
+
+/* 핸들 — 중앙 모달에서는 숨김 */
+.bs-handle{display:none}
+
+/* 헤더 border-radius 전체 라운드 맞춤 */
+
+/* 헤더 — 딥네이비+Teal 그라디언트 */
+.bs-header{
+  padding:14px 18px 13px;border-bottom:1px solid #d1faf5;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:5;
+  background:linear-gradient(135deg,#0c1a2e 0%,#0f766e 100%);
+  border-radius:16px 16px 0 0;  /* 모달 상단 라운드와 일치 */
+  flex-shrink:0;
+}
+.bs-header-left{display:flex;align-items:center;gap:10px}
+.bs-header-icon{width:34px;height:34px;background:rgba(255,255,255,.15);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.bs-title{font-size:14px;font-weight:900;color:#fff;letter-spacing:.01em}
+.bs-title-sub{font-size:9px;color:#99f6e4;font-weight:700;margin-top:1px}
+.bs-cls{width:30px;height:30px;border:none;background:rgba(255,255,255,.15);border-radius:7px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;color:#fff;transition:.15s;flex-shrink:0}
+.bs-cls:hover{background:rgba(255,255,255,.28)}
+
+/* 탭 바 — bs-body 밖, sticky 정상 작동 */
+.bs-tabs{
+  display:flex;
+  background:#f0fdfa;
+  border-bottom:1px solid #99f6e4;
+  overflow-x:auto;scrollbar-width:none;
+  flex-shrink:0;
+  /* sticky는 bottom-sheet flex 컨테이너 기준으로 작동 */
+}
+.bs-tabs::-webkit-scrollbar{display:none}
+.bs-tab{
+  background:none;border:none;padding:9px 14px;
+  font-size:10.5px;font-weight:700;color:#3d6b64;
+  cursor:pointer;font-family:var(--font);white-space:nowrap;
+  flex-shrink:0;border-bottom:2px solid transparent;
+  transition:all .15s;position:relative;min-height:38px;
+}
+.bs-tab:not(:last-child)::after{display:none}
+.bs-tab.active::before{display:none}
+.bs-tab:hover{color:#0f766e;background:rgba(15,118,110,.06)}
+.bs-tab.active{color:#0f766e;border-bottom-color:#0f766e;background:#fff}
+
+/* 바디 — 패널 스크롤 영역 */
+.bs-body{padding:16px 18px 28px;overflow-y:auto;flex:1}
+.bs-panel{display:none;padding:0}
+.bs-panel.active{display:block}
+
+/* ── 아이템 카드 — howto-step 스타일 + 삼각자 코너 ── */
+.bs-item{
+  background:#fff;border-radius:10px;overflow:hidden;
+  margin-bottom:9px;border:1.5px solid #d1faf5;
+  display:flex;flex-direction:column;position:relative;
+}
+.bs-item::before{
+  content:'';position:absolute;top:0;left:0;width:0;height:0;
+  border-style:solid;border-width:16px 16px 0 0;z-index:1;
+}
+.bs-item-head{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 12px 8px 14px;border-bottom:1px solid #d1faf5;
+}
+.bs-item-num{min-width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;flex-shrink:0}
+.bs-item-ico{font-size:17px;flex-shrink:0}
+.bs-item-tit{font-size:11.5px;font-weight:800;flex:1;line-height:1.3}
+.bs-item-body{padding:10px 13px;display:flex;flex-direction:column;gap:6px}
+.bs-item-txt{font-size:10.5px;line-height:1.75;padding-left:12px;position:relative;color:#1e293b}
+.bs-item-txt::before{content:'•';position:absolute;left:3px;color:#0f766e;font-weight:900}
+
+/* 색상 타입 */
+.bs-item.blue{border-color:#bfdbfe}
+.bs-item.blue::before{border-color:#3b82f6 transparent transparent transparent}
+.bs-item.blue .bs-item-head{background:#eff6ff}
+.bs-item.blue .bs-item-tit{color:#1e40af}
+.bs-item.blue .bs-item-num{background:linear-gradient(135deg,#1d4ed8,#2563eb)}
+.bs-item.grn{border-color:#bbf7d0}
+.bs-item.grn::before{border-color:#16a34a transparent transparent transparent}
+.bs-item.grn .bs-item-head{background:#f0fdf4}
+.bs-item.grn .bs-item-tit{color:#166534}
+.bs-item.grn .bs-item-num{background:linear-gradient(135deg,#15803d,#16a34a)}
+.bs-item.org{border-color:#fed7aa}
+.bs-item.org::before{border-color:#f97316 transparent transparent transparent}
+.bs-item.org .bs-item-head{background:#fff7ed}
+.bs-item.org .bs-item-tit{color:#9a3412}
+.bs-item.org .bs-item-num{background:linear-gradient(135deg,#ea580c,#f97316)}
+.bs-item.sky{border-color:#5eead4}
+.bs-item.sky::before{border-color:#0d9488 transparent transparent transparent}
+.bs-item.sky .bs-item-head{background:#f0fdfa}
+.bs-item.sky .bs-item-tit{color:#134e4a}
+.bs-item.sky .bs-item-num{background:linear-gradient(135deg,#0f766e,#0d9488)}
+.bs-item.red{border-color:#fecaca}
+.bs-item.red::before{border-color:#dc2626 transparent transparent transparent}
+.bs-item.red .bs-item-head{background:#fef2f2}
+.bs-item.red .bs-item-tit{color:#991b1b}
+.bs-item.red .bs-item-num{background:linear-gradient(135deg,#dc2626,#ef4444)}
+
+/* 소개 배너 */
+.bs-intro-banner{background:linear-gradient(135deg,#0c1a2e 0%,#0f766e 100%);border-radius:10px;padding:14px 16px;margin-bottom:12px;color:#fff}
+.bs-intro-title{font-size:12.5px;font-weight:900;margin-bottom:4px;letter-spacing:.02em}
+.bs-intro-sub{font-size:9.5px;opacity:.85;line-height:1.7}
+.bs-intro-tags{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.bs-intro-tag{background:rgba(255,255,255,.15);border-radius:20px;padding:3px 10px;font-size:9px;font-weight:700}
+.bs-proj-form{display:flex;flex-direction:column;gap:11px;padding-top:2px}
+@media(max-width:479px){
+  .bs-overlay{padding:10px}
+  .bottom-sheet{border-radius:14px;max-height:92vh}
+  .bs-header{padding:12px 14px 11px;border-radius:14px 14px 0 0}
+  .bs-title{font-size:13px}
+  .bs-body{padding:12px 14px 20px}
+}
+
+/* ★★★ A4 결과 요약 카드 (6개 그리드) ★★★ */
+.a4-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+@media(max-width:700px){.a4-summary-grid{grid-template-columns:repeat(2,1fr)}}
+.a4-sum-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:8px;padding:10px;position:relative;overflow:hidden}
+.a4-sum-card.done{border-color:#bbf7d0;background:#f0fdf4}
+.a4-sum-card.done::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#16a34a,#059669)}
+.a4-sum-card.pending{opacity:.5}
+.a4-sc-ico{font-size:20px;margin-bottom:4px}
+.a4-sc-tit{font-size:11px;font-weight:700;color:var(--c-dark);margin-bottom:4px}
+.a4-sc-val{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--c-primary)}
+.a4-sc-badge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;display:inline-block;margin-top:3px}
+.a4-sc-badge.done{background:#bbf7d0;color:#15803d}
+.a4-sc-badge.pending{background:#e2e8f0;color:#64748b}
+
+/* A4 */
+.a4-actions{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.a4-preview-wrap{background:#94a3b8;padding:20px;border-radius:12px;min-height:400px;display:flex;justify-content:center}
+.a4-page{background:#fff;width:794px;padding:24px 28px;box-shadow:0 4px 24px rgba(0,0,0,.3);transform-origin:top center;border-radius:4px}
+.a4-print-wrapper{display:none}
+@media print{
+  .app-header,.tab-bar,.hdr-btns,.pwa-banner,.pwa-update-bar,.net-toast,.no-print,.fab,.bs-overlay,.bottom-sheet,.modal-ov{display:none!important}
+  .main-wrap{padding:0!important}
+  body{background:#fff!important}
+  .a4-preview-wrap,.a4-summary-grid,.a4-actions{display:none!important}
+  .a4-print-wrapper{display:block!important}
+  .a4-print-page{width:210mm;padding:18mm 16mm;box-sizing:border-box;background:#fff}
+  .a4-pump-sec{page-break-inside:avoid;break-inside:avoid}
+  .a4-print-page-break{page-break-before:always;break-before:page}
+}
+.a4-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid var(--c-primary)}
+.a4-title{font-size:14px;font-weight:800;color:var(--c-primary)}
+.a4-subtitle{font-size:9px;color:var(--c-muted);margin-top:2px}
+.a4-company{font-size:9px;color:var(--c-muted);text-align:right}
+.a4-meta-table{width:100%;border-collapse:collapse;font-size:9px;margin-bottom:10px}
+.a4-meta-table td{padding:3px 7px;border:1px solid #e2e8f0}
+.a4-meta-table td.k{background:#f1f5f9;font-weight:700;color:var(--c-muted);width:18%}
+.a4-section-tit{font-size:11px;font-weight:800;color:var(--c-primary);padding:4px 0;border-bottom:2px solid var(--c-border2);margin-bottom:8px}
+.a4-pump-sec{margin-bottom:12px}
+.a4-pump-tit{font-size:10px;font-weight:700;color:var(--c-dark);margin-bottom:5px;padding:4px 8px;background:var(--c-header);border-left:3px solid var(--c-primary);border-radius:0 4px 4px 0}
+.a4-result-table{width:100%;border-collapse:collapse;font-size:9px;margin-bottom:5px}
+.a4-result-table th{background:#dbeafe;padding:3px 6px;text-align:center;font-weight:700;border:1px solid #bfdbfe}
+.a4-result-table td{padding:3px 6px;border:1px solid #e2e8f0;text-align:center}
+.a4-result-table td.mc{font-family:var(--mono);font-weight:600}
+.a4-calc-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:6px;font-size:8px;margin-bottom:4px}
+.a4-calc-row{display:flex;justify-content:space-between;padding:1px 0;border-bottom:1px dashed #e2e8f0}
+.a4-calc-row:last-child{border-bottom:none;font-weight:700}
+.a4-law{padding-top:6px;border-top:1px solid #e2e8f0;font-size:7px;color:#94a3b8;margin-top:6px}
+
+/* 모바일 미리보기 — 삼각자 스타일 통일 */
+.mp-box{
+  background:#fff;
+  border-radius:0 24px 24px 24px; /* 좌상단 직각 */
+  max-width:440px;width:100%;
+  max-height:92vh;overflow:hidden;
+  box-shadow:0 24px 64px rgba(0,0,0,.35);
+  position:relative;
+}
+.mp-box::before{
+  content:'';position:absolute;top:0;left:0;
+  width:0;height:0;border-style:solid;
+  border-width:44px 44px 0 0;
+  border-color:var(--c-primary) transparent transparent transparent;
+}
+.mp-box::after{
+  content:'';position:absolute;top:0;left:0;
+  width:0;height:0;border-style:solid;
+  border-width:24px 24px 0 0;
+  border-color:rgba(255,255,255,.35) transparent transparent transparent;
+}
+.mp-hd{padding:14px 18px 12px 52px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--c-border);background:#fff;position:sticky;top:0;z-index:2}
+.mp-tit{font-weight:800;font-size:13px;color:var(--c-primary)}
+.mp-cls{background:none;border:none;font-size:20px;cursor:pointer;color:var(--c-muted);padding:4px;border-radius:6px;transition:.15s;line-height:1}
+.mp-cls:hover{background:var(--c-bg);color:var(--c-dark)}
+.mp-phone{padding:10px;background:#1c1c1e}
+.mp-screen{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 0 0 7px #333,0 0 0 9px #555;max-height:52vh;overflow-y:auto}
+.mp-content{padding:10px}
+.mp-footer{display:flex;border-top:1px solid var(--c-border);padding:8px 16px 12px;gap:8px;background:#fff;flex-wrap:wrap;border-radius:0 0 24px 24px}
+.mp-btn{flex:1;min-width:90px;padding:9px;border:none;border-radius:8px;font-size:12px;font-family:var(--font);font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:.18s}
+.mp-btn.jpg{background:var(--c-primary);color:#fff}
+.mp-btn.share{background:#f1f5f9;color:var(--c-dark)}
+
+/* PWA */
+/* ── PWA 설치 배너 ── */
+.pwa-banner{
+  position:fixed;bottom:-120px;left:0;right:0;
+  background:linear-gradient(135deg,#0f172a 0%,#1d4ed8 100%);
+  padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:12px;
+  z-index:900;
+  box-shadow:0 -4px 24px rgba(29,78,216,.4);
+  border-radius:16px 16px 0 0;
+  transition:bottom .38s cubic-bezier(.16,1,.3,1);
+}
+.pwa-banner.show{bottom:0}
+.pwa-banner-icon{
+  width:48px;height:48px;border-radius:12px;flex-shrink:0;
+  box-shadow:0 2px 10px rgba(0,0,0,.25);
+  border:2px solid rgba(255,255,255,.2);
+}
+.pwa-banner-text{flex:1;min-width:0}
+.pwa-banner-title{font-weight:800;font-size:13px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pwa-banner-sub{font-size:10px;color:#93c5fd;margin-top:2px;font-weight:600}
+.pwa-banner-install{
+  padding:9px 16px;
+  background:#fff;color:#1d4ed8;
+  border:none;border-radius:10px;
+  font-size:12px;font-family:var(--font);font-weight:800;
+  cursor:pointer;white-space:nowrap;flex-shrink:0;
+  box-shadow:0 2px 10px rgba(0,0,0,.2);
+  transition:all .15s;
+}
+.pwa-banner-install:hover{background:#eff6ff;transform:scale(1.03)}
+.pwa-banner-close{
+  background:rgba(255,255,255,.15);border:none;
+  color:#fff;width:30px;height:30px;border-radius:8px;
+  cursor:pointer;font-size:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font);transition:background .15s;
+}
+.pwa-banner-close:hover{background:rgba(255,255,255,.28)}
+@keyframes pwa-pulse{
+  0%,100%{box-shadow:0 2px 10px rgba(29,78,216,.35)}
+  50%{box-shadow:0 2px 20px rgba(29,78,216,.7),0 0 0 4px rgba(29,78,216,.15)}
+}
+.pwa-update-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--c-accent);color:#fff;padding:7px 16px;text-align:center;font-size:13px;font-weight:700;z-index:1001;gap:10px;align-items:center;justify-content:center}
+.pwa-update-bar.show{display:flex}
+.pwa-update-bar button{padding:3px 10px;background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:6px;cursor:pointer;font-family:var(--font)}
+.net-toast{position:fixed;top:66px;left:50%;transform:translateX(-50%);background:var(--c-dark);color:#fff;padding:7px 14px;border-radius:18px;font-size:12px;font-weight:600;z-index:9998;opacity:0;pointer-events:none;transition:.3s;white-space:nowrap}
+.net-toast.show{opacity:1}
+.net-toast.online{background:#15803d}
+.pwa-done-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#15803d;color:#fff;padding:9px 18px;border-radius:18px;font-size:13px;font-weight:600;z-index:9999;opacity:0;pointer-events:none;transition:.3s;white-space:nowrap}
+.pwa-done-toast.show{opacity:1}
+
+.twrap{overflow-x:auto;border-radius:8px;border:1px solid var(--c-border)}
+.rtbl{width:100%;border-collapse:collapse;font-size:12px}
+.rtbl th{background:var(--c-header);padding:7px 9px;text-align:center;font-weight:700;color:var(--c-primary);border-bottom:2px solid var(--c-border2);white-space:nowrap}
+.rtbl td{padding:6px 9px;text-align:center;border-bottom:1px solid var(--c-border)}
+.rtbl tr.hl{background:#eff6ff;font-weight:700}
+.rtbl td.mono{font-family:var(--mono)}
+
+@media(max-width:600px){.btn-txt{display:none}}
+/* ── 태블릿 이하 (768px) ── */
+@media(max-width:768px){
+  .main-wrap{padding:12px 12px 90px}
+  .brand-sub{display:none}
+  .proj-banner-name{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55vw}
+  .frow{grid-template-columns:1fr}  /* 입력 2열 → 1열 */
+}
+/* ── 모바일 (640px) ── */
+@media(max-width:640px){
+  .main-wrap{padding:10px 10px 80px}
+  .sub-tabs{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .sub-tabs::-webkit-scrollbar{display:none}
+  .sub-tab{flex-shrink:0;white-space:nowrap;font-size:11px;padding:8px 10px}
+  .pump-tabs{gap:4px}
+  .pt-btn{font-size:11px;padding:6px 10px}
+  .drh-grid{grid-template-columns:1fr 1fr}  /* 결과 히어로 2열 유지 (320px도 충분) */
+  .drh-val{font-size:16px}  /* 히어로 숫자 작게 */
+  .proj-banner{padding:10px 14px}
+  .proj-banner-meta{gap:6px;font-size:10px}
+}
+/* ── 초소형 (400px 이하) ── */
+@media(max-width:400px){
+  .main-wrap{padding:8px 8px 75px}
+  .drh-grid{grid-template-columns:1fr}  /* 결과 히어로 1열 */
+  .frow3{grid-template-columns:1fr}
+  .spec-row{flex-direction:column;gap:2px}
+  .sv{font-size:11px}
+}
+/* ── 터치 디바이스 최적화 ── */
+@media(hover:none) and (pointer:coarse){
+  .tb,.pt-btn,.sub-tab{min-height:44px}
+  .btn-g,.btn-b{min-height:40px}
+  .finput,.fselect{font-size:16px;min-height:42px}
+  .calc-btn{min-height:50px;font-size:15px}
+  .psb-item{min-height:52px}
+}
+</style>
+</head>
+<body>
+<div class="toast" id="toastEl"></div>
+
+<header class="app-header">
+  <div class="header-inner">
+    <div class="brand-logo">
+      <div class="brand-icon">💧</div>
+      <div class="brand-texts">
+        <div class="brand-title">설비펌프 용량 자동선정 시스템 [MANMIN-Ver2.0]</div>
+        <div class="brand-sub">국토교통부 고시 제2021-851호 · 별표 1·5·6 기반 · 8종 펌프</div>
+      </div>
+    </div>
+    <div class="hdr-btns">
+      <button class="btn-pwa" id="btnPwaInstall" onclick="pwaTriggerInstall()" title="홈 화면에 앱 설치">
+  <span class="pwa-install-ico">📲</span>
+  <span class="btn-txt">앱 설치</span>
+</button>
+      <button class="btn-g" onclick="resetAll()">🔄 <span class="btn-txt">초기화</span></button>
+      <button class="btn-b" onclick="exportJpg()">📸 <span class="btn-txt">JPG저장</span></button>
+    </div>
+  </div>
+</header>
+
+<nav class="tab-bar">
+  <div class="tab-bar-inner">
+    <button class="tb active" onclick="switchTab('tabCalc',this)">🔧 펌프 용량 산정</button>
+    <button class="tb" onclick="switchTab('tabA4',this)">📄 A4 미리보기</button>
+    <button class="tb" onclick="switchTab('tabRef',this)">📋 기준표</button>
+  </div>
+</nav>
+
+<main class="main-wrap">
+
+<!-- ━━ TAB 1 ━━ -->
+<div class="tab-panel active" id="tabCalc">
+
+  <!-- 프로젝트 배너 -->
+  <div class="proj-banner">
+    <div class="proj-banner-left">
+      <div class="proj-banner-ico">🏗️</div>
+      <div>
+        <div class="proj-banner-name" id="projNameDisplay">만민 건축사 신사옥 신축공사</div>
+        <div class="proj-banner-meta">
+          <span>✍️ <span id="projAuthorDisplay">김만민</span></span>
+          <span>📅 <span id="projDateDisplay">—</span></span>
+          <span>🏷️ MANMIN-Ver2.0</span>
+        </div>
+      </div>
+    </div>
+    <button class="pbtn" onclick="openBsTab('bs-proj')">✏️ 정보 수정</button>
+  </div>
+
+  <!-- ★★★ 6펌프 진행 상태 바 ★★★ -->
+  <div class="pump-status-bar" id="pumpStatusBar">
+    <div class="psb-item active-pump" id="psb_heat" onclick="goPump('pumpHeat',0)">
+      <div class="psb-ico">🔴</div>
+      <div class="psb-lbl">난방<br>순환펌프</div>
+      <div class="psb-status pending" id="psbst_heat">미완료</div>
+    </div>
+    <div class="psb-item" id="psb_cool" onclick="goPump('pumpHeat',1)">
+      <div class="psb-ico">🔵</div>
+      <div class="psb-lbl">냉방<br>순환펌프</div>
+      <div class="psb-status pending" id="psbst_cool">미완료</div>
+    </div>
+    <div class="psb-item" id="psb_pit" onclick="goPump('pumpDrain',0)">
+      <div class="psb-ico">🏗️</div>
+      <div class="psb-lbl">PIT<br>배수펌프</div>
+      <div class="psb-status pending" id="psbst_pit">미완료</div>
+    </div>
+    <div class="psb-item" id="psb_rain" onclick="goPump('pumpDrain',1)">
+      <div class="psb-ico">🌧️</div>
+      <div class="psb-lbl">우수<br>배수펌프</div>
+      <div class="psb-status pending" id="psbst_rain">미완료</div>
+    </div>
+    <div class="psb-item" id="psb_circ" onclick="goPump('pumpHW',0)">
+      <div class="psb-ico">🔄</div>
+      <div class="psb-lbl">급탕<br>순환펌프</div>
+      <div class="psb-status pending" id="psbst_circ">미완료</div>
+    </div>
+    <div class="psb-item" id="psb_recirc" onclick="goPump('pumpHW',1)">
+      <div class="psb-ico">♻️</div>
+      <div class="psb-lbl">급탕<br>재순환펌프</div>
+      <div class="psb-status pending" id="psbst_recirc">미완료</div>
+    </div>
+    <div class="psb-item" id="psb_ws_hoist" onclick="goPump('pumpWS',0)">
+      <div class="psb-ico">🏢</div>
+      <div class="psb-lbl">급수<br>양수펌프</div>
+      <div class="psb-status pending" id="psbst_ws_hoist">미완료</div>
+    </div>
+    <div class="psb-item" id="psb_ws_boost" onclick="goPump('pumpWS',1)">
+      <div class="psb-ico">⚡</div>
+      <div class="psb-lbl">자동부스터<br>급수펌프</div>
+      <div class="psb-status pending" id="psbst_ws_boost">미완료</div>
+    </div>
+  </div>
+
+  <!-- 메인 펌프 탭 -->
+  <div class="pump-tabs">
+    <button class="pt-btn active" id="ptb_heat" onclick="switchPump('pumpHeat',this)">🌡️ 냉난방 순환펌프</button>
+    <button class="pt-btn" id="ptb_drain" onclick="switchPump('pumpDrain',this)">🚰 오·배수 펌프</button>
+    <button class="pt-btn" id="ptb_hw" onclick="switchPump('pumpHW',this)">🔥 급수·급탕 펌프</button>
+    <button class="pt-btn" id="ptb_ws" onclick="switchPump('pumpWS',this)">🚿 급수 펌프</button>
+  </div>
+
+  <!-- ════════ PANEL: 냉난방 순환펌프 ════════ -->
+  <div class="pump-panel active" id="pumpHeat">
+    <!-- ★★★ 서브탭: 난방 / 냉방 각각 독립 저장 ★★★ -->
+    <div class="sub-tabs">
+      <button class="sub-tab active" id="stb_heat" onclick="switchHeatSub('heat',this)">🔴 난방 순환펌프</button>
+      <button class="sub-tab" id="stb_cool" onclick="switchHeatSub('cool',this)">🔵 냉방 순환펌프</button>
+    </div>
+    <div class="calc-grid">
+      <div class="calc-col-left">
+        <div class="card">
+          <div class="card-head"><div class="card-ico" id="h_ico">🔴</div><span class="card-tit" id="h_card_tit">난방 순환펌프 입력</span><span class="cbadge blue">별표 1</span></div>
+          <div class="card-body">
+            <div class="section-label">① 펌프 형식</div>
+            <select class="fselect" id="h_type"><option value="line">라인형</option><option value="vert">입형</option><option value="hori">횡형</option></select>
+            <div class="div-line"></div>
+            <div class="section-label" id="h_sec_label">② 난방 부하 입력</div>
+            <div><span class="flbl" id="h_load_lbl">난방 부하 (kcal/hr)</span>
+              <div class="input-sfx"><input class="finput mono" type="number" id="h_load" placeholder="10000" oninput="calcHeat()"><span class="sfx">kcal/hr</span></div>
+            </div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">배관부하 여유율 (%)</span><input class="finput mono" type="number" id="h_extra" value="10" oninput="calcHeat()"></div>
+              <div class="fgrp"><span class="flbl" id="h_dt_lbl">온도차 ΔT (℃)</span><input class="finput mono" type="number" id="h_dt" value="10" oninput="calcHeat()"></div>
+            </div>
+            <div class="nb blue" id="h_temp_nb"><div class="nb-tit">📌 온도 기준</div><div class="nb-txt" id="h_temp_txt">난방: 출구 60℃ / 입구 50℃ → ΔT=10℃</div></div>
+            <div class="div-line"></div>
+            <div class="section-label">③ 양정 입력</div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">왕복배관 길이 (m)</span><input class="finput mono" type="number" id="h_pipelen" placeholder="100" oninput="calcHeat()"></div>
+              <div class="fgrp"><span class="flbl">단위손실 (mAq/m)</span><input class="finput mono" type="number" id="h_friction" value="0.02" step="0.001" oninput="calcHeat()"></div>
+            </div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl" id="h_coil_lbl">코일 저항 (m)</span><input class="finput mono" type="number" id="h_coil" value="2" oninput="calcHeat()"></div>
+              <div class="fgrp"><span class="flbl" id="h_boiler_lbl">보일러 저항 (m)</span><input class="finput mono" type="number" id="h_boiler" value="5" oninput="calcHeat()"></div>
+            </div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">안전율 (%)</span><input class="finput mono" type="number" id="h_safety" value="10" oninput="calcHeat()"></div>
+              <div class="fgrp"><span class="flbl">펌프 효율 η</span><input class="finput mono" type="number" id="h_eta" value="0.4" step="0.01" oninput="calcHeat()"></div>
+            </div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">전동기 여유율 (10~15% 권장)</span><input class="finput mono" type="number" id="h_emg" value="10" step="1" oninput="calcHeat()"></div>
+              <div class="fgrp"><span class="flbl">제어방식 (EPI 가점)</span>
+                <select class="fselect" id="h_ctrl" onchange="calcHeat()">
+                  <option value="on_off">단속운전 (ON/OFF)</option>
+                  <option value="inverter">인버터 가변속 제어</option>
+                  <option value="multi">대수분할 제어</option>
+                </select>
+              </div>
+            </div>
+            <div id="h_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다 경고</div><div class="nb-txt">전동기 여유율이 15%를 초과합니다. 20% 이상은 에너지 절약 설계 원칙 위반입니다 (가이드라인 3조).</div></div>
+            <div class="nb sky" style="margin-top:2px"><div class="nb-tit">📌 밀폐회로 실양정 hₐ = 0</div><div class="nb-txt">팽창탱크 설치 밀폐 폐회로 → 실양정(hₐ)=0, 전양정=배관손실+기기저항만 반영</div></div>
+            <div class="div-line"></div>
+            <div class="section-label">④ EPI / KS 고효율 인증 (장비선정계산서)</div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">KS 인증 규격</span>
+                <select class="fselect" id="h_ks" onchange="calcHeat()">
+                  <option value="none">미선택</option>
+                  <option value="KS B 6318">KS B 6318 (편흡입 벌류트)</option>
+                  <option value="KS B 7501">KS B 7501 (소형 다단 원심)</option>
+                  <option value="KS B 7505">KS B 7505 (흡입가이드 벌류트)</option>
+                </select>
+              </div>
+              <div class="fgrp"><span class="flbl">고효율 인증 여부</span>
+                <select class="fselect" id="h_cert" onchange="calcHeat()">
+                  <option value="none">미선택</option>
+                  <option value="high">고효율에너지기자재 인증</option>
+                  <option value="1grade">에너지소비효율 1등급</option>
+                </select>
+              </div>
+            </div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">A특성 효율 (최대효율점, %)</span><input class="finput mono" type="number" id="h_eff_a" placeholder="예) 72.5" step="0.1" oninput="calcHeat()"></div>
+              <div class="fgrp"><span class="flbl">B특성 효율 (규정토출량, %)</span><input class="finput mono" type="number" id="h_eff_b" placeholder="예) 68.0" step="0.1" oninput="calcHeat()"></div>
+            </div>
+            <button class="calc-btn" onclick="calcHeat()"><span id="h_btn_ico">🔴</span> <span id="h_btn_txt">난방 순환펌프 산정</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="calc-col-mid">
+        <div class="card">
+          <div class="card-head"><div class="card-ico">📐</div><span class="card-tit">산정 기준 (별표 1)</span><span class="cbadge sky">KDS 31 20 20</span></div>
+          <div class="card-body">
+            <div class="nb org"><div class="nb-tit">① Q [LPM]</div><div class="nb-txt">Q = 부하×(1+여유율)÷ΔT÷60<br>난방ΔT=10℃ / 냉방ΔT=5℃</div></div>
+            <div class="nb blue"><div class="nb-tit">② H [m] — hₐ=0 적용</div><div class="nb-txt"><b>밀폐회로: 실양정(hₐ)=0</b><br>H = L×R + L×R×0.5 + 코일 + 보일러 + 안전율</div></div>
+            <div class="nb sky"><div class="nb-tit">③ P [HP]</div><div class="nb-txt">P = Q×H×(1+여유율%)÷(4500×η)<br>여유율 10~15% 권장, 20% 초과 금지</div></div>
+            <div class="nb red"><div class="nb-tit">⚠️ 판형 열교환기 차압 제한</div><div class="nb-txt">기기저항 합계 ≥ 7.1 m (70 kPa) 초과 시<br>에너지 효율 설계 기준 위반 가능</div></div>
+            <div class="nb grn"><div class="nb-tit">④ EPI 가점 (제어방식)</div><div class="nb-txt">인버터/대수제어 → EPI 기계부문 +2~3점<br>대수제어 채택 시 예비펌프 생략 가능</div></div>
+            <div class="nb grn"><div class="nb-tit">⑤ 구경</div><div class="nb-txt">&lt;20→Ø25 / &lt;50→Ø32 / &lt;100→Ø40<br>&lt;200→Ø50 / &lt;400→Ø65 / &lt;800→Ø80</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="calc-col-right">
+        <div class="card">
+          <div class="card-head"><div class="card-ico">📊</div><span class="card-tit">산정 결과</span><span class="cbadge org" id="h_badge">대기</span></div>
+          <div class="card-body" id="heatResult">
+            <div class="result-placeholder"><div class="rph-ico">🌡️</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">부하값 입력 후 자동 산정됩니다</div></div>
+          </div>
+        </div>
+        <button class="btn-b no-print" onclick="openMP('heatResult','🌡️ 냉난방 순환펌프')" style="width:100%;margin-top:8px;padding:9px;border-radius:8px;font-size:12px">📱 모바일 미리보기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ PANEL: 오·배수 펌프 ════════ -->
+  <div class="pump-panel" id="pumpDrain">
+    <div class="sub-tabs">
+      <button class="sub-tab active" id="stb_pit" onclick="switchDrainSub('pit',this)">🏗️ PIT 배수펌프</button>
+      <button class="sub-tab" id="stb_rain" onclick="switchDrainSub('rain',this)">🌧️ 우수 배수펌프</button>
+    </div>
+    <div class="calc-grid">
+      <div class="calc-col-left">
+        <div class="card">
+          <div class="card-head"><div class="card-ico" id="d_ico">🏗️</div><span class="card-tit" id="d_card_tit">PIT 배수펌프 입력</span><span class="cbadge blue">별표 6</span></div>
+          <div class="card-body">
+            <div id="d_pit_block">
+              <div class="section-label">② 유량 (PIT 집수조) — 200% 기준</div>
+              <div><span class="flbl">시간 최대 유입 유량 Q_in (LPM)</span>
+                <div class="input-sfx"><input class="finput mono" type="number" id="d_q_pit" placeholder="100" oninput="calcDrain()"><span class="sfx">LPM</span></div>
+              </div>
+              <div class="nb org"><div class="nb-tit">📌 PIT 배수 유량 기준</div><div class="nb-txt">설계 Q = 시간최대 유입량의 <b>200% 이상</b><br>전체 유입량을 <b>30분 이내</b> 완전 배출 가능해야 함</div></div>
+              <div><span class="flbl">집수조 유효 용량 V (ℓ, 30분 검증용)</span>
+                <div class="input-sfx"><input class="finput mono" type="number" id="d_sump_vol" placeholder="3000" oninput="calcDrain()"><span class="sfx">ℓ</span></div>
+              </div>
+              <div id="d_30min_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 30분 배출 기준 미달</div><div class="nb-txt" id="d_30min_txt">현재 유량으로 집수조를 30분 내에 배출할 수 없습니다.</div></div>
+              <div class="nb blue" style="margin-top:4px"><div class="nb-tit">📌 집수정 최소 규격</div><div class="nb-txt">직경 Ø450mm 이상 / 깊이 600mm 이상 확보</div></div>
+            </div>
+            <div id="d_rain_block" style="display:none">
+              <div class="section-label">② 유량 (우수 집수조)</div>
+              <div><span class="flbl">시간 최대 강수량 (mm/hr)</span>
+                <div class="input-sfx"><input class="finput mono" type="number" id="d_rain_rate" placeholder="141" oninput="calcDrain()"><span class="sfx">mm/hr</span></div>
+              </div>
+              <div class="frow">
+                <div class="fgrp"><span class="flbl">집수 바닥 면적 (m²)</span><input class="finput mono" type="number" id="d_floor_area" placeholder="260" oninput="calcDrain()"></div>
+                <div class="fgrp"><span class="flbl">펌프 설치 대수</span><input class="finput mono" type="number" id="d_pump_count" value="2" oninput="calcDrain()"></div>
+              </div>
+              <div class="nb blue"><div class="nb-tit">📌 우수 유량</div><div class="nb-txt">Q=(mm×m²)÷60÷대수 [LPM]</div></div>
+            </div>
+            <div class="div-line"></div>
+            <div class="section-label">② 배수 용도 및 고형물 기준</div>
+            <div><span class="flbl">배수 용도 (고형물 통과 직경)</span>
+              <select class="fselect" id="d_solid_type" onchange="calcDrain()">
+                <option value="25">잡배수 (고형물 Ø25mm 이하)</option>
+                <option value="50">대변기 포함 오수 (고형물 Ø50mm 이하)</option>
+              </select>
+            </div>
+            <div class="div-line"></div>
+            <div class="section-label">③ 양정 입력</div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">건물 층고 (m)</span><input class="finput mono" type="number" id="d_height" placeholder="1" oninput="calcDrain()"></div>
+              <div class="fgrp"><span class="flbl">배관 길이 (m)</span><input class="finput mono" type="number" id="d_pipelen" placeholder="5" oninput="calcDrain()"></div>
+            </div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">단위손실 (mAq/m)</span><input class="finput mono" type="number" id="d_friction" value="0.05" step="0.005" oninput="calcDrain()"></div>
+              <div class="fgrp"><span class="flbl">안전율 (%)</span><input class="finput mono" type="number" id="d_safety" value="10" oninput="calcDrain()"></div>
+            </div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">펌프 효율 η</span><input class="finput mono" type="number" id="d_eta" value="0.4" step="0.01" oninput="calcDrain()"></div>
+              <div class="fgrp"><span class="flbl">전동기 여유율 (%)</span><input class="finput mono" type="number" id="d_emg" value="10" step="1" oninput="calcDrain()"></div>
+            </div>
+            <div id="d_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다</div><div class="nb-txt">15% 초과 시 주의, 20% 초과는 에너지 절약 원칙 위반입니다.</div></div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">KS 인증 규격</span>
+                <select class="fselect" id="d_ks" onchange="calcDrain()">
+                  <option value="none">미선택</option>
+                  <option value="KS B 6318">KS B 6318</option>
+                  <option value="KS B 7501">KS B 7501</option>
+                </select>
+              </div>
+              <div class="fgrp"><span class="flbl">고효율 인증</span>
+                <select class="fselect" id="d_cert" onchange="calcDrain()">
+                  <option value="none">미선택</option>
+                  <option value="high">고효율기자재 인증</option>
+                  <option value="1grade">에너지 1등급</option>
+                </select>
+              </div>
+            </div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">A특성 효율 (%)</span><input class="finput mono" type="number" id="d_eff_a" placeholder="예) 65.0" step="0.1" oninput="calcDrain()"></div>
+              <div class="fgrp"><span class="flbl">B특성 효율 (%)</span><input class="finput mono" type="number" id="d_eff_b" placeholder="예) 61.0" step="0.1" oninput="calcDrain()"></div>
+            </div>
+            <button class="calc-btn" onclick="calcDrain()"><span id="d_btn_ico">🏗️</span> <span id="d_btn_txt">PIT 배수펌프 산정</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="calc-col-mid">
+        <div class="card">
+          <div class="card-head"><div class="card-ico">📐</div><span class="card-tit">산정 기준 (별표 6)</span><span class="cbadge sky">KDS 31 25 30</span></div>
+          <div class="card-body">
+            <div class="nb org"><div class="nb-tit">① Q [LPM]</div><div class="nb-txt">PIT: 직접 입력<br>우수: (mm/hr×m²)÷60÷대수</div></div>
+            <div class="nb blue"><div class="nb-tit">② H [m]</div><div class="nb-txt">H = 층고 + L×R + L×R×0.5 + 안전율</div></div>
+            <div class="nb sky"><div class="nb-tit">③ P [HP]</div><div class="nb-txt">P = Q×H×(1+여유율%)÷(4500×η)<br>PIT: η=0.40 / 우수: η=0.30 적용</div></div>
+            <div class="nb grn"><div class="nb-tit">④ 구경 (배수전용)</div><div class="nb-txt">&lt;100→Ø40 / &lt;250→Ø50<br>&lt;500→Ø80 / ≥500→Ø100<br>주배관은 1단계 상위 구경</div></div>
+            <div class="nb red"><div class="nb-tit">⑤ 형식·운전</div><div class="nb-txt">수중형(Submersible) · 2대 순차기동</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="calc-col-right">
+        <div class="card">
+          <div class="card-head"><div class="card-ico">📊</div><span class="card-tit">산정 결과</span><span class="cbadge org" id="d_badge">대기</span></div>
+          <div class="card-body" id="drainResult">
+            <div class="result-placeholder"><div class="rph-ico">🚰</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">유량값 입력 후 자동 산정됩니다</div></div>
+          </div>
+        </div>
+        <button class="btn-b no-print" onclick="openMP('drainResult','🚰 오·배수 펌프')" style="width:100%;margin-top:8px;padding:9px;border-radius:8px;font-size:12px">📱 모바일 미리보기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ PANEL: 급수·급탕 펌프 ════════ -->
+  <div class="pump-panel" id="pumpHW">
+    <div class="sub-tabs">
+      <button class="sub-tab active" id="stb_circ" onclick="switchHWSub('circ',this)">🔄 급탕 순환펌프</button>
+      <button class="sub-tab" id="stb_recirc" onclick="switchHWSub('recirc',this)">♻️ 급탕 재순환펌프</button>
+    </div>
+    <div class="calc-grid">
+      <div class="calc-col-left">
+        <div class="card">
+          <div class="card-head"><div class="card-ico" id="hw_ico">🔄</div><span class="card-tit" id="hw_card_tit">급탕 순환펌프 입력</span><span class="cbadge blue">별표 5</span></div>
+          <div class="card-body">
+            <div id="hw_circ_block">
+              <div class="section-label">② 유량 (저탕조↔기구)</div>
+              <div><span class="flbl">시간 최대 급탕량 (ℓ/hr)</span>
+                <div class="input-sfx"><input class="finput mono" type="number" id="hw_max_flow" placeholder="1000" oninput="calcHW()"><span class="sfx">ℓ/hr</span></div>
+              </div>
+              <div class="nb blue"><div class="nb-tit">📌 순환펌프 Q</div><div class="nb-txt">Q = 시간최대급탕량 ÷ 2 ÷ 60 [LPM]</div></div>
+            </div>
+            <div id="hw_recirc_block" style="display:none">
+              <div class="section-label">② 유량 (보일러↔저탕조)</div>
+              <div><span class="flbl">시간최대급탕량 (ℓ/hr) — 재순환 기준</span>
+                <div class="input-sfx"><input class="finput mono" type="number" id="hw_storage" placeholder="240" oninput="calcHW()"><span class="sfx">ℓ/hr</span></div>
+              </div>
+              <div class="frow">
+                <div class="fgrp"><span class="flbl">출탕온도 (℃)</span><input class="finput mono" type="number" id="hw_t_out" value="60" oninput="calcHW()"></div>
+                <div class="fgrp"><span class="flbl">냉각허용온도 (℃)</span><input class="finput mono" type="number" id="hw_t_cool" value="5" oninput="calcHW()"></div>
+              </div>
+              <div class="nb org"><div class="nb-tit">📌 재순환펌프 Q 공식 (별표 5)</div><div class="nb-txt">Q = 시간최대급탕량[ℓ/hr] ÷ (출탕온도 - 냉각허용온도)[℃] → [LPM]<br>※ 출탕 60℃, 냉각허용 5℃ 기본값 (ΔT=55℃)</div></div>
+            </div>
+            <div class="div-line"></div>
+            <div class="section-label">③ 양정 입력</div>
+            <div>
+              <span class="flbl">건물 규모</span>
+              <div class="seg-ctrl" id="hw_scale_seg">
+                <button class="seg-btn active" onclick="setHWScale('small',this)">소규모</button>
+                <button class="seg-btn" onclick="setHWScale('large',this)">대규모</button>
+              </div>
+            </div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">배관저항 R (mmAq/m)</span><input class="finput mono" type="number" id="hw_R" value="20" oninput="calcHW()"></div>
+              <div class="fgrp"><span class="flbl">왕복 배관길이 I (m)</span><input class="finput mono" type="number" id="hw_I" placeholder="120" oninput="calcHW()"></div>
+            </div>
+            <div><span class="flbl">국부저항 비율 K</span>
+              <div class="input-sfx"><input class="finput mono" type="number" id="hw_K" value="1.0" step="0.1" oninput="calcHW()"><span class="sfx" id="hw_K_hint">소규모:1.0~1.5</span></div>
+            </div>
+            <div class="nb sky"><div class="nb-tit">📌 양정 공식</div><div class="nb-txt">H = R×I×(1+K)÷1000 [m]</div></div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">펌프 효율 η</span><input class="finput mono" type="number" id="hw_eta" value="0.35" step="0.01" oninput="calcHW()"></div>
+              <div class="fgrp"><span class="flbl">전동기 여유율 (10~15%)</span><input class="finput mono" type="number" id="hw_emg" value="10" step="1" oninput="calcHW()"></div>
+            </div>
+            <div id="hw_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다</div><div class="nb-txt">15% 초과 주의, 20% 초과는 에너지 절약 원칙 위반입니다.</div></div>
+            <div><span class="flbl">제어방식 (EPI 가점)</span>
+              <select class="fselect" id="hw_ctrl" onchange="calcHW()">
+                <option value="on_off">단속운전 (ON/OFF)</option>
+                <option value="inverter">인버터 가변속 제어</option>
+                <option value="multi">대수분할 제어</option>
+              </select>
+            </div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">KS 인증 규격</span>
+                <select class="fselect" id="hw_ks" onchange="calcHW()">
+                  <option value="none">미선택</option>
+                  <option value="KS B 6318">KS B 6318</option>
+                  <option value="KS B 7501">KS B 7501</option>
+                  <option value="KS B 7505">KS B 7505</option>
+                </select>
+              </div>
+              <div class="fgrp"><span class="flbl">고효율 인증</span>
+                <select class="fselect" id="hw_cert" onchange="calcHW()">
+                  <option value="none">미선택</option>
+                  <option value="high">고효율기자재 인증</option>
+                  <option value="1grade">에너지 1등급</option>
+                </select>
+              </div>
+            </div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">A특성 효율 (%)</span><input class="finput mono" type="number" id="hw_eff_a" placeholder="예) 60.0" step="0.1" oninput="calcHW()"></div>
+              <div class="fgrp"><span class="flbl">B특성 효율 (%)</span><input class="finput mono" type="number" id="hw_eff_b" placeholder="예) 56.0" step="0.1" oninput="calcHW()"></div>
+            </div>
+            <button class="calc-btn" onclick="calcHW()"><span id="hw_btn_ico">🔄</span> <span id="hw_btn_txt">급탕 순환펌프 산정</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="calc-col-mid">
+        <div class="card">
+          <div class="card-head"><div class="card-ico">📐</div><span class="card-tit">산정 기준 (별표 5)</span><span class="cbadge sky">KDS 31 25 10</span></div>
+          <div class="card-body">
+            <div class="nb org"><div class="nb-tit">① 순환펌프 Q</div><div class="nb-txt">Q = 시간최대급탕량[ℓ/hr] ÷ 2 ÷ 60 → [LPM]</div></div>
+            <div class="nb blue"><div class="nb-tit">② 재순환펌프 Q</div><div class="nb-txt">Q = 시간최대급탕량[ℓ/hr] ÷ (출탕℃ - 냉각허용℃) → [LPM]<br>출탕 60℃ / 냉각허용 5℃ / ΔT=55℃ 기본값</div></div>
+            <div class="nb sky"><div class="nb-tit">③ H [m]</div><div class="nb-txt">H = R×I×(1+K)÷1000<br>소규모: K=1.0~1.5, R=5~20<br>대규모: K=0.5~1.0, R=10~30</div></div>
+            <div class="nb grn"><div class="nb-tit">④ P [HP]</div><div class="nb-txt">P = Q×H×(1+여유율%) ÷ (4500×η)<br>η=0.35 기본 / 여유율 10~15% 권장</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="calc-col-right">
+        <div class="card">
+          <div class="card-head"><div class="card-ico">📊</div><span class="card-tit">산정 결과</span><span class="cbadge org" id="hw_badge">대기</span></div>
+          <div class="card-body" id="hwResult">
+            <div class="result-placeholder"><div class="rph-ico">🔥</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">급탕량 입력 후 자동 산정됩니다</div></div>
+          </div>
+        </div>
+        <button class="btn-b no-print" onclick="openMP('hwResult','🔥 급수·급탕 펌프')" style="width:100%;margin-top:8px;padding:9px;border-radius:8px;font-size:12px">📱 모바일 미리보기</button>
+      </div>
+    </div>
+  </div>
+  <!-- ════════ PANEL: 급수 펌프 (별표 5 2.1.3) ════════ -->
+  <div class="pump-panel" id="pumpWS">
+    <div class="sub-tabs">
+      <button class="sub-tab active" id="stb_ws_hoist" onclick="switchWSSub('ws_hoist',this)">🏢 고가수조용 양수펌프</button>
+      <button class="sub-tab" id="stb_ws_boost" onclick="switchWSSub('ws_boost',this)">⚡ 자동부스터 급수펌프</button>
+    </div>
+    <div class="calc-grid">
+      <div class="calc-col-left">
+        <div class="card">
+          <div class="card-head"><div class="card-ico" id="ws_ico">🏢</div><span class="card-tit" id="ws_card_tit">고가수조용 양수펌프 입력</span><span class="cbadge blue">별표 5</span></div>
+          <div class="card-body">
+
+            <!-- 고가수조 입력 블록 -->
+            <div id="ws_hoist_block">
+              <div class="section-label">① 유량 — 시간최대 예상급수량</div>
+              <div><span class="flbl">시간최대 예상급수량 (ℓ/hr)</span>
+                <div class="input-sfx"><input class="finput mono" type="number" id="ws_h_q" placeholder="3000" oninput="calcWS()"><span class="sfx">ℓ/hr</span></div>
+              </div>
+              <div class="nb blue"><div class="nb-tit">📌 고가수조 유량 기준</div><div class="nb-txt">유량 Q = 시간최대 예상급수량 [ℓ/hr → LPM 자동 환산]<br>별표 5 2.1.3(1)① 기준</div></div>
+            </div>
+
+            <!-- 자동부스터 입력 블록 -->
+            <div id="ws_boost_block" style="display:none">
+              <div class="section-label">① 유량 — 순간최대 예상급수량</div>
+              <div><span class="flbl">순간최대 예상급수량 (ℓ/min)</span>
+                <div class="input-sfx"><input class="finput mono" type="number" id="ws_b_q" placeholder="200" oninput="calcWS()"><span class="sfx">ℓ/min</span></div>
+              </div>
+              <div>
+                <span class="flbl">병렬 운전 대수 (대, 최소 2대)</span>
+                <div class="input-sfx"><input class="finput mono" type="number" id="ws_b_cnt" value="2" min="2" oninput="calcWS()"><span class="sfx">대</span></div>
+              </div>
+              <div class="nb org"><div class="nb-tit">📌 자동부스터 유량 기준</div><div class="nb-txt">전체 유량 = 순간최대 예상급수량<br>각 펌프 Q = 전체유량 ÷ 운전대수<br>별표 5 2.1.3(2)① 기준, 펌프 2대 이상</div></div>
+            </div>
+
+            <div class="div-line"></div>
+            <div class="section-label" id="ws_h_sec">② 양정 — 실양정 + 배관손실 + 최저필요수압</div>
+
+            <div><span class="flbl">실양정 hₐ (저수조→고가수조 높이차, m)</span>
+              <div class="input-sfx"><input class="finput mono" type="number" id="ws_ha" placeholder="20" oninput="calcWS()"><span class="sfx">m</span></div>
+            </div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">배관 길이 L (m)</span><input class="finput mono" type="number" id="ws_pipelen" placeholder="60" oninput="calcWS()"></div>
+              <div class="fgrp"><span class="flbl">단위마찰손실 R (mAq/m)</span><input class="finput mono" type="number" id="ws_friction" value="0.03" step="0.005" oninput="calcWS()"></div>
+            </div>
+            <div><span class="flbl">말단기구 최저필요수압 hₒ (m)</span>
+              <div class="input-sfx"><input class="finput mono" type="number" id="ws_ho" value="5.6" step="0.1" oninput="calcWS()"><span class="sfx">m</span></div>
+            </div>
+            <div class="nb sky"><div class="nb-tit">📌 최저필요수압 환산 기준</div><div class="nb-txt">세면기 55kPa → 5.6m / 샤워기 70kPa → 7.1m<br>소변기(밸브) 100kPa → 10.2m / 대변기(밸브) 100kPa → 10.2m<br>압력식 샤워기 130kPa → 13.3m</div></div>
+            <div><span class="flbl">안전율 (%)</span>
+              <div class="input-sfx"><input class="finput mono" type="number" id="ws_safety" value="10" oninput="calcWS()"><span class="sfx">%</span></div>
+            </div>
+            <div class="div-line"></div>
+            <div class="section-label">③ 효율 설정</div>
+            <div class="frow">
+              <div class="fgrp"><span class="flbl">펌프 효율 η</span><input class="finput mono" type="number" id="ws_eta" value="0.55" step="0.01" oninput="calcWS()"></div>
+              <div class="fgrp"><span class="flbl">전동기 여유율 (10~15% 권장)</span><input class="finput mono" type="number" id="ws_emg" value="10" step="1" oninput="calcWS()"></div>
+            </div>
+            <div id="ws_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다 경고</div><div class="nb-txt">전동기 여유율이 15%를 초과합니다. 20% 이상은 에너지 절약 설계 원칙 위반입니다.</div></div>
+            <div class="nb red" id="ws_550_warn" style="display:none">
+              <div class="nb-tit">⚠️ 최대급수압력 550 kPa 초과 경고</div>
+              <div class="nb-txt">말단기구 수압이 550 kPa(56.1m)를 초과합니다.<br>별표 5 2.1.7에 따라 <b>감압밸브(PRV) 설치 또는 급수 조닝</b>이 필요합니다.</div>
+            </div>
+            <button class="calc-btn" onclick="calcWS()"><span id="ws_btn_ico">🏢</span> <span id="ws_btn_txt">고가수조 양수펌프 산정</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-col-mid">
+        <div class="card">
+          <div class="card-head"><div class="card-ico">📐</div><span class="card-tit">산정 기준 (별표 5 2.1.3)</span><span class="cbadge sky">KDS 31 30 15</span></div>
+          <div class="card-body">
+            <div class="nb blue"><div class="nb-tit">① 고가수조 양수펌프 Q</div><div class="nb-txt">Q = 시간최대 예상급수량 [ℓ/hr]<br>→ LPM 환산: ÷ 60</div></div>
+            <div class="nb org"><div class="nb-tit">① 자동부스터 펌프 Q</div><div class="nb-txt">전체 Q = 순간최대 예상급수량 [ℓ/min]<br>각 펌프 Q = 전체 Q ÷ 운전대수 [LPM]<br>※ 펌프 2대 이상 병렬 설치 필수</div></div>
+            <div class="nb sky"><div class="nb-tit">② 양정 H [m]</div><div class="nb-txt">H = hₐ + hpv + hₒ + 안전율<br>hₐ : 실양정 (흡입~토출 높이차)<br>hpv: 배관마찰손실 (L×R + L×R×0.5)<br>hₒ : 말단기구 최저필요수압</div></div>
+            <div class="nb grn"><div class="nb-tit">③ P [HP]</div><div class="nb-txt">P = Q×H×(1+여유율%) ÷ (4500×η)<br>η = 0.55 기준 / 여유율 10~15% 권장</div></div>
+            <div class="nb red"><div class="nb-tit">④ 감압밸브 필수 조건 (2.1.7)</div><div class="nb-txt">말단기구 수압 ≥ 550 kPa(56.1m) 시<br>감압밸브(PRV) 또는 급수 조닝 필수</div></div>
+            <div class="nb sky"><div class="nb-tit">⑤ 위생기구 최저필요수압</div><div class="nb-txt">욕조/세면기: 55kPa(5.6m)<br>샤워기: 70kPa(7.1m)<br>소변기·대변기(밸브): 100kPa(10.2m)<br>압력식 샤워기: 130kPa(13.3m)</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-col-right">
+        <div class="card">
+          <div class="card-head"><div class="card-ico">📊</div><span class="card-tit">산정 결과</span><span class="cbadge org" id="ws_badge">대기</span></div>
+          <div class="card-body" id="wsResult">
+            <div class="result-placeholder"><div class="rph-ico">🚿</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">급수량 입력 후 자동 산정됩니다</div></div>
+          </div>
+        </div>
+        <button class="btn-b no-print" onclick="openMP('wsResult','🚿 급수 펌프')" style="width:100%;margin-top:8px;padding:9px;border-radius:8px;font-size:12px">📱 모바일 미리보기</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end tabCalc -->
+
+<!-- ━━ TAB 2: A4 미리보기 ━━ -->
+<div class="tab-panel" id="tabA4">
+
+  <!-- ★★★ 6펌프 요약 카드 ★★★ -->
+  <div class="a4-summary-grid no-print" id="a4SummaryGrid"></div>
+
+  <div class="a4-actions no-print">
+    <button class="btn-b" onclick="exportJpg()">📸 JPG 저장</button>
+    <button class="btn-g" onclick="doPrint()">🖨️ 인쇄 / PDF</button>
+    <button class="btn-g" onclick="updateA4()">🔄 미리보기 갱신</button>
+    <span style="font-size:11px;color:var(--c-muted)">💡 FAB 버튼으로 프로젝트 정보 수정</span>
+  </div>
+
+  <div class="a4-preview-wrap" id="a4Wrap">
+    <div class="a4-page" id="a4Page">
+      <div class="a4-header">
+        <div>
+          <div class="a4-title">💧 설비펌프 용량 자동선정 산출서</div>
+          <div class="a4-subtitle">기계설비 기술기준 기반 냉난방·오배수·급수급탕·급수 펌프 8종 산정 [MANMIN-Ver2.0]</div>
+        </div>
+        <div class="a4-company">
+          <div>작성자: <span id="a4AuthorOut">김만민</span></div>
+          <div>일자: <span id="a4DateOut">—</span></div>
+        </div>
+      </div>
+      <table class="a4-meta-table">
+        <tr><td class="k">공사명</td><td id="a4ProjNameOut" colspan="3">만민 건축사 신사옥 신축공사</td></tr>
+        <tr><td class="k">법령 근거</td><td colspan="3" style="font-size:8px;color:#64748b">국토교통부 고시 제2021-851호 · 별표 1(냉난방), 별표 5(급수·급탕), 별표 6(오·배수)</td></tr>
+      </table>
+      <div class="a4-section-tit">📋 펌프 용량 산정 결과 (8종)</div>
+      <div id="a4ResultBody">
+        <div style="text-align:center;padding:40px;color:#94a3b8;font-size:11px">※ 펌프 용량 산정 탭에서 각 펌프를 산정하면 자동으로 표시됩니다.</div>
+      </div>
+      <div class="a4-law">
+        ※ 본 산출서는 국토교통부 고시 제2021-851호(기계설비 기술기준) 별표 1·5·6 기준으로 산정되었습니다.<br>
+        ※ MANMIN-Ver2.0 | 현장 여건에 따라 담당 기술자의 검토·확인이 필요합니다.
+      </div>
+    </div>
+  </div>
+  <div class="a4-print-wrapper" id="a4PrintWrapper"></div>
+</div>
+
+<!-- ━━ TAB 3: 기준표 ━━ -->
+<div class="tab-panel" id="tabRef">
+  <div class="ref-tabs">
+    <button class="rt-btn active" onclick="switchRef('rH',this)">🌡️ 냉난방</button>
+    <button class="rt-btn" onclick="switchRef('rD',this)">🚰 배수</button>
+    <button class="rt-btn" onclick="switchRef('rHW',this)">🔥 급탕</button>
+    <button class="rt-btn" onclick="switchRef('rHP',this)">⚡ HP표</button>
+    <button class="rt-btn" onclick="switchRef('rWS',this)">🚿 급수펌프</button>
+  </div>
+  <div class="ref-panel active" id="rH">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px">
+      <div class="card"><div class="card-head"><div class="card-ico">📏</div><span class="card-tit">냉난방 펌프 구경</span></div>
+        <div class="card-body"><div class="twrap"><table class="rtbl"><thead><tr><th>Q (LPM)</th><th>구경</th></tr></thead><tbody>
+          <tr><td class="mono">Q &lt; 20</td><td class="mono">Ø 25</td></tr><tr><td class="mono">20~50</td><td class="mono">Ø 32</td></tr>
+          <tr><td class="mono">50~100</td><td class="mono">Ø 40</td></tr><tr><td class="mono">100~200</td><td class="mono">Ø 50</td></tr>
+          <tr><td class="mono">200~400</td><td class="mono">Ø 65</td></tr><tr><td class="mono">400~800</td><td class="mono">Ø 80</td></tr>
+          <tr><td class="mono">Q ≥ 800</td><td class="mono">Ø 100</td></tr>
+        </tbody></table></div></div>
+      </div>
+      <div class="card"><div class="card-head"><div class="card-ico">🌡️</div><span class="card-tit">운전 온도 기준</span></div>
+        <div class="card-body"><div class="twrap"><table class="rtbl"><thead><tr><th>용도</th><th>출구℃</th><th>입구℃</th><th>ΔT</th></tr></thead><tbody>
+          <tr><td>난방</td><td class="mono">60</td><td class="mono">50</td><td class="mono">10℃</td></tr>
+          <tr><td>냉방</td><td class="mono">7</td><td class="mono">12</td><td class="mono">5℃</td></tr>
+          <tr><td>고온난방</td><td class="mono">80</td><td class="mono">70</td><td class="mono">10℃</td></tr>
+        </tbody></table></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="ref-panel" id="rD">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px">
+      <div class="card"><div class="card-head"><div class="card-ico">📏</div><span class="card-tit">배수펌프 구경</span></div>
+        <div class="card-body"><div class="twrap"><table class="rtbl"><thead><tr><th>Q (LPM)</th><th>펌프</th><th>주배관</th></tr></thead><tbody>
+          <tr><td class="mono">Q &lt; 100</td><td class="mono">Ø 40</td><td class="mono">Ø 50</td></tr>
+          <tr><td class="mono">100~250</td><td class="mono">Ø 50</td><td class="mono">Ø 65</td></tr>
+          <tr><td class="mono">250~500</td><td class="mono">Ø 80</td><td class="mono">Ø 100</td></tr>
+          <tr><td class="mono">Q ≥ 500</td><td class="mono">Ø 100</td><td class="mono">Ø 125</td></tr>
+        </tbody></table></div></div>
+      </div>
+      <div class="card"><div class="card-head"><div class="card-ico">🌧️</div><span class="card-tit">지역별 최대 강수량</span></div>
+        <div class="card-body"><div class="twrap"><table class="rtbl"><thead><tr><th>지역</th><th>mm/hr</th></tr></thead><tbody>
+          <tr><td>서울</td><td class="mono">120</td></tr><tr><td>부산</td><td class="mono">130</td></tr>
+          <tr><td>서산·당진</td><td class="mono">141</td></tr><tr><td>광주</td><td class="mono">115</td></tr>
+          <tr><td>대구</td><td class="mono">110</td></tr>
+        </tbody></table></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="ref-panel" id="rHW">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px">
+      <div class="card"><div class="card-head"><div class="card-ico">📊</div><span class="card-tit">K 및 R 기준</span></div>
+        <div class="card-body"><div class="twrap"><table class="rtbl"><thead><tr><th>규모</th><th>K값</th><th>R (mmAq/m)</th></tr></thead><tbody>
+          <tr><td>소규모</td><td class="mono">1.0~1.5</td><td class="mono">5~20</td></tr>
+          <tr><td>대규모</td><td class="mono">0.5~1.0</td><td class="mono">10~30</td></tr>
+        </tbody></table></div>
+        <div class="nb sky" style="margin-top:8px"><div class="nb-tit">📌 급탕 온도</div><div class="nb-txt">출탕 60℃ / 냉각허용 5℃ / ΔT=55℃</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ref-panel" id="rHP">
+    <div class="card"><div class="card-head"><div class="card-ico">⚡</div><span class="card-tit">표준 HP · kW 환산표</span></div>
+      <div class="card-body"><div class="twrap"><table class="rtbl">
+        <thead><tr><th>HP 표기</th><th>수치</th><th>kW</th><th>전원</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">1/20</td><td class="mono">0.050</td><td class="mono">0.037</td><td>1Φ 220V</td></tr>
+          <tr><td class="mono">1/8</td><td class="mono">0.125</td><td class="mono">0.093</td><td>1Φ 220V</td></tr>
+          <tr><td class="mono">1/4</td><td class="mono">0.250</td><td class="mono">0.187</td><td>1Φ 220V</td></tr>
+          <tr class="hl"><td class="mono">1/2</td><td class="mono">0.500</td><td class="mono">0.373</td><td>3Φ 380V</td></tr>
+          <tr><td class="mono">1</td><td class="mono">1.000</td><td class="mono">0.746</td><td>3Φ 380V</td></tr>
+          <tr><td class="mono">2</td><td class="mono">2.000</td><td class="mono">1.491</td><td>3Φ 380V</td></tr>
+          <tr><td class="mono">3</td><td class="mono">3.000</td><td class="mono">2.237</td><td>3Φ 380V</td></tr>
+          <tr><td class="mono">5</td><td class="mono">5.000</td><td class="mono">3.728</td><td>3Φ 380V</td></tr>
+          <tr><td class="mono">7.5</td><td class="mono">7.500</td><td class="mono">5.593</td><td>3Φ 380V</td></tr>
+          <tr><td class="mono">10</td><td class="mono">10.000</td><td class="mono">7.457</td><td>3Φ 380V</td></tr>
+          <tr><td class="mono">15</td><td class="mono">15.000</td><td class="mono">11.185</td><td>3Φ 380V</td></tr>
+          <tr><td class="mono">20</td><td class="mono">20.000</td><td class="mono">14.914</td><td>3Φ 380V</td></tr>
+        </tbody>
+      </table></div></div>
+    </div>
+  </div>
+
+  <!-- ★ 급수펌프 기준표 패널 -->
+  <div class="ref-panel" id="rWS">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px">
+      <div class="card"><div class="card-head"><div class="card-ico">🚿</div><span class="card-tit">급수펌프 방식별 유량 기준 (별표 5 2.1.3)</span></div>
+        <div class="card-body">
+          <div class="twrap"><table class="rtbl">
+            <thead><tr><th>방식</th><th>유량 기준</th><th>대수</th><th>비고</th></tr></thead>
+            <tbody>
+              <tr><td>고가수조용<br>양수펌프</td><td class="mono">시간최대<br>예상급수량</td><td class="mono">2대<br>(예비 1)</td><td>교대 운전</td></tr>
+              <tr><td>자동부스터<br>급수펌프 유닛</td><td class="mono">순간최대<br>예상급수량</td><td class="mono">2대<br>이상</td><td>병렬 운전</td></tr>
+            </tbody>
+          </table></div>
+          <div class="nb blue" style="margin-top:8px">
+            <div class="nb-tit">📌 양정 공식</div>
+            <div class="nb-txt">H = hₐ(실양정) + hpv(배관마찰) + hₒ(말단기구최저수압) + 안전율<br>hpv = L×R (직관) + L×R×0.5 (부속)</div>
+          </div>
+        </div>
+      </div>
+      <div class="card"><div class="card-head"><div class="card-ico">💧</div><span class="card-tit">위생기구 최저필요수압 (별표 5 2.1.6)</span></div>
+        <div class="card-body">
+          <div class="twrap"><table class="rtbl">
+            <thead><tr><th>위생기구</th><th>유량 (ℓ/s)</th><th>최저수압 (kPa)</th><th>수두 (m)</th></tr></thead>
+            <tbody>
+              <tr><td>욕조</td><td class="mono">0.25</td><td class="mono">55</td><td class="mono">5.6</td></tr>
+              <tr><td>세면기</td><td class="mono">0.10</td><td class="mono">55</td><td class="mono">5.6</td></tr>
+              <tr><td>샤워기</td><td class="mono">0.18</td><td class="mono">70</td><td class="mono">7.1</td></tr>
+              <tr><td>샤워기(압력식)</td><td class="mono">0.18</td><td class="mono">130</td><td class="mono">13.3</td></tr>
+              <tr><td>싱크 (가정용)</td><td class="mono">0.15</td><td class="mono">55</td><td class="mono">5.6</td></tr>
+              <tr><td>소변기 (밸브)</td><td class="mono">0.75</td><td class="mono">100</td><td class="mono">10.2</td></tr>
+              <tr class="hl"><td>대변기 (세정밸브)</td><td class="mono">1.60</td><td class="mono">100</td><td class="mono">10.2</td></tr>
+              <tr><td>대변기 (세정탱크)</td><td class="mono">0.18</td><td class="mono">55</td><td class="mono">5.6</td></tr>
+              <tr><td>호스 수도꼭지</td><td class="mono">0.30</td><td class="mono">55</td><td class="mono">5.6</td></tr>
+            </tbody>
+          </table></div>
+          <div class="nb red" style="margin-top:8px">
+            <div class="nb-tit">⚠️ 최대급수압력 제한 (별표 5 2.1.7)</div>
+            <div class="nb-txt">위생기구 수압 ≥ 550 kPa(56.1 m) 시<br>감압밸브(PRV) 설치 또는 급수 조닝 필수</div>
+          </div>
+        </div>
+      </div>
+      <div class="card"><div class="card-head"><div class="card-ico">📐</div><span class="card-tit">급수펌프 구경 기준</span></div>
+        <div class="card-body">
+          <div class="twrap"><table class="rtbl">
+            <thead><tr><th>Q (LPM)</th><th>구경 (mm)</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">Q &lt; 20</td><td class="mono">Ø 25</td></tr>
+              <tr><td class="mono">20~50</td><td class="mono">Ø 32</td></tr>
+              <tr><td class="mono">50~100</td><td class="mono">Ø 40</td></tr>
+              <tr><td class="mono">100~200</td><td class="mono">Ø 50</td></tr>
+              <tr><td class="mono">200~400</td><td class="mono">Ø 65</td></tr>
+              <tr><td class="mono">400~800</td><td class="mono">Ø 80</td></tr>
+              <tr><td class="mono">Q ≥ 800</td><td class="mono">Ø 100</td></tr>
+            </tbody>
+          </table></div>
+          <div class="nb sky" style="margin-top:8px">
+            <div class="nb-tit">📌 급수펌프 효율 기준</div>
+            <div class="nb-txt">양수펌프 η = 0.55 기준 적용<br>(KS 규격 효율 이상 적용 — 별표 1 2.8(1))</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- FAB -->
+<button class="fab no-print" onclick="openBS()" title="도움말 & 설정">💡</button>
+
+<!-- BOTTOM SHEET (중앙 모달 · 삼각자 디자인) -->
+<div class="bs-overlay" id="bsOverlay" onclick="bsOverlayClick(event)">
+  <div class="bottom-sheet" id="bottomSheet">
+    <div class="bs-header">
+      <div class="bs-header-left">
+        <div class="bs-header-icon">💧</div>
+        <div>
+          <div class="bs-title">설비펌프 산정 시스템</div>
+          <div class="bs-title-sub">정보 · 도움말 · 설계기준 종합 안내</div>
+        </div>
+      </div>
+      <button class="bs-cls" onclick="closeBS()">✕</button>
+    </div>
+    <!-- 탭 바: bs-body 밖에 위치해야 flex 레이아웃에서 고정됨 -->
+    <div class="bs-tabs">
+      <button class="bs-tab active" id="bst-guide" onclick="switchBS('bs-guide',this)">📖 사용방법</button>
+      <button class="bs-tab" id="bst-proj" onclick="switchBS('bs-proj',this)">🏗️ 프로젝트 정보</button>
+      <button class="bs-tab" id="bst-formula" onclick="switchBS('bs-formula',this)">📐 공식</button>
+      <button class="bs-tab" id="bst-law" onclick="switchBS('bs-law',this)">⚖️ 법령</button>
+      <button class="bs-tab" id="bst-tip" onclick="switchBS('bs-tip',this)">💡 설계팁</button>
+    </div>
+    <div class="bs-body">
+    <div class="bs-panel active" id="bs-guide">
+      <div class="bs-intro-banner">
+        <div class="bs-intro-title">💧 설비펌프 용량 자동선정 시스템 Ver2.0</div>
+        <div class="bs-intro-sub">기계설비 기술기준 국토교통부 고시 제2021-851호<br>별표 1(냉난방) · 별표 5(급수·급탕) · 별표 6(오·배수) 기반 8종 펌프 자동 산정</div>
+        <div class="bs-intro-tags">
+          <span class="bs-intro-tag">✅ 실시간 자동산정</span>
+          <span class="bs-intro-tag">✅ EPI 가중평균 산출</span>
+          <span class="bs-intro-tag">✅ A4 산정서 자동생성</span>
+          <span class="bs-intro-tag">✅ 8종 펌프 독립 저장</span>
+        </div>
+      </div>
+      <div class="bs-item blue">
+        <div class="bs-item-head"><div class="bs-item-num">1</div><div class="bs-item-ico">🔧</div><div class="bs-item-tit">STEP 1 — 프로젝트 정보 입력</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">상단 배너 [✏️ 정보 수정] 또는 [프로젝트 정보] 탭에서 공사명·작성자·날짜를 입력합니다.</div>
+          <div class="bs-item-txt">입력값은 A4 산정서에 자동 반영됩니다.</div>
+        </div>
+      </div>
+      <div class="bs-item grn">
+        <div class="bs-item-head"><div class="bs-item-num">2</div><div class="bs-item-ico">🌡️</div><div class="bs-item-tit">STEP 2 — 8종 펌프 순서 산정</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">상단 진행 상태 바에서 8개 펌프를 확인하며 순서대로 산정합니다.</div>
+          <div class="bs-item-txt">각 탭의 서브탭(난방/냉방, PIT/우수, 순환/재순환, 고가/부스터)을 전환하며 결과가 독립 저장됩니다.</div>
+        </div>
+      </div>
+      <div class="bs-item org">
+        <div class="bs-item-head"><div class="bs-item-num">3</div><div class="bs-item-ico">⚡</div><div class="bs-item-tit">STEP 3 — 자동 산정 및 검증</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">입력값 입력 시 실시간 자동 계산됩니다. [산정] 버튼으로 수동 갱신도 가능합니다.</div>
+          <div class="bs-item-txt">여유율 초과, 집수조 30분 검증, 550kPa 초과 등 경고가 자동 표시됩니다.</div>
+        </div>
+      </div>
+      <div class="bs-item sky">
+        <div class="bs-item-head"><div class="bs-item-num">4</div><div class="bs-item-ico">📄</div><div class="bs-item-tit">STEP 4 — A4 미리보기 및 출력</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">[A4 미리보기] 탭에서 완료된 펌프가 자동으로 표시됩니다.</div>
+          <div class="bs-item-txt">8종 모두 작성하면 전체 산출서 + EPI 장비선정계산서가 완성됩니다.</div>
+        </div>
+      </div>
+      <div class="bs-item red">
+        <div class="bs-item-head"><div class="bs-item-num">!</div><div class="bs-item-ico">📌</div><div class="bs-item-tit">핵심 — 8종 독립 저장 구조</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">난방·냉방·PIT배수·우수배수·급탕순환·급탕재순환·고가수조양수·자동부스터 — 각각 별도 저장되어 A4에 동시 출력됩니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bs-panel" id="bs-proj">
+      <div class="bs-proj-form">
+        <div><span class="flbl">공사명</span><input class="finput" type="text" id="bs_name" placeholder="만민 건축사 신사옥 신축공사" oninput="syncProj()"></div>
+        <div><span class="flbl">작성자</span><input class="finput" type="text" id="bs_author" placeholder="김만민" oninput="syncProj()"></div>
+        <div><span class="flbl">작성일</span><input class="finput" type="date" id="bs_date" oninput="syncProj()"></div>
+        <button class="calc-btn" onclick="applyProj()">✅ 적용하기</button>
+      </div>
+    </div>
+
+    <div class="bs-panel" id="bs-formula">
+      <div class="bs-item blue">
+        <div class="bs-item-head"><div class="bs-item-ico">🌡️</div><div class="bs-item-tit">냉난방 순환펌프 (별표 1) — hₐ=0 밀폐회로</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">Q = 부하[kcal/hr] × (1+여유율) ÷ ΔT[℃] ÷ 60 → LPM / 난방ΔT=10℃, 냉방ΔT=5℃</div>
+          <div class="bs-item-txt">H 소계 = L×R + L×R×0.5 + 코일저항 + 보일러(냉동기)저항 (실양정 hₐ=0, 팽창탱크 폐회로)</div>
+          <div class="bs-item-txt">전양정 H = H소계 + H소계×안전율% / P = Q×H×(1+여유율%) ÷ (4500×η)</div>
+        </div>
+      </div>
+      <div class="bs-item org">
+        <div class="bs-item-head"><div class="bs-item-ico">🚰</div><div class="bs-item-tit">오·배수 펌프 (별표 6) — 200% 기준</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">PIT Q = 시간최대 유입량×200% / 30분 이내 완전 배출 필수</div>
+          <div class="bs-item-txt">우수 Q = (mm×m²)÷60÷대수 / H = 층고+L×R+L×R×0.5+안전율</div>
+          <div class="bs-item-txt">집수정 Ø450 이상 / D600 이상 / 고형물: 오수Ø50, 잡배수Ø25</div>
+        </div>
+      </div>
+      <div class="bs-item grn">
+        <div class="bs-item-head"><div class="bs-item-ico">🔥</div><div class="bs-item-tit">급탕 순환/재순환 펌프 (별표 5)</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">순환 Q = 시간최대급탕량[ℓ/hr] ÷ 2 ÷ 60 → LPM</div>
+          <div class="bs-item-txt">재순환 Q = 시간최대급탕량[ℓ/hr] ÷ (출탕℃ - 냉각허용℃) → LPM (출탕60℃, 냉각5℃ 기준)</div>
+          <div class="bs-item-txt">H = R[mmAq/m] × I[m] × (1+K) ÷ 1000 → m / η = 0.35</div>
+        </div>
+      </div>
+      <div class="bs-item sky">
+        <div class="bs-item-head"><div class="bs-item-ico">🚿</div><div class="bs-item-tit">급수 펌프 (별표 5 2.1.3)</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">고가수조 Q = 시간최대급수량÷60 / 자동부스터 Q = 순간최대÷운전대수</div>
+          <div class="bs-item-txt">H = hₐ+hpv+hₒ+안전율 / η = 0.55 / ≥550kPa → 감압밸브 필수</div>
+        </div>
+      </div>
+      <div class="bs-item red">
+        <div class="bs-item-head"><div class="bs-item-ico">⚡</div><div class="bs-item-tit">공통 — 동력 선정 및 여유율</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">P(HP) 계산값의 직상위 표준HP 선택 / HP≤¼ → 1Φ 220V / HP>¼ → 3Φ 380V</div>
+          <div class="bs-item-txt">전동기 여유율 10~15% 권장 / 20% 초과 금지 (에너지 절약 설계 기준)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bs-panel" id="bs-law">
+      <div class="bs-item blue">
+        <div class="bs-item-head"><div class="bs-item-ico">📜</div><div class="bs-item-tit">기계설비법 (법률 제17453호)</div></div>
+        <div class="bs-item-body"><div class="bs-item-txt">제정 2020.06.09 / 시행 2021.04.17 — 기계설비의 설계·시공·유지관리 기준 법적 근거</div></div>
+      </div>
+      <div class="bs-item grn">
+        <div class="bs-item-head"><div class="bs-item-ico">📋</div><div class="bs-item-tit">기계설비 기술기준 (고시 제2021-851호)</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">별표 1: 열원·냉난방설비 설계·시공 기준</div>
+          <div class="bs-item-txt">별표 5: 급수·급탕설비 설계·시공 기준</div>
+          <div class="bs-item-txt">별표 6: 오·배수·통기·우수배수설비 설계·시공 기준</div>
+        </div>
+      </div>
+      <div class="bs-item org">
+        <div class="bs-item-head"><div class="bs-item-ico">📐</div><div class="bs-item-tit">관련 KDS 설계기준</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">KDS 31 20 20: 냉난방설비 / KDS 31 25 10: 급탕설비</div>
+          <div class="bs-item-txt">KDS 31 25 30: 위생설비(오배수) / KDS 31 30 15: 급수설비</div>
+        </div>
+      </div>
+      <div class="bs-item sky">
+        <div class="bs-item-head"><div class="bs-item-ico">🏆</div><div class="bs-item-tit">EPI 관련 기준 (에너지절약설계기준)</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">국토교통부고시 제2023-104호 — KS B 6318/7501/7505 고효율 인증</div>
+          <div class="bs-item-txt">A·B특성 효율 가중평균 / 인버터·대수제어 EPI 가점</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bs-panel" id="bs-tip">
+      <div class="bs-item blue">
+        <div class="bs-item-head"><div class="bs-item-ico">💧</div><div class="bs-item-tit">냉난방 설계 팁</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">단위마찰손실 R = 0.02~0.04 mAq/m / 보일러저항 5~8m / 냉동기코일 3~5m</div>
+          <div class="bs-item-txt">판형 열교환기 차압 70kPa 이하 유지 / 인버터 제어로 EPI 가점 확보</div>
+        </div>
+      </div>
+      <div class="bs-item org">
+        <div class="bs-item-head"><div class="bs-item-ico">🚰</div><div class="bs-item-tit">오배수 설계 팁</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">집수조 유효용량 = Q×5~10분 이상 확보 / 2대 교번운전 필수</div>
+          <div class="bs-item-txt">우수펌프: 지역 기상청 10년 빈도 강수량 적용 / 우수 η=0.30 적용</div>
+        </div>
+      </div>
+      <div class="bs-item grn">
+        <div class="bs-item-head"><div class="bs-item-ico">🔥</div><div class="bs-item-tit">급탕 설계 팁</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">중규모: R=15~20 mmAq/m, K=1.0~1.2 / 소규모: R=10~20, K=1.0~1.5</div>
+          <div class="bs-item-txt">재순환펌프 Q = 시간최대급탕량[ℓ/hr] ÷ (출탕-냉각허용)[℃] — 단위 주의</div>
+          <div class="bs-item-txt">예비 1대 필수 / 급탕 출탕 60℃, 냉각허용 5℃ 기준</div>
+        </div>
+      </div>
+      <div class="bs-item red">
+        <div class="bs-item-head"><div class="bs-item-ico">✅</div><div class="bs-item-tit">장비선정계산서 EPI 체크리스트</div></div>
+        <div class="bs-item-body">
+          <div class="bs-item-txt">KS B 6318/7501/7505 고효율 인증 입력</div>
+          <div class="bs-item-txt">A특성(최대효율점) / B특성(규정토출량) 효율 입력 후 가중평균 확인</div>
+          <div class="bs-item-txt">제어방식 선택 — 인버터·대수제어 → EPI +2~3점 자동 표시</div>
+          <div class="bs-item-txt">전동기 여유율 10~15% 준수 · 20% 초과 금지</div>
+        </div>
+      </div>
+    </div><!-- /.bs-panel #bs-tip -->
+    </div><!-- /.bs-body -->
+  </div><!-- /.bottom-sheet -->
+</div><!-- /.bs-overlay -->
+
+<div class="modal-ov" id="mpModal">
+  <div class="mp-box">
+    <div class="mp-hd"><span class="mp-tit" id="mpTitle">📱 모바일 미리보기</span><button class="mp-cls" onclick="closeModal('mpModal')">✕</button></div>
+    <div class="mp-phone"><div class="mp-screen"><div class="mp-content" id="mpContent"></div></div></div>
+    <div class="mp-footer">
+      <button class="mp-btn jpg" onclick="exportMpJpg()">📸 JPG 저장</button>
+      <button class="mp-btn share" onclick="shareMp()">🔗 공유하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- PWA 설치 배너 (하단 슬라이드업) -->
+<div class="pwa-banner" id="pwaBanner">
+  <img src="./icons/icon-72x72.png" alt="앱 아이콘" class="pwa-banner-icon" onerror="this.style.display='none'"/>
+  <div class="pwa-banner-text">
+    <div class="pwa-banner-title">📲 앱으로 설치하기</div>
+    <div class="pwa-banner-sub">홈 화면에 추가하면 오프라인에서도 사용 가능합니다</div>
+  </div>
+  <button class="pwa-banner-install" id="btnBannerInstall">✅ 지금 설치</button>
+  <button class="pwa-banner-close" onclick="pwaDismissBanner()" title="닫기">✕</button>
+</div>
+<div class="pwa-update-bar" id="pwaUpdateBar">새 버전이 있습니다 <button onclick="pwaApplyUpdate()">업데이트 적용</button></div>
+<div class="net-toast" id="netToast"></div>
+<div class="pwa-done-toast" id="pwaDoneToast">✅ 설치 완료!</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   ★★★ 6종 펌프 독립 결과 저장소 ★★★
+   각 펌프별로 완전히 분리된 객체에 저장
+═══════════════════════════════════════════════ */
+const RESULTS = {
+  heat:     null,   // 🔴 난방 순환펌프
+  cool:     null,   // 🔵 냉방 순환펌프
+  pit:      null,   // 🏗️ PIT 배수펌프
+  rain:     null,   // 🌧️ 우수 배수펌프
+  circ:     null,   // 🔄 급탕 순환펌프
+  recirc:   null,   // ♻️ 급탕 재순환펌프
+  ws_hoist: null,   // 🏢 고가수조 양수펌프
+  ws_boost: null    // ⚡ 자동부스터 급수펌프
+};
+
+const PUMP_META = {
+  heat:     {ico:'🔴', lbl:'난방 순환펌프',      law:'별표 1'},
+  cool:     {ico:'🔵', lbl:'냉방 순환펌프',      law:'별표 1'},
+  pit:      {ico:'🏗️', lbl:'PIT 배수펌프',       law:'별표 6'},
+  rain:     {ico:'🌧️', lbl:'우수 배수펌프',      law:'별표 6'},
+  circ:     {ico:'🔄', lbl:'급탕 순환펌프',      law:'별표 5'},
+  recirc:   {ico:'♻️', lbl:'급탕 재순환펌프',    law:'별표 5'},
+  ws_hoist: {ico:'🏢', lbl:'고가수조 양수펌프',  law:'별표 5'},
+  ws_boost: {ico:'⚡', lbl:'자동부스터 급수펌프',law:'별표 5'}
+};
+
+/* ── 현재 활성 서브타입 ── */
+let _heatSub   = 'heat';     // 'heat' | 'cool'
+let _drainSub  = 'pit';      // 'pit'  | 'rain'
+let _hwSub     = 'circ';     // 'circ' | 'recirc'
+let _wsSub     = 'ws_hoist'; // 'ws_hoist' | 'ws_boost'
+
+/* ═══════════════════════════════════════════════
+   공통 유틸
+═══════════════════════════════════════════════ */
+function today(){ return new Date().toISOString().slice(0,10); }
+function showToast(m,d=2600){ const t=document.getElementById('toastEl'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),d); }
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+function switchTab(id,el){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active'); el.classList.add('active');
+  if(id==='tabA4'){ updateA4(); setTimeout(scaleA4,80); }
+}
+function switchPump(id,el){
+  document.querySelectorAll('.pump-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.pt-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active'); el.classList.add('active');
+  updateStatusBar();
+}
+function switchRef(id,el){
+  document.querySelectorAll('.ref-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.rt-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active'); el.classList.add('active');
+}
+
+/* ── 상태바 업데이트 ── */
+function updateStatusBar(){
+  Object.keys(RESULTS).forEach(k=>{
+    const item=document.getElementById('psb_'+k);
+    const stat=document.getElementById('psbst_'+k);
+    if(!item||!stat) return;
+    if(RESULTS[k]){
+      item.classList.add('done'); item.classList.remove('active-pump');
+      stat.textContent='완료'; stat.className='psb-status done';
+    } else {
+      item.classList.remove('done');
+      stat.textContent='미완료'; stat.className='psb-status pending';
+    }
+    // 서브탭 done 배지
+    const subMap={heat:'stb_heat',cool:'stb_cool',pit:'stb_pit',rain:'stb_rain',circ:'stb_circ',recirc:'stb_recirc',ws_hoist:'stb_ws_hoist',ws_boost:'stb_ws_boost'};
+    const sb=document.getElementById(subMap[k]);
+    if(sb){ if(RESULTS[k]) sb.classList.add('done-badge'); else sb.classList.remove('done-badge'); }
+  });
+  const total=Object.values(RESULTS).filter(v=>v).length;
+  if(total>0) showToast(`📊 완료: ${total}/8종`,1800);
+}
+
+/* 상태바 클릭 시 해당 탭·서브탭으로 이동 */
+function goPump(panelId, subIdx){
+  const ptMap={pumpHeat:'ptb_heat',pumpDrain:'ptb_drain',pumpHW:'ptb_hw',pumpWS:'ptb_ws'};
+  document.querySelectorAll('.pump-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.pt-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(panelId).classList.add('active');
+  const ptbEl=document.getElementById(ptMap[panelId]); if(ptbEl) ptbEl.classList.add('active');
+  if(panelId==='pumpHeat'){
+    const tabs=document.querySelectorAll('#pumpHeat .sub-tab');
+    tabs.forEach((t,i)=>{t.classList.toggle('active',i===subIdx);});
+    switchHeatSub(subIdx===0?'heat':'cool', tabs[subIdx]);
+  } else if(panelId==='pumpDrain'){
+    const tabs=document.querySelectorAll('#pumpDrain .sub-tab');
+    tabs.forEach((t,i)=>{t.classList.toggle('active',i===subIdx);});
+    switchDrainSub(subIdx===0?'pit':'rain', tabs[subIdx]);
+  } else if(panelId==='pumpHW'){
+    const tabs=document.querySelectorAll('#pumpHW .sub-tab');
+    tabs.forEach((t,i)=>{t.classList.toggle('active',i===subIdx);});
+    switchHWSub(subIdx===0?'circ':'recirc', tabs[subIdx]);
+  } else if(panelId==='pumpWS'){
+    const tabs=document.querySelectorAll('#pumpWS .sub-tab');
+    tabs.forEach((t,i)=>{t.classList.toggle('active',i===subIdx);});
+    switchWSSub(subIdx===0?'ws_hoist':'ws_boost', tabs[subIdx]);
+  }
+}
+
+/* ── Bottom Sheet (슬라이드업 모달) ── */
+function openBS(){
+  const ov=document.getElementById('bsOverlay');
+  ov.style.display='flex';
+  // display:flex 적용 후 한 프레임 뒤에 .open → opacity+transform 트랜지션 발동
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>ov.classList.add('open'));
+  });
+  document.body.style.overflow='hidden';
+}
+function closeBS(){
+  const ov=document.getElementById('bsOverlay');
+  ov.classList.remove('open');
+  document.body.style.overflow='';
+  // transition 완료 후 display:none
+  const onEnd=()=>{ ov.style.display='none'; ov.removeEventListener('transitionend',onEnd); };
+  ov.addEventListener('transitionend',onEnd);
+  // 안전장치: 400ms 후 강제 숨김
+  setTimeout(()=>{ if(!ov.classList.contains('open')) ov.style.display='none'; },400);
+}
+/* 오버레이 배경 클릭 시 닫기 */
+function bsOverlayClick(e){
+  if(e.target===document.getElementById('bsOverlay')) closeBS();
+}
+/* Esc 키로 닫기 */
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeBS(); });
+function switchBS(id,el){ document.querySelectorAll('.bs-panel').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.bs-tab').forEach(b=>b.classList.remove('active')); document.getElementById(id).classList.add('active'); el.classList.add('active'); }
+function openBsTab(tid){ openBS(); const el=document.getElementById('bst-'+tid.replace('bs-','')); if(el) switchBS(tid,el); }
+
+/* ── 프로젝트 정보 ── */
+let proj={name:'만민 건축사 신사옥 신축공사',author:'김만민',date:today(),reviewer:'',location:'',stage:'실시설계'};
+function syncProj(){
+  proj.name=document.getElementById('bs_name').value||proj.name;
+  proj.author=document.getElementById('bs_author').value||proj.author;
+  proj.date=document.getElementById('bs_date').value||proj.date;
+}
+function applyProj(){
+  syncProj();
+  document.getElementById('projNameDisplay').textContent=proj.name;
+  document.getElementById('projAuthorDisplay').textContent=proj.author;
+  document.getElementById('projDateDisplay').textContent=proj.date;
+  updateA4(); closeBS(); showToast('✅ 프로젝트 정보 적용 완료');
+}
+
+/* ── A4 스케일링 ── */
+function scaleA4(){ const w=document.getElementById('a4Wrap'),p=document.getElementById('a4Page'); if(!w||!p) return; const s=Math.min(1,(w.clientWidth-32)/794); p.style.transform=`scale(${s})`; p.style.transformOrigin='top center'; p.style.marginBottom=`${p.offsetHeight*s-p.offsetHeight}px`; }
+window.addEventListener('resize',scaleA4);
+
+/* ── JPG 저장 ── */
+async function exportJpg(){ const p=document.getElementById('a4Page'); if(!p){showToast('⚠️ A4 없음');return;} showToast('📸 생성 중...',1400); const pr=p.style.transform; p.style.transform='none'; await new Promise(r=>setTimeout(r,100)); const c=await html2canvas(p,{scale:2,useCORS:true,backgroundColor:'#fff',width:794,windowWidth:794}); p.style.transform=pr; const a=document.createElement('a'); a.href=c.toDataURL('image/jpeg',.92); a.download=`설비펌프산정_${proj.name}_${today()}.jpg`; a.click(); showToast('📸 JPG 저장 완료!'); }
+async function exportMpJpg(){ const s=document.querySelector('.mp-screen'); if(!s)return; showToast('📸 생성 중...',1400); const c=await html2canvas(s,{scale:2,useCORS:true,backgroundColor:'#fff'}); const a=document.createElement('a'); a.href=c.toDataURL('image/jpeg',.92); a.download=`펌프산정_모바일_${today()}.jpg`; a.click(); showToast('📸 저장 완료!'); }
+async function shareMp(){
+  const s=document.querySelector('.mp-screen'); if(!s) return;
+  const c=await html2canvas(s,{scale:2,useCORS:true,backgroundColor:'#fff'});
+  if(navigator.share){ c.toBlob(async b=>{ try{ await navigator.share({title:'설비펌프 산정결과',files:[new File([b],`펌프산정_${today()}.jpg`,{type:'image/jpeg'})]}); showToast('✅ 공유 완료!'); }catch(e){if(e.name!=='AbortError')showToast('공유 취소됨');}},'image/jpeg'); }
+  else { c.toBlob(async b=>{ try{ await navigator.clipboard.write([new ClipboardItem({'image/png':b})]); showToast('📋 클립보드 복사 완료!',3000); }catch(e){ const a=document.createElement('a'); a.href=c.toDataURL('image/jpeg',.92); a.download=`공유_${today()}.jpg`; a.click(); showToast('📸 공유용 JPG 저장'); }}); }
+}
+function openMP(srcId,title){ const s=document.getElementById(srcId); document.getElementById('mpContent').innerHTML=s?s.innerHTML:''; document.getElementById('mpTitle').textContent='📱 '+title; openModal('mpModal'); }
+
+/* ═══════════════════════════════════════════════
+   A4 업데이트 — ★★★ 6종 전부 순서대로 출력 ★★★
+═══════════════════════════════════════════════ */
+const PUMP_ORDER = ['heat','cool','pit','rain','circ','recirc','ws_hoist','ws_boost'];
+
+function updateA4(){
+  document.getElementById('a4ProjNameOut').textContent=proj.name||'—';
+  document.getElementById('a4AuthorOut').textContent=proj.author||'—';
+  document.getElementById('a4DateOut').textContent=proj.date||today();
+
+  // 요약 카드 갱신
+  buildSummaryCards();
+
+  // A4 본문
+  let html='';
+  PUMP_ORDER.forEach(k=>{ if(RESULTS[k]) html+=buildA4Sec(k,RESULTS[k]); });
+  document.getElementById('a4ResultBody').innerHTML = html || '<div style="text-align:center;padding:40px;color:#94a3b8;font-size:11px">※ 펌프 용량 산정 탭에서 각 펌프를 산정하면 자동으로 표시됩니다.<br>최대 8종 모두 표시됩니다.</div>';
+  buildPrintPages();
+  scaleA4();
+}
+
+function buildSummaryCards(){
+  const grid=document.getElementById('a4SummaryGrid');
+  if(!grid) return;
+  grid.innerHTML = PUMP_ORDER.map(k=>{
+    const m=PUMP_META[k]; const r=RESULTS[k];
+    return `<div class="a4-sum-card ${r?'done':'pending'}">
+      <div class="a4-sc-ico">${m.ico}</div>
+      <div class="a4-sc-tit">${m.lbl}</div>
+      ${r ? `<div class="a4-sc-val">${r.Q_lpm.toFixed(2)} LPM / ${r.H.toFixed(2)} m<br>${r.hpStr} HP</div>
+             <div class="a4-sc-badge done">✓ 완료</div>` 
+           : `<div class="a4-sc-val" style="color:#94a3b8;font-size:10px">산정 대기 중</div>
+              <div class="a4-sc-badge pending">미완료</div>`}
+    </div>`;
+  }).join('');
+}
+
+function buildA4Sec(key, r){
+  const m=PUMP_META[key];
+  const isDrain=(key==='pit'||key==='rain');
+  const epi=r.epi;
+  const wAvg=(epi&&epi.effA>0&&epi.effB>0)?((epi.effA+epi.effB)/2).toFixed(1):'—';
+  return `<div class="a4-pump-sec">
+  <div class="a4-pump-tit">${m.ico} ${m.lbl} <span style="font-size:8px;color:#64748b;font-weight:400">${m.law} | HP: ${r.hpStr} | Q: ${r.Q_lpm.toFixed(2)} LPM | H: ${r.H.toFixed(2)} m</span></div>
+  <table class="a4-result-table">
+    <thead><tr><th>항목</th><th>기호</th><th>계산값</th><th>선정값</th><th>단위</th></tr></thead>
+    <tbody>
+      <tr><td>유량</td><td>Q</td><td class="mc">${r.Q_lpm.toFixed(3)}</td><td class="mc">${r.Q_lpm.toFixed(2)}</td><td>LPM</td></tr>
+      <tr><td>양정</td><td>H</td><td class="mc">${r.H.toFixed(3)}</td><td class="mc">${r.H.toFixed(2)}</td><td>m</td></tr>
+      <tr><td>계산동력</td><td>P</td><td class="mc">${r.P_calc.toFixed(4)}</td><td>—</td><td>HP</td></tr>
+      <tr><td>선정동력</td><td>P</td><td>—</td><td class="mc" style="color:#1d4ed8;font-weight:800">${r.hpStr}</td><td>HP</td></tr>
+      <tr><td>구경</td><td>DN</td><td>—</td><td class="mc">Ø ${r.pipe}${r.pipeMain?' / 주Ø'+r.pipeMain:''}</td><td>mm</td></tr>
+      <tr><td>전원</td><td>—</td><td>—</td><td>${r.power}</td><td>—</td></tr>
+      <tr><td>수량</td><td>N</td><td>—</td><td>${r.qty}</td><td>대</td></tr>
+      ${isDrain&&r.solidLabel?`<tr><td>고형물 통과</td><td>—</td><td>—</td><td>${r.solidLabel}</td><td>—</td></tr>`:''}
+      ${isDrain?`<tr><td>집수정 규격</td><td>—</td><td>—</td><td>Ø450×D600 이상</td><td>mm</td></tr>`:''}
+    </tbody>
+  </table>
+  <div class="a4-calc-box">
+    <div style="font-weight:700;color:#1d4ed8;margin-bottom:3px;font-size:9px">▶ 계산 과정</div>
+    ${r.calcRows.map(c=>`<div class="a4-calc-row"><span>${c.k}</span><span style="font-family:var(--mono)">${c.v}</span></div>`).join('')}
+  </div>
+  ${epi?`<div class="a4-calc-box" style="margin-top:4px;border-color:#bfdbfe;background:#eff6ff">
+    <div style="font-weight:700;color:#1d4ed8;margin-bottom:3px;font-size:9px">▶ EPI / 장비선정계산서</div>
+    <div class="a4-calc-row"><span>제어방식</span><span>${epi.ctrl||'—'}</span></div>
+    <div class="a4-calc-row"><span>KS 인증</span><span>${epi.ks||'—'}</span></div>
+    <div class="a4-calc-row"><span>고효율 인증</span><span>${epi.cert||'—'}</span></div>
+    <div class="a4-calc-row"><span>A특성 / B특성</span><span>${epi.effA>0?epi.effA+'%':'—'} / ${epi.effB>0?epi.effB+'%':'—'}</span></div>
+    <div class="a4-calc-row" style="font-weight:700"><span>A/B 가중평균 효율</span><span>${wAvg}${wAvg!=='—'?' %':''}</span></div>
+  </div>`:''}
+  </div>`;
+}
+
+function buildPrintPages(){
+  const w=document.getElementById('a4PrintWrapper'); if(!w) return;
+  const keys=PUMP_ORDER.filter(k=>RESULTS[k]);
+  if(!keys.length){w.innerHTML='';return;}
+  const hdr=`<div class="a4-header">
+    <div><div class="a4-title">💧 설비펌프 용량 자동선정 산출서</div>
+    <div class="a4-subtitle">기계설비 기술기준 기반 8종 펌프 산정 [MANMIN-Ver2.0]</div></div>
+    <div class="a4-company"><div>작성자: ${proj.author}</div><div>일자: ${proj.date}</div></div></div>
+  <table class="a4-meta-table"><tr><td class="k">공사명</td><td>${proj.name}</td></tr>
+  <tr><td class="k">법령 근거</td><td style="font-size:7px;color:#64748b">국토교통부 고시 제2021-851호 · 별표 1·5·6</td></tr></table>
+  <div class="a4-section-tit">📋 펌프 용량 산정 결과 (${keys.length}/8종)</div>`;
+  // 각 펌프 섹션별로 page-break-inside:avoid 처리됨 (CSS)
+  let body=`<div class="a4-print-page">${hdr}`;
+  keys.forEach(k=>{ body+=buildA4Sec(k,RESULTS[k]); });
+  body+=`<div class="a4-law">※ 국토교통부 고시 제2021-851호 기준 / MANMIN-Ver2.0</div></div>`;
+  w.innerHTML=body;
+}
+function doPrint(){ buildPrintPages(); setTimeout(()=>window.print(),150); }
+
+/* ═══════════════════════════════════════════════
+   계산 공통
+═══════════════════════════════════════════════ */
+const HPT=[1/20,1/8,1/4,1/2,1,2,3,5,7.5,10,15,20];
+const HPL=['1/20','1/8','1/4','1/2','1','2','3','5','7.5','10','15','20'];
+function selHP(p){ for(let i=0;i<HPT.length;i++) if(p<=HPT[i]*1.001) return{v:HPT[i],l:HPL[i]}; return{v:HPT[HPT.length-1],l:HPL[HPT.length-1]+'+'}; }
+function selPipe(q){ if(q<20)return 25; if(q<50)return 32; if(q<100)return 40; if(q<200)return 50; if(q<400)return 65; if(q<800)return 80; return 100; }
+function selDPipe(q){ if(q<100)return{p:40,m:50}; if(q<250)return{p:50,m:65}; if(q<500)return{p:80,m:100}; return{p:100,m:125}; }
+function selPW(v){ return v<=0.25?'1Φ 220V 60Hz':'3Φ 380V 60Hz'; }
+function n(id){ return parseFloat(document.getElementById(id)?.value)||0; }
+
+function buildResHtml(r, isDrain=false){ return `
+  <div class="drh-grid">
+    <div class="drh-box rect"><div class="drh-lbl">유량 Q</div><div class="drh-val mono">${r.Q_lpm.toFixed(2)}</div><div class="drh-unit">LPM</div></div>
+    <div class="drh-box circ"><div class="drh-lbl">양정 H</div><div class="drh-val mono">${r.H.toFixed(2)}</div><div class="drh-unit">m</div></div>
+    <div class="drh-box flat"><div class="drh-lbl">계산동력</div><div class="drh-val mono">${r.P_calc.toFixed(4)}</div><div class="drh-unit">HP</div></div>
+    <div class="drh-box vel"><div class="drh-lbl">선정동력</div><div class="drh-val mono">${r.hpStr}</div><div class="drh-unit">HP</div><div class="drh-sub">${(selHP(r.P_calc).v*0.7457).toFixed(3)} kW (선정)</div></div>
+  </div>
+  <div class="cbox">
+    <div class="cbox-tit">📐 계산 과정</div>
+    ${r.calcRows.slice(0,-1).map(c=>`<div class="crow"><span class="ck">${c.k}</span><span class="cv mono">${c.v}</span></div>`).join('')}
+    <div class="crow total"><span class="ck">선정동력</span><span class="cv mono" style="color:var(--c-accent)">${r.hpStr} HP</span></div>
+  </div>
+  <div class="spec-box">
+    <div class="spec-tit">✅ 펌프 선정 사양</div>
+    <div class="spec-row"><span class="sk">형식</span><span class="sv">${r.typeStr}</span></div>
+    <div class="spec-row"><span class="sk">용도</span><span class="sv">${r.purpose}</span></div>
+    <div class="spec-row"><span class="sk">유량</span><span class="sv">${r.Q_lpm.toFixed(2)} LPM</span></div>
+    <div class="spec-row"><span class="sk">양정</span><span class="sv">${r.H.toFixed(2)} m</span></div>
+    <div class="spec-row"><span class="sk">동력</span><span class="sv">${r.hpStr} HP = ${(selHP(r.P_calc).v*0.7457).toFixed(3)} kW (선정기준)</span></div>
+    <div class="spec-row"><span class="sk">구경</span><span class="sv">Ø ${r.pipe}${r.pipeMain?' / 주Ø'+r.pipeMain:''} mm</span></div>
+    <div class="spec-row"><span class="sk">전원</span><span class="sv">${r.power}</span></div>
+    <div class="spec-row"><span class="sk">수량</span><span class="sv">${r.qty}</span></div>
+    ${isDrain&&r.solidLabel?`<div class="spec-row"><span class="sk">고형물 통과</span><span class="sv">${r.solidLabel}</span></div>`:''}
+    ${isDrain?`<div class="spec-row"><span class="sk">집수정 규격</span><span class="sv">Ø450mm 이상 / 깊이 600mm 이상</span></div>`:''}
+  </div>`; }
+
+/* EPI 정보 박스 빌더 */
+function buildEpiBox(epi){
+  if(!epi) return '';
+  const hasKS=(epi.ks&&epi.ks!=='미선택');
+  const hasCert=(epi.cert&&epi.cert!=='미선택');
+  const hasEff=(epi.effA>0||epi.effB>0);
+  const wAvg=(epi.effA>0&&epi.effB>0)?((epi.effA+epi.effB)/2).toFixed(1):'—';
+  return `<div class="cbox" style="margin-top:8px;border-color:#bfdbfe">
+    <div class="cbox-tit" style="color:#1d4ed8">📋 EPI / 장비선정계산서 정보</div>
+    <div class="crow"><span class="ck">제어방식</span><span class="cv mono" style="color:${epi.score>0?'#15803d':'inherit'}">${epi.ctrl||'미선택'}${epi.score>0?' (+EPI '+epi.score+'점)':''}</span></div>
+    <div class="crow"><span class="ck">KS 인증 규격</span><span class="cv mono" style="color:${hasKS?'#15803d':'#94a3b8'}">${epi.ks}${hasKS?' ✓':' (미입력)'}</span></div>
+    <div class="crow"><span class="ck">고효율 인증</span><span class="cv mono" style="color:${hasCert?'#15803d':'#94a3b8'}">${epi.cert}${hasCert?' ✓':' (미입력)'}</span></div>
+    <div class="crow"><span class="ck">A특성 효율 (최대효율점)</span><span class="cv mono">${epi.effA>0?epi.effA+'%':'미입력'}</span></div>
+    <div class="crow"><span class="ck">B특성 효율 (규정토출량)</span><span class="cv mono">${epi.effB>0?epi.effB+'%':'미입력'}</span></div>
+    <div class="crow total"><span class="ck">A/B 가중평균 효율</span><span class="cv mono" style="color:var(--c-accent)">${wAvg}${wAvg!=='—'?' %':''}</span></div>
+  </div>`;
+}
+
+/* ═══════════════════════════════════════════════
+   서브탭 전환 함수
+═══════════════════════════════════════════════ */
+function switchHeatSub(mode, el){
+  _heatSub=mode;
+  document.querySelectorAll('#pumpHeat .sub-tab').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const isH=(mode==='heat');
+  document.getElementById('h_ico').textContent=isH?'🔴':'🔵';
+  document.getElementById('h_card_tit').textContent=isH?'난방 순환펌프 입력':'냉방 순환펌프 입력';
+  document.getElementById('h_load_lbl').textContent=isH?'난방 부하 (kcal/hr)':'냉방 부하 (kcal/hr)';
+  document.getElementById('h_dt').value=isH?'10':'5';
+  document.getElementById('h_boiler').value=isH?'5':'3';
+  document.getElementById('h_coil_lbl').textContent=isH?'코일 저항 (m)':'코일 저항 (m)';
+  document.getElementById('h_boiler_lbl').textContent=isH?'보일러 저항 (m)':'냉동기 저항 (m)';
+  document.getElementById('h_temp_txt').textContent=isH?'난방: 출구 60℃ / 입구 50℃ → ΔT=10℃':'냉방: 출구 7℃ / 입구 12℃ → ΔT=5℃';
+  document.getElementById('h_btn_ico').textContent=isH?'🔴':'🔵';
+  document.getElementById('h_btn_txt').textContent=isH?'난방 순환펌프 산정':'냉방 순환펌프 산정';
+  document.getElementById('h_badge').textContent='대기'; document.getElementById('h_badge').className='cbadge org';
+  // 기존 결과 표시
+  const existing = RESULTS[mode];
+  if(existing) document.getElementById('heatResult').innerHTML=buildResHtml(existing);
+  else document.getElementById('heatResult').innerHTML=`<div class="result-placeholder"><div class="rph-ico">${isH?'🔴':'🔵'}</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">부하값 입력 후 자동 산정됩니다</div></div>`;
+  if(existing){document.getElementById('h_badge').textContent='완료';document.getElementById('h_badge').className='cbadge grn';}
+  document.getElementById('h_load').value='';
+}
+
+function switchDrainSub(mode, el){
+  _drainSub=mode;
+  document.querySelectorAll('#pumpDrain .sub-tab').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const isPit=(mode==='pit');
+  document.getElementById('d_ico').textContent=isPit?'🏗️':'🌧️';
+  document.getElementById('d_card_tit').textContent=isPit?'PIT 배수펌프 입력':'우수 배수펌프 입력';
+  document.getElementById('d_pit_block').style.display=isPit?'':'none';
+  document.getElementById('d_rain_block').style.display=isPit?'none':'';
+  document.getElementById('d_btn_ico').textContent=isPit?'🏗️':'🌧️';
+  document.getElementById('d_btn_txt').textContent=isPit?'PIT 배수펌프 산정':'우수 배수펌프 산정';
+  document.getElementById('d_badge').textContent='대기'; document.getElementById('d_badge').className='cbadge org';
+  const existing=RESULTS[mode];
+  if(existing) document.getElementById('drainResult').innerHTML=buildResHtml(existing);
+  else document.getElementById('drainResult').innerHTML=`<div class="result-placeholder"><div class="rph-ico">${isPit?'🏗️':'🌧️'}</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">유량값 입력 후 자동 산정됩니다</div></div>`;
+  if(existing){document.getElementById('d_badge').textContent='완료';document.getElementById('d_badge').className='cbadge grn';}
+}
+
+function switchHWSub(mode, el){
+  _hwSub=mode;
+  document.querySelectorAll('#pumpHW .sub-tab').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const isC=(mode==='circ');
+  document.getElementById('hw_ico').textContent=isC?'🔄':'♻️';
+  document.getElementById('hw_card_tit').textContent=isC?'급탕 순환펌프 입력':'급탕 재순환펌프 입력';
+  document.getElementById('hw_circ_block').style.display=isC?'':'none';
+  document.getElementById('hw_recirc_block').style.display=isC?'none':'';
+  document.getElementById('hw_btn_ico').textContent=isC?'🔄':'♻️';
+  document.getElementById('hw_btn_txt').textContent=isC?'급탕 순환펌프 산정':'급탕 재순환펌프 산정';
+  document.getElementById('hw_badge').textContent='대기'; document.getElementById('hw_badge').className='cbadge org';
+  const existing=RESULTS[mode];
+  if(existing) document.getElementById('hwResult').innerHTML=buildResHtml(existing);
+  else document.getElementById('hwResult').innerHTML=`<div class="result-placeholder"><div class="rph-ico">${isC?'🔄':'♻️'}</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">급탕량 입력 후 자동 산정됩니다</div></div>`;
+  if(existing){document.getElementById('hw_badge').textContent='완료';document.getElementById('hw_badge').className='cbadge grn';}
+}
+
+/* ═══════════════════════════════════════════════
+   ★★★ 각 펌프 계산 — RESULTS[key]에 독립 저장 ★★★
+═══════════════════════════════════════════════ */
+
+/* 냉난방 순환펌프 (난방 또는 냉방 — 서브탭에 따라 저장 키 분리) */
+function calcHeat(){
+  const load=n('h_load'); if(!load) return;
+  const key=_heatSub;
+  const isH=(key==='heat');
+  const extra=n('h_extra')/100, dt=n('h_dt')||(isH?10:5);
+  const pLen=n('h_pipelen'), fric=n('h_friction')||0.02;
+  const coil=n('h_coil'), boil=n('h_boiler');
+  const saf=n('h_safety')/100, eta=n('h_eta')||0.4;
+  // ★ emg: 입력값 % → 소수 변환 (10% → 1.10)
+  const emgPct=n('h_emg')||10;
+  const emg=1+(emgPct/100);
+
+  // 전동기 여유율 경고 (15% 초과 시 경고, 20% 초과 시 강경고)
+  const emgWarn=document.getElementById('h_emg_warn');
+  if(emgWarn) emgWarn.style.display=(emgPct>15)?'':'none';
+
+  // hₐ = 0 (밀폐회로), H = 배관손실 + 기기저항 + 안전율
+  const Q=load*(1+extra)/dt/60;
+  const pl=pLen*fric, pa=pLen*fric*0.5;
+  const gearRes=coil+boil; // 기기저항 합계
+  const sub=pl+pa+gearRes, sm=sub*saf, H=sub+sm;
+
+  // 판형 열교환기 차압 경고: 기기저항 합계 > 7.1m (70 kPa)
+  const gearResKpa=gearRes*9.807;
+  // hₒ_warn — 결과 HTML에 포함
+
+  const P=Q*H*emg/(4500*eta), hp=selHP(P), pipe=selPipe(Q), pw=selPW(hp.v);
+  const typeStr=['라인형','입형','횡형'][['line','vert','hori'].indexOf(document.getElementById('h_type').value)]||'라인형';
+
+  // EPI / KS 정보
+  const ctrl=document.getElementById('h_ctrl')?.value||'on_off';
+  const ks=document.getElementById('h_ks')?.value||'none';
+  const cert=document.getElementById('h_cert')?.value||'none';
+  const effA=n('h_eff_a'), effB=n('h_eff_b');
+  const epiCtrl={on_off:'단속운전',inverter:'인버터 가변속 (+EPI 가점)',multi:'대수분할 (+EPI 가점, 예비펌프 생략 가능)'}[ctrl];
+  const epiScore=(ctrl==='on_off')?0:(ctrl==='inverter')?3:2;
+
+  const calcRows=[
+    {k:'밀폐회로 실양정 hₐ',v:'0 m (팽창탱크 설치 폐회로)'},
+    {k:'부하',v:`${load.toLocaleString()} kcal/hr`},{k:'여유율',v:`${(extra*100).toFixed(0)}%`},{k:'ΔT',v:`${dt}℃`},
+    {k:'→ Q',v:`${Q.toFixed(3)} LPM`},
+    {k:'배관손실 (L×R)',v:`${pl.toFixed(3)} m`},{k:'배관부속 (×0.5)',v:`${pa.toFixed(3)} m`},
+    {k:'코일 저항',v:`${coil} m`},{k:isH?'보일러 저항':'냉동기 저항',v:`${boil} m`},
+    {k:'기기저항 합계',v:`${gearRes.toFixed(3)} m (${gearResKpa.toFixed(0)} kPa)${gearResKpa>70?' ⚠️ 70kPa 초과':''}`},
+    {k:'소계',v:`${sub.toFixed(3)} m`},{k:`안전율(${(saf*100).toFixed(0)}%)`,v:`${sm.toFixed(3)} m`},
+    {k:'→ H (전양정)',v:`${H.toFixed(3)} m`},
+    {k:`전동기 여유율(${emgPct}%)`,v:emgPct>15?`⚠️ ${emgPct}% — 권장 초과`:`${emgPct}% (적정)`},
+    {k:'→ P 계산',v:`${P.toFixed(4)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`},
+  ];
+
+  const r={Q_lpm:Q,H,P_calc:P,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:'2대 (1대 예비)',calcRows,
+    typeStr,purpose:isH?'온수 순환 펌프':'냉수 순환 펌프',
+    epi:{ctrl:epiCtrl,score:epiScore,ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB},
+    gearResKpa};
+  RESULTS[key]=r;
+  document.getElementById('h_badge').textContent='완료'; document.getElementById('h_badge').className='cbadge grn';
+  document.getElementById('heatResult').innerHTML=buildResHtml(r)
+    +(gearResKpa>70?`<div class="nb red" style="margin-top:8px"><div class="nb-tit">⚠️ 판형 열교환기 차압 ${gearResKpa.toFixed(0)} kPa — 70 kPa 초과</div><div class="nb-txt">기기저항 합계가 70 kPa을 초과합니다. 에너지 효율 설계 기준 재검토 필요 (보고서 3조).</div></div>`:'')
+    +buildEpiBox(r.epi);
+  updateStatusBar();
+  showToast(`✅ ${isH?'난방':'냉방'} 순환펌프 산정 완료 (${PUMP_ORDER.filter(k=>RESULTS[k]).length}/8)`);
+}
+
+/* 오·배수 펌프 */
+function calcDrain(){
+  const key=_drainSub;
+  const isPit=(key==='pit');
+  let Q_in=0, Q=0, Qnote='';
+  const ht=n('d_height'), pLen=n('d_pipelen'), fric=n('d_friction')||0.05;
+  const saf=n('d_safety')/100, eta=n('d_eta')||0.4;
+  const emgPct=n('d_emg')||10;
+  const emg=1+(emgPct/100);
+
+  // 여유율 경고
+  const emgWarn=document.getElementById('d_emg_warn');
+  if(emgWarn) emgWarn.style.display=(emgPct>15)?'':'none';
+
+  if(isPit){
+    Q_in=n('d_q_pit'); if(!Q_in) return;
+    // ★ 설계 Q = 시간최대 유입량의 200% 이상
+    Q=Q_in*2; Qnote=`${Q_in} LPM×200%`;
+    // 30분 배출 검증
+    const sumpVol=n('d_sump_vol');
+    const warn30=document.getElementById('d_30min_warn');
+    const txt30=document.getElementById('d_30min_txt');
+    if(sumpVol&&warn30&&txt30){
+      const Q_30min=Q*30; // LPM×30min → ℓ
+      if(sumpVol>Q_30min){
+        warn30.style.display='';
+        txt30.textContent=`집수조 ${sumpVol}ℓ를 배출하려면 ${(sumpVol/Q).toFixed(1)}분 소요 → 30분 기준 초과 (기준: 유입량 30분 이내 배출).`;
+      } else { warn30.style.display='none'; }
+    }
+  } else {
+    const rr=n('d_rain_rate'), ar=n('d_floor_area'), cnt=n('d_pump_count')||2;
+    if(!rr||!ar) return; Q=(rr*ar)/60/cnt; Q_in=Q; Qnote=`(${rr}×${ar})÷60÷${cnt}`;
+  }
+
+  const pl=pLen*fric, pa=pLen*fric*0.5, sub=ht+pl+pa, sm=sub*saf, H=sub+sm;
+  const etaA=(key==='rain')?0.30:eta;
+  const P=Q*H*emg/(4500*etaA), hp=selHP(P), pipes=selDPipe(Q), pw=selPW(hp.v);
+
+  // 고형물 통과 직경
+  const solidType=document.getElementById('d_solid_type')?.value||'25';
+  const solidLabel=solidType==='50'?'대변기용 (Ø50mm 이하)':'잡배수용 (Ø25mm 이하)';
+
+  // EPI
+  const ks=document.getElementById('d_ks')?.value||'none';
+  const cert=document.getElementById('d_cert')?.value||'none';
+  const effA=n('d_eff_a'), effB=n('d_eff_b');
+
+  const calcRows=[
+    {k:'종류',v:isPit?'PIT 집수조 배수':'우수 집수조 배수'},
+    ...(isPit?[{k:'시간최대 유입량 Q_in',v:`${Q_in} LPM`},{k:'설계 Q (×200%)',v:`${Q.toFixed(3)} LPM`}]:
+              [{k:`Q (${Qnote})`,v:`${Q.toFixed(3)} LPM`}]),
+    {k:'층고',v:`${ht} m`},{k:'배관손실 (L×R)',v:`${pl.toFixed(3)} m`},{k:'배관부속 (×0.5)',v:`${pa.toFixed(3)} m`},
+    {k:'소계',v:`${sub.toFixed(3)} m`},{k:`안전율(${(saf*100).toFixed(0)}%)`,v:`${sm.toFixed(3)} m`},
+    {k:'→ H',v:`${H.toFixed(3)} m`},{k:`η`,v:`${etaA}`},
+    {k:`전동기 여유율(${emgPct}%)`,v:emgPct>15?`⚠️ 권장 초과`:`적정`},
+    {k:'→ P 계산',v:`${P.toFixed(4)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`},
+  ];
+
+  const r={Q_lpm:Q,H,P_calc:P,hpStr:hp.l,pipe:pipes.p,pipeMain:pipes.m,power:pw,
+    qty:'2대 (순차기동/교대운전)',calcRows,
+    typeStr:'수중형 (Submersible)',purpose:isPit?'집수조 배수 (PIT)':'집수조 배수 (우수)',
+    solidLabel, epi:{ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB,ctrl:'교대운전(2대)',score:0}};
+  RESULTS[key]=r;
+  document.getElementById('d_badge').textContent='완료'; document.getElementById('d_badge').className='cbadge grn';
+  document.getElementById('drainResult').innerHTML=buildResHtml(r,true)+buildEpiBox(r.epi);
+  updateStatusBar();
+  showToast(`✅ ${isPit?'PIT':'우수'} 배수펌프 산정 완료 (${PUMP_ORDER.filter(k=>RESULTS[k]).length}/8)`);
+}
+
+/* 급수·급탕 펌프 */
+function calcHW(){
+  const key=_hwSub;
+  const isC=(key==='circ');
+  let Q=0, Qnote='';
+  const R=n('hw_R'), I=n('hw_I'), K=n('hw_K');
+  const eta=n('hw_eta')||0.35;
+  const emgPct=n('hw_emg')||10;
+  const emg=1+(emgPct/100);
+
+  const emgWarn=document.getElementById('hw_emg_warn');
+  if(emgWarn) emgWarn.style.display=(emgPct>15)?'':'none';
+
+  if(isC){ const mf=n('hw_max_flow'); if(!mf) return; Q=mf/2/60; Qnote=`${mf}÷2÷60`; }
+  else { const st=n('hw_storage'), to=n('hw_t_out')||60, tc=n('hw_t_cool')||5; if(!st) return; Q=st/(to-tc); Qnote=`${st}÷(${to}-${tc})`; }
+  if(!I) return;
+  const H=R*I*(1+K)/1000;
+  const P=Q*H*emg/(4500*eta), hp=selHP(P), pipe=selPipe(Q), pw=selPW(hp.v);
+
+  // EPI
+  const ctrl=document.getElementById('hw_ctrl')?.value||'on_off';
+  const ks=document.getElementById('hw_ks')?.value||'none';
+  const cert=document.getElementById('hw_cert')?.value||'none';
+  const effA=n('hw_eff_a'), effB=n('hw_eff_b');
+  const epiCtrl={on_off:'단속운전',inverter:'인버터 가변속 (+EPI 가점)',multi:'대수분할 (+EPI 가점)'}[ctrl];
+  const epiScore=(ctrl==='on_off')?0:(ctrl==='inverter')?3:2;
+
+  const calcRows=[
+    {k:'종류',v:isC?'급탕 순환펌프':'급탕 재순환펌프'},{k:`Q (${Qnote})`,v:`${Q.toFixed(3)} LPM`},
+    {k:'R',v:`${R} mmAq/m`},{k:'I',v:`${I} m`},{k:'K',v:`${K}`},
+    {k:'→ H',v:`${R}×${I}×(1+${K})÷1000 = ${H.toFixed(3)} m`},
+    {k:'η',v:`${eta}`},{k:`전동기 여유율(${emgPct}%)`,v:emgPct>15?'⚠️ 권장 초과':'적정'},
+    {k:'→ P 계산',v:`${P.toFixed(4)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`}
+  ];
+  const r={Q_lpm:Q,H,P_calc:P,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:'2대 (1대 예비)',calcRows,
+    typeStr:'라인형',purpose:isC?'급탕 순환용 (저탕조↔기구)':'급탕 재순환용 (보일러↔저탕조)',
+    epi:{ctrl:epiCtrl,score:epiScore,ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB}};
+  RESULTS[key]=r;
+  document.getElementById('hw_badge').textContent='완료'; document.getElementById('hw_badge').className='cbadge grn';
+  document.getElementById('hwResult').innerHTML=buildResHtml(r)+buildEpiBox(r.epi);
+  updateStatusBar();
+  showToast(`✅ ${isC?'급탕 순환':'급탕 재순환'}펌프 산정 완료 (${PUMP_ORDER.filter(k=>RESULTS[k]).length}/8)`);
+}
+
+function setHWScale(s,el){ document.querySelectorAll('#hw_scale_seg .seg-btn').forEach(b=>b.classList.remove('active')); el.classList.add('active'); if(s==='small'){document.getElementById('hw_R').value='20';document.getElementById('hw_K').value='1.0';document.getElementById('hw_K_hint').textContent='소규모:1.0~1.5';}else{document.getElementById('hw_R').value='20';document.getElementById('hw_K').value='0.75';document.getElementById('hw_K_hint').textContent='대규모:0.5~1.0';} calcHW(); }
+
+/* ═══════════════════════════════════════════════
+   급수 펌프 서브탭 전환
+   ws_hoist: 고가수조 양수펌프
+   ws_boost: 자동부스터 급수펌프
+═══════════════════════════════════════════════ */
+function switchWSSub(mode, el){
+  _wsSub=mode;
+  document.querySelectorAll('#pumpWS .sub-tab').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const isH=(mode==='ws_hoist');
+  document.getElementById('ws_ico').textContent=isH?'🏢':'⚡';
+  document.getElementById('ws_card_tit').textContent=isH?'고가수조용 양수펌프 입력':'자동부스터 급수펌프 입력';
+  document.getElementById('ws_hoist_block').style.display=isH?'':'none';
+  document.getElementById('ws_boost_block').style.display=isH?'none':'';
+  document.getElementById('ws_h_sec').textContent=isH
+    ?'② 양정 — 실양정 + 배관손실 + 최저필요수압'
+    :'② 양정 — 실양정 + 배관손실 + 말단기구 최저필요수압';
+  document.getElementById('ws_btn_ico').textContent=isH?'🏢':'⚡';
+  document.getElementById('ws_btn_txt').textContent=isH?'고가수조 양수펌프 산정':'자동부스터 급수펌프 산정';
+  document.getElementById('ws_badge').textContent='대기';
+  document.getElementById('ws_badge').className='cbadge org';
+  const existing=RESULTS[mode];
+  if(existing) document.getElementById('wsResult').innerHTML=buildResHtml(existing);
+  else document.getElementById('wsResult').innerHTML=`<div class="result-placeholder"><div class="rph-ico">${isH?'🏢':'⚡'}</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">급수량 입력 후 자동 산정됩니다</div></div>`;
+  if(existing){document.getElementById('ws_badge').textContent='완료';document.getElementById('ws_badge').className='cbadge grn';}
+  document.getElementById('ws_550_warn').style.display='none';
+  const wsEW=document.getElementById('ws_emg_warn'); if(wsEW) wsEW.style.display='none';
+}
+
+/* ═══════════════════════════════════════════════
+   급수 펌프 계산 — 별표 5 2.1.3
+   H = hₐ(실양정) + hpv(배관마찰) + hₒ(말단기구최저수압) + 안전율
+   [고가수조] Q = 시간최대급수량(ℓ/hr) ÷ 60 → LPM
+   [자동부스터] 각 펌프 Q = 순간최대급수량(LPM) ÷ 운전대수
+   ⚠️ 말단기구 수압 ≥ 550 kPa(56.1m) → 감압밸브 경고
+═══════════════════════════════════════════════ */
+function calcWS(){
+  const key=_wsSub; // 'ws_hoist' 또는 'ws_boost'
+  const isH=(key==='ws_hoist');
+  let Q=0, Qnote='', totalQ=0, pumpCnt=1;
+
+  // ① 유량 산정
+  if(isH){
+    const qhr=n('ws_h_q'); if(!qhr) return;
+    Q=qhr/60; Qnote=`${qhr}ℓ/hr÷60`; totalQ=Q;
+  } else {
+    const qmin=n('ws_b_q'); if(!qmin) return;
+    pumpCnt=Math.max(2, n('ws_b_cnt')||2);
+    totalQ=qmin; Q=qmin/pumpCnt;
+    Qnote=`${qmin}÷${pumpCnt}(대)`;
+  }
+
+  // ② 양정 산정: H = hₐ + hpv + hₒ + 안전율
+  const ha=n('ws_ha');          // 실양정
+  const pLen=n('ws_pipelen');
+  const fric=n('ws_friction')||0.03;
+  const ho=n('ws_ho')||5.6;     // 말단기구 최저필요수압 (m환산)
+  const saf=n('ws_safety')/100;
+  const eta=n('ws_eta')||0.55;
+  const emgPct=n('ws_emg')||10;
+  const emg=1+(emgPct/100);
+
+  // 여유율 경고
+  const wsEmgWarn=document.getElementById('ws_emg_warn');
+  if(wsEmgWarn) wsEmgWarn.style.display=(emgPct>15)?'':'none';
+
+  const pl=pLen*fric;           // 직관 마찰손실
+  const pa=pLen*fric*0.5;       // 배관부속 (직관의 50%)
+  const hpv=pl+pa;              // 배관마찰손실 합계
+  const sub=ha+hpv+ho;          // 실양정+배관마찰+말단수압
+  const sm=sub*saf;             // 안전율
+  const H=sub+sm;               // 전양정
+
+  // ③ 동력
+  const P=Q*H*emg/(4500*eta);
+  const hp=selHP(P);
+  const pipe=selPipe(Q);
+  const pw=selPW(hp.v);
+
+  // ④ 550 kPa(56.1m) 경고 판정 — 말단기구 수압 기준 (ho 값으로 판정)
+  const ho_kpa=ho*9.807; // m→kPa 환산
+  const warn=document.getElementById('ws_550_warn');
+  if(warn) warn.style.display=(ho_kpa>=550)?'':'none';
+
+  const calcRows=[
+    {k:'방식',v:isH?'고가수조 양수펌프':'자동부스터 급수펌프'},    {k:isH?'시간최대급수량':'순간최대급수량',v:isH?`${n('ws_h_q').toLocaleString()} ℓ/hr`:`${totalQ} LPM`},
+    {k:'운전대수',v:`${pumpCnt} 대`},
+    {k:`→ 펌프 Q (${Qnote})`,v:`${Q.toFixed(3)} LPM`},
+    {k:'실양정 hₐ',v:`${ha} m`},
+    {k:'배관손실 (L×R)',v:`${pl.toFixed(3)} m`},
+    {k:'배관부속 (×0.5)',v:`${pa.toFixed(3)} m`},
+    {k:'말단기구 최저수압 hₒ',v:`${ho} m (${ho_kpa.toFixed(0)} kPa)`},
+    {k:'소계 (hₐ+hpv+hₒ)',v:`${sub.toFixed(3)} m`},
+    {k:`안전율 (${(saf*100).toFixed(0)}%)`,v:`${sm.toFixed(3)} m`},
+    {k:'→ 전양정 H',v:`${H.toFixed(3)} m`},
+    {k:'펌프 효율 η',v:`${eta}`},
+    {k:`전동기 여유율(${emgPct}%)`,v:emgPct>15?`⚠️ ${emgPct}% — 권장 초과`:`${emgPct}% (적정)`},
+    {k:'→ P 계산',v:`${P.toFixed(4)} HP`},
+    {k:'→ 선정동력',v:`${hp.l} HP`},
+  ];
+
+  const typeStr=isH?'입형 다단 원심펌프':'부스터 유닛 (병렬)';
+  const purpose=isH?'고가수조 양수 (급수용)':'자동부스터 급수';
+  const qtyStr=isH?'2대 (1대 예비)':pumpCnt+'대 병렬 (교번운전)';
+
+  const r={Q_lpm:Q,H,P_calc:P,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:qtyStr,calcRows,
+    typeStr,purpose,
+    // 급수펌프 추가 정보
+    totalQ,pumpCnt,ha,hpv:hpv.toFixed(3),ho,H_total:H.toFixed(3),
+    warn550:(ho_kpa>=550)
+  };
+
+  RESULTS[key]=r; // ★ 독립 저장
+  document.getElementById('ws_badge').textContent='완료';
+  document.getElementById('ws_badge').className='cbadge grn';
+  document.getElementById('wsResult').innerHTML=buildResHtml(r)
+    +(r.warn550?`<div class="nb red" style="margin-top:8px"><div class="nb-tit">⚠️ 감압밸브(PRV) 필수</div><div class="nb-txt">말단기구 수압 ${ho_kpa.toFixed(0)} kPa ≥ 550 kPa<br>별표 5 2.1.7에 따라 감압밸브 또는 급수 조닝 필수</div></div>`:'');
+  updateStatusBar();
+  showToast(`✅ ${isH?'고가수조 양수':'자동부스터 급수'}펌프 산정 완료 (${PUMP_ORDER.filter(k=>RESULTS[k]).length}/8)`);
+}
+
+/* ── 초기화 ── */
+function resetAll(){
+  PUMP_ORDER.forEach(k=>RESULTS[k]=null);
+  document.querySelectorAll('.finput').forEach(el=>{
+    const keep=['h_extra','h_friction','h_coil','h_boiler','h_safety','h_eta','h_emg',
+                'd_friction','d_safety','d_eta','d_emg',
+                'hw_R','hw_K','hw_eta','hw_emg','hw_t_out','hw_t_cool','d_pump_count',
+                'ws_friction','ws_safety','ws_eta','ws_emg','ws_ho','ws_b_cnt'];
+    if(!keep.includes(el.id)) el.value='';
+  });
+  // 모든 경고창 숨기기
+  ['h_emg_warn','d_emg_warn','d_30min_warn','hw_emg_warn','ws_emg_warn','ws_550_warn'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.style.display='none';
+  });
+  ['heatResult','drainResult','hwResult','wsResult'].forEach(id=>{
+    const ico={heatResult:'🌡️',drainResult:'🚰',hwResult:'🔥',wsResult:'🚿'};
+    document.getElementById(id).innerHTML=`<div class="result-placeholder"><div class="rph-ico">${ico[id]}</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">입력값을 입력하면 자동 산정됩니다</div></div>`;
+  });
+  ['h_badge','d_badge','hw_badge','ws_badge'].forEach(id=>{ const el=document.getElementById(id); if(el){el.textContent='대기';el.className='cbadge org';} });
+  ['stb_heat','stb_cool','stb_pit','stb_rain','stb_circ','stb_recirc','stb_ws_hoist','stb_ws_boost'].forEach(id=>{ const el=document.getElementById(id); if(el) el.classList.remove('done-badge'); });
+  updateStatusBar();
+  document.getElementById('a4ResultBody').innerHTML='<div style="text-align:center;padding:40px;color:#94a3b8;font-size:11px">※ 펌프 용량 산정 탭에서 각 펌프를 산정하면 자동으로 표시됩니다.</div>';
+  buildSummaryCards();
+  showToast('🔄 초기화 완료');
+}
+
+/* ── DOMContentLoaded ── */
+document.addEventListener('DOMContentLoaded',()=>{
+  const d=document.getElementById('bs_date'); if(d) d.value=today();
+  proj.date=today();
+  document.getElementById('projDateDisplay').textContent=today();
+  document.getElementById('bs_name').value=proj.name;
+  document.getElementById('bs_author').value=proj.author;
+  document.getElementById('a4ProjNameOut').textContent=proj.name;
+  document.getElementById('a4AuthorOut').textContent=proj.author;
+  document.getElementById('a4DateOut').textContent=today();
+  buildSummaryCards();
+  setTimeout(scaleA4,100);
+});
+
+/* ══ PWA ══ */
+(function(){
+  var _p=null,_sr=null,_dis=false;
+  /* ════════════════════════════════════════════════
+   PWA — Service Worker 등록 + 설치 프롬프트 완전 구현
+   MANMIN-Ver2.0 | Engineer Kim Manmin
+════════════════════════════════════════════════ */
+(function() {
+  'use strict';
+
+  var _deferredPrompt = null;   /* beforeinstallprompt 이벤트 저장 */
+  var _swReg          = null;   /* Service Worker 등록 참조 */
+  var _dismissed      = false;  /* 배너 닫음 여부 */
+  var _installed      = false;  /* 설치 완료 여부 */
+
+  /* ── Service Worker 등록 ── */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('./sw.js', { scope: './' })
+        .then(function(reg) {
+          _swReg = reg;
+          console.log('[PWA] ✅ SW 등록 완료 | scope:', reg.scope);
+
+          /* 업데이트 감지 */
+          reg.addEventListener('updatefound', function() {
+            var newWorker = reg.installing;
+            if (!newWorker) return;
+            newWorker.addEventListener('statechange', function() {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                console.log('[PWA] 🔄 새 버전 감지');
+                var bar = document.getElementById('pwaUpdateBar');
+                if (bar) bar.classList.add('show');
+              }
+            });
+          });
+
+          /* SW 체크 — 24시간마다 */
+          setInterval(function() { reg.update(); }, 24 * 60 * 60 * 1000);
+        })
+        .catch(function(err) {
+          console.info('[PWA] SW 등록 실패 (로컬 파일 실행 시 정상):', err.message);
+        });
+
+      /* controllerchange 시 자동 새로고침 */
+      navigator.serviceWorker.addEventListener('controllerchange', function() {
+        if (!window._pwaReloading) {
+          window._pwaReloading = true;
+          console.log('[PWA] 🔄 새 SW 활성화 — 페이지 새로고침');
+          location.reload();
+        }
+      });
+    });
+  }
+
+  /* ── beforeinstallprompt — 설치 가능 시점 감지 ── */
+  window.addEventListener('beforeinstallprompt', function(e) {
+    e.preventDefault();
+    _deferredPrompt = e;
+    console.log('[PWA] 📲 설치 프롬프트 준비 완료');
+
+    /* 헤더 설치 버튼 표시 */
+    var btn = document.getElementById('btnPwaInstall');
+    if (btn) {
+      btn.classList.add('show');
+      /* 펄스 애니메이션으로 주의 유도 */
+      btn.style.animation = 'pwa-btn-appear .4s ease, pwa-pulse 2s ease-in-out 1s 3';
+    }
+
+    /* 배너 표시 (2초 후, 닫지 않은 경우만) */
+    if (!_dismissed && !sessionStorage.getItem('pwa-dismissed')) {
+      setTimeout(function() {
+        if (!_installed) {
+          var banner = document.getElementById('pwaBanner');
+          if (banner) banner.classList.add('show');
+        }
+      }, 2000);
+    }
+  });
+
+  /* ── 설치 실행 함수 ── */
+  function _triggerInstall() {
+    if (!_deferredPrompt) {
+      /* 이미 설치됐거나 지원 안 됨 */
+      _showToastPwa('이미 설치되었거나 이 브라우저에서는 지원되지 않습니다.');
+      return;
+    }
+    var banner = document.getElementById('pwaBanner');
+    if (banner) banner.classList.remove('show');
+
+    _deferredPrompt.prompt();
+    _deferredPrompt.userChoice.then(function(result) {
+      console.log('[PWA] 사용자 선택:', result.outcome);
+      if (result.outcome === 'accepted') {
+        console.log('[PWA] ✅ 설치 수락');
+      } else {
+        console.log('[PWA] ❌ 설치 취소');
+        /* 취소 시 배너 잠시 후 재표시 */
+        sessionStorage.setItem('pwa-dismissed', '1');
+      }
+      _deferredPrompt = null;
+    });
+  }
+
+  /* ── 공개 함수 ── */
+  window.pwaTriggerInstall = _triggerInstall;
+
+  window.pwaDismissBanner = function() {
+    _dismissed = true;
+    sessionStorage.setItem('pwa-dismissed', '1');
+    var banner = document.getElementById('pwaBanner');
+    if (!banner) return;
+    banner.style.transition = 'transform .32s cubic-bezier(.32,1,.5,1), opacity .28s';
+    banner.style.transform  = 'translateY(110%)';
+    banner.style.opacity    = '0';
+    setTimeout(function() {
+      banner.classList.remove('show');
+      banner.style.cssText = '';
+    }, 350);
+  };
+
+  window.pwaApplyUpdate = function() {
+    var bar = document.getElementById('pwaUpdateBar');
+    if (bar) bar.classList.remove('show');
+    if (_swReg && _swReg.waiting) {
+      _swReg.waiting.postMessage({ type: 'SKIP_WAITING' });
+    }
+  };
+
+  /* ── 배너 버튼 이벤트 ── */
+  document.addEventListener('DOMContentLoaded', function() {
+    var bannerBtn = document.getElementById('btnBannerInstall');
+    if (bannerBtn) {
+      bannerBtn.addEventListener('click', function() {
+        _triggerInstall();
+      });
+    }
+  });
+
+  /* ── appinstalled 이벤트 ── */
+  window.addEventListener('appinstalled', function() {
+    _installed = true;
+    _deferredPrompt = null;
+    console.log('[PWA] 🎉 앱 설치 완료');
+
+    /* 헤더 버튼 + 배너 숨김 */
+    var btn    = document.getElementById('btnPwaInstall');
+    var banner = document.getElementById('pwaBanner');
+    if (btn)    btn.classList.remove('show');
+    if (banner) banner.classList.remove('show');
+
+    /* 완료 토스트 */
+    _showToastPwa('✅ 홈 화면에 설치 완료! 앱으로 바로 실행할 수 있습니다.');
+
+    /* 완료 토스트 (기존 UI) */
+    var done = document.getElementById('pwaDoneToast');
+    if (done) {
+      done.classList.add('show');
+      setTimeout(function() { done.classList.remove('show'); }, 4000);
+    }
+  });
+
+  /* ── 이미 설치된 경우 감지 ── */
+  if (window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true) {
+    _installed = true;
+    console.log('[PWA] 📱 독립 실행형(앱) 모드로 실행 중');
+    document.documentElement.classList.add('pwa-standalone');
+  }
+
+  /* ── 유틸 ── */
+  function _showToastPwa(msg) {
+    var t = document.getElementById('toastEl');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 3500);
+  }
+})();
+  if(window.matchMedia('(display-mode:standalone)').matches||navigator.standalone)_hu();
+  function _hu(){var b=document.getElementById('btnPwaInstall'),n=document.getElementById('pwaBanner');if(b)b.classList.remove('show');if(n)n.classList.remove('show');}
+  function _dt(){var t=document.getElementById('pwaDoneToast');if(!t)return;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3500);}
+  function _nt(m,tp){var t=document.getElementById('netToast');if(!t)return;t.textContent=m;t.className='net-toast show'+(tp?' '+tp:'');setTimeout(function(){t.classList.remove('show');},3000);}
+  window.addEventListener('offline',function(){_nt('📡 오프라인 — 캐시 데이터로 동작합니다','');});
+  window.addEventListener('online',function(){_nt('✅ 온라인 연결됨','online');});
+  if(!navigator.onLine)setTimeout(function(){_nt('📡 오프라인 캐시 동작','');},1200);
+})();
+</script>
+</body>
+</html>
