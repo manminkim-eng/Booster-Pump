@@ -496,12 +496,12 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
 
 /* A4 */
 .a4-actions{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
-.a4-preview-wrap{background:#94a3b8;padding:20px;border-radius:12px;min-height:400px;display:flex;justify-content:center;overflow-x:hidden}
+.a4-preview-wrap{background:#94a3b8;padding:20px 0;border-radius:12px;min-height:400px;display:block;overflow-x:hidden;position:relative;}
 @media(max-width:640px){
-  .a4-preview-wrap{padding:8px 4px;border-radius:8px}
+  .a4-preview-wrap{padding:8px 0;border-radius:8px}
   .a4-page{border-radius:0}
 }
-.a4-page{background:#fff;width:794px;padding:24px 28px;box-shadow:0 4px 24px rgba(0,0,0,.3);transform-origin:top center;border-radius:4px}
+.a4-page{background:#fff;width:794px;padding:24px 28px;box-shadow:0 4px 24px rgba(0,0,0,.3);transform-origin:top left;border-radius:4px;position:relative;}
 .a4-print-wrapper{display:none}
 @media print{
   .app-header,.tab-bar,.hdr-btns,.pwa-banner,.pwa-update-bar,.net-toast,.no-print,.fab,.bs-overlay,.bottom-sheet,.modal-ov{display:none!important}
@@ -1777,29 +1777,24 @@ function scaleA4(){
   const p = document.getElementById('a4Page');
   if(!w || !p) return;
 
-  const wrapW = w.clientWidth;
-  const isMobile = wrapW < 640;
+  const A4W   = 794;
+  /* getBoundingClientRect: 소수점 포함 정밀 너비 (padding 영향 없음) */
+  const outerW = w.getBoundingClientRect().width;
+  const scale   = Math.min(1, outerW / A4W);
+  const scaledW = A4W * scale;
+  /* 정중앙 오프셋: (전체너비 - 축소된너비) / 2 */
+  const offset  = Math.max(0, (outerW - scaledW) / 2);
 
-  if(isMobile){
-    /* 모바일: wrap 폭에 꽉 차게 스케일 → A4 비율(1:√2 = 1:1.4142) 유지 */
-    const availW = wrapW - 16; /* 좌우 패딩 8px */
-    const s = availW / 794;
-    p.style.transform = `scale(${s})`;
-    p.style.transformOrigin = 'top center';
-    p.style.width = '794px';
-    /* 스케일 후 실제 차지 높이 보정 */
-    const scaledH = p.offsetHeight * s;
-    w.style.minHeight = scaledH + 'px';
-    p.style.marginBottom = (scaledH - p.offsetHeight) + 'px';
-  } else {
-    /* 데스크탑/태블릿: 최대 1.0 스케일 */
-    const s = Math.min(1, (wrapW - 40) / 794);
-    p.style.transform = `scale(${s})`;
-    p.style.transformOrigin = 'top center';
-    p.style.width = '794px';
-    w.style.minHeight = '';
-    p.style.marginBottom = `${p.offsetHeight * s - p.offsetHeight}px`;
-  }
+  p.style.width           = A4W + 'px';
+  p.style.transformOrigin = 'top left';
+  p.style.transform       = `translateX(${offset}px) scale(${scale})`;
+  p.style.marginBottom    = '';
+
+  /* wrap 높이 = 스케일된 실제 높이 + 상하 여백 40px */
+  requestAnimationFrame(function(){
+    const scaledH = p.scrollHeight * scale;
+    w.style.minHeight = (scaledH + 40) + 'px';
+  });
 }
 window.addEventListener('resize', scaleA4);
 
