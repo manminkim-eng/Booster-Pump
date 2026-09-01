@@ -621,7 +621,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
   #tabA4{display:block!important}
   .a4-summary-grid,.a4-actions,.a4-print-wrapper{display:none!important}
   .a4-preview-wrap{background:#fff!important;padding:0!important;min-height:unset!important;border-radius:0!important;display:block!important;overflow:visible!important}
-  .a4-scale-wrap{transform:none!important;margin:0!important}
+  .a4-scale-wrap{transform:none!important;margin:0!important;height:auto!important;width:auto!important;max-width:none!important;}
   /* v5.0 — 여백은 @page 하나로만 일원화한다(§3-4-1). .a4-page 자체 패딩은 인쇄 시 해제. */
   /* ⛔ v5.0 — 인쇄에서 font-size 를 따로 강제하지 않는다.
      화면 미리보기와 여백을 1:1 로 맞춘 마당에(§3-4-1) 글자만 줄이면 두 결과가 어긋난다. */
@@ -1923,12 +1923,26 @@ function mmBlocks(page){
     var mb=parseFloat(getComputedStyle(el).marginBottom)||0;
     out.push({top:b.top-pr.top, bot:b.bottom-pr.top+mb});
   }
+  /* ⛔ 섹션 제목(.a4-section-tit)은 바로 뒤 결과 본문과 한 덩어리로 묶는다.
+     묶지 않으면 제목만 앞 쪽 끝에 남는다. 인쇄의 page-break-after:avoid 와 같은 동작. */
+  var pendTitle=false;
   Array.prototype.forEach.call(page.children, function(ch){
+    if(ch.classList.contains('a4-section-tit')){ push(ch); pendTitle=true; return; }
     if(ch.id==='a4ResultBody'){
       var secs=ch.querySelectorAll('.a4-pump-sec');
-      if(secs.length) Array.prototype.forEach.call(secs, push);
-      else push(ch);
-    } else push(ch);
+      if(secs.length){
+        Array.prototype.forEach.call(secs, push);
+        /* 제목 블록을 첫 펌프 섹션에 흡수시킨다 */
+        if(pendTitle && out.length>=2){
+          var first=out[out.length-secs.length], tit=out[out.length-secs.length-1];
+          if(tit && first){ first.top=tit.top; out.splice(out.length-secs.length-1,1); }
+        }
+      } else push(ch);
+      pendTitle=false;
+      return;
+    }
+    pendTitle=false;
+    push(ch);
   });
   out.sort(function(a,b){ return a.top-b.top; });
   return out;

@@ -9,10 +9,14 @@
           그 상태에서는 index.html 을 수정·배포해도 캐시명을 올리기 전에는
           사용자 화면에 영구히 반영되지 않는다(§11-2 ①②).
    ⛔ navigate 분기를 제거하지 말 것. 제거하면 배포가 화면에 반영되지 않는다.
+   [변경] 캐시 삭제 범위를 자기 접두어(PREFIX)로 한정했다.
+          caches.keys() 는 origin 전체를 반환해, 종전 `k !== CACHE` 필터는
+          같은 origin 의 나머지 38종 캐시를 전부 지웠다.
    ⛔ cache.addAll 은 원자적이다. 목록 중 하나라도 404 면 설치가 통째로 실패해
       SW 가 아예 안 붙는다 → allSettled + 개별 catch 로 감쌌다(§11-3).
 ═══════════════════════════════════════════════════ */
-const CACHE = 'pump-v5.0.2';
+const PREFIX = 'pump-';
+const CACHE = 'pump-v5.0.4';
 const ASSETS = [
   './',
   './index.html',
@@ -48,7 +52,10 @@ self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
       .then(keys => Promise.all(
-        keys.filter(k => k !== CACHE)
+        /* ⛔ 자기 접두어만 지운다. caches.keys() 는 origin 전체를 반환하므로
+           manminkim-eng.github.io 를 39종이 공유하는 이 구조에서 무조건 지우면
+           나머지 38종의 캐시를 통째로 날린다. */
+        keys.filter(k => k !== CACHE && k.indexOf(PREFIX) === 0)
             .map(k => { console.log('[SW] 구버전 캐시 삭제:', k); return caches.delete(k); })
       ))
       .then(() => self.clients.claim())
