@@ -614,7 +614,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
     font-family:'Orbitron',sans-serif;font-size:8pt;font-weight:700;
     color:#9CA3AF;letter-spacing:.06em;z-index:9999;}
   html,body{background:#fff!important;margin:0;padding:0}
-  .hdr-shell,.app-header,.tab-bar,.hdr-btns,.pwa-banner,.pwa-update-bar,.net-toast,.no-print,.fab-wrap,.bs-overlay,.bottom-sheet,.modal-ov,.mp-modal-ov,#mm-save-ov,.toast{display:none!important}
+  .hdr-shell,.app-header,.tab-bar,.hdr-btns,.pwa-banner,.pwa-update-bar,.net-toast,.no-print,.fab-wrap,.bs-overlay,.bottom-sheet,.modal-ov,#mm-save-ov,.toast{display:none!important}
   /* ⛔ v5.0 — 컨테이너 패딩이 남으면 A4 가 아래로 밀린다(§16-15). 숨길 수 없는 조상은 패딩만 해제한다. */
   .main-wrap{padding:0!important;margin:0!important;max-width:none!important}
   .tab-panel{display:none!important}
@@ -660,49 +660,6 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
 .a4-calc-row:last-child{border-bottom:none;font-weight:700}
 .a4-law{padding-top:7px;border-top:1px solid #e2e8f0;font-size:10px;color:#94a3b8;margin-top:7px}
 
-/* ════════════════════════════════════════════════
-   Galaxy S24 Ultra 모바일 미리보기
-   실제 규격: 6.8인치 QHD+ (3088×1440) | CSS: 360×773px
-════════════════════════════════════════════════ */
-.mp-modal-ov{display:none;position:fixed;inset:0;background:rgba(5,10,20,.88);z-index:1100;align-items:center;justify-content:center;padding:12px}
-.mp-modal-ov.open{display:flex}
-.mp-wrap{display:flex;flex-direction:column;align-items:center;gap:0;max-height:98vh}
-.mp-hd{width:100%;max-width:400px;padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.06);border-radius:14px 14px 0 0;border:1px solid rgba(255,255,255,.1);border-bottom:none}
-.mp-tit{font-weight:800;font-size:13px;color:#fff;display:flex;align-items:center;gap:6px}
-.mp-tit-badge{font-size:9px;font-weight:700;background:rgba(99,179,237,.2);color:#90cdf4;padding:2px 7px;border-radius:10px;border:1px solid rgba(99,179,237,.3)}
-.mp-cls{background:rgba(255,255,255,.12);border:none;color:#fff;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.15s;line-height:1}
-.mp-cls:hover{background:rgba(255,255,255,.25)}
-/* S24 Ultra 본체 */
-.s24-frame{position:relative;width:360px;background:linear-gradient(160deg,#1a1a1a 0%,#0d0d0d 40%,#1c1c1c 100%);border-radius:42px;border:1px solid #2a2a2a;box-shadow:0 0 0 1px #444,0 0 0 2px #1a1a1a,0 0 0 4px #333,0 20px 60px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.07);padding:14px 10px;flex-shrink:0}
-.s24-frame::before{content:'';position:absolute;top:12px;left:0;bottom:12px;width:3px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.08) 30%,rgba(255,255,255,.12) 50%,rgba(255,255,255,.08) 70%,transparent);border-radius:42px 0 0 42px}
-.s24-frame::after{content:'';position:absolute;top:12px;right:0;bottom:12px;width:3px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.06) 30%,rgba(255,255,255,.1) 50%,rgba(255,255,255,.06) 70%,transparent);border-radius:0 42px 42px 0}
-.s24-camera-bar{height:28px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;flex-shrink:0;position:relative}
-.s24-punch{width:10px;height:10px;background:radial-gradient(circle at 35% 35%,#2a2a2a,#000);border-radius:50%;box-shadow:0 0 0 1px #1a1a1a,0 0 6px rgba(0,0,0,.8)}
-.s24-btn-vol{position:absolute;left:-13px;top:72px;width:4px;height:32px;background:linear-gradient(90deg,#222,#333,#222);border-radius:2px 0 0 2px}
-.s24-btn-vol2{position:absolute;left:-13px;top:114px;width:4px;height:32px;background:linear-gradient(90deg,#222,#333,#222);border-radius:2px 0 0 2px}
-.s24-btn-pwr{position:absolute;right:-13px;top:96px;width:4px;height:44px;background:linear-gradient(270deg,#222,#333,#222);border-radius:0 2px 2px 0}
-.s24-spen{position:absolute;right:-13px;bottom:28px;width:4px;height:16px;background:linear-gradient(270deg,#1a1a1a,#2a2a2a);border-radius:0 2px 2px 0}
-/* 화면: 340×680px */
-.s24-screen{width:340px;height:680px;background:#fff;border-radius:32px;overflow:hidden;position:relative;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
-.s24-statusbar{position:absolute;top:0;left:0;right:0;height:28px;background:linear-gradient(180deg,rgba(29,78,216,.95),rgba(29,78,216,.8));display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:10;flex-shrink:0}
-.s24-time{font-size:11px;font-weight:700;color:#fff;font-family:var(--mono)}
-.s24-icons{font-size:10px;color:rgba(255,255,255,.9);display:flex;gap:3px;align-items:center}
-.s24-content{position:absolute;top:28px;left:0;right:0;bottom:18px;overflow-y:auto;overflow-x:hidden;background:#fff;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.s24-content::-webkit-scrollbar{display:none}
-.s24-home-bar{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:96px;height:4px;background:rgba(0,0,0,.18);border-radius:2px;pointer-events:none;z-index:10}
-.s24-inner{padding:10px 10px 20px;font-size:12px}
-.mp-footer{width:100%;max-width:400px;display:flex;gap:8px;padding:10px 16px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-top:none;border-radius:0 0 14px 14px;flex-wrap:wrap}
-.mp-btn{flex:1;min-width:100px;padding:10px;border:none;border-radius:9px;font-size:12px;font-family:var(--font);font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:.18s}
-.mp-btn.jpg{background:var(--c-primary);color:#fff;box-shadow:0 2px 8px rgba(29,78,216,.4)}
-.mp-btn.jpg:hover{background:var(--c-primary2);transform:translateY(-1px)}
-.mp-btn.share{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.2)}
-.mp-btn.share:hover{background:rgba(255,255,255,.25)}
-/* 소형 화면 축소 */
-@media(max-width:420px){.s24-frame{transform:scale(.88);transform-origin:top center;margin-bottom:-50px}}
-/* §3-9 예외 — S24 프레임은 360px 고정폭 실물 모형이라 화면이 좁을수록 더 줄여야 한다.
-   420 으로 병합하면 .88/.78 이 같은 분기에서 충돌해 초소형 화면에서 잘린다. 원형 보존. */
-@media(max-width:360px){.s24-frame{transform:scale(.78);transform-origin:top center;margin-bottom:-80px}}
-@media(max-height:700px){.s24-screen{height:480px}}
 
 /* PWA */
 .pwa-banner{position:fixed;bottom:-110px;left:0;right:0;background:#fff;border-top:1px solid var(--c-border);padding:12px 16px;display:flex;align-items:center;gap:10px;z-index:900;box-shadow:0 -4px 16px rgba(0,0,0,.12);transition:bottom .35s ease}
@@ -796,8 +753,8 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
 <nav class="tab-bar">
   <div class="tab-bar-inner">
     <button class="tb active" onclick="switchTab('tabCalc',this)">🔧 펌프 용량 산정</button>
-    <button class="tb" onclick="switchTab('tabA4',this)">📄 A4 미리보기</button>
     <button class="tb" onclick="switchTab('tabRef',this)">📋 기준표</button>
+    <button class="tb" onclick="switchTab('tabA4',this)">📄 A4 미리보기</button>
   </div>
 </nav>
 </div><!-- /.hdr-shell -->
@@ -972,7 +929,6 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
             <div class="result-placeholder"><div class="rph-ico">🌡️</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">부하값 입력 후 자동 산정됩니다</div></div>
           </div>
         </div>
-        <button class="btn-b no-print" onclick="openMP('heatResult','🌡️ 냉난방 순환펌프')" style="width:100%;margin-top:8px;padding:9px;border-radius:8px;font-size:12px">📱 모바일 미리보기</button>
       </div>
     </div>
   </div>
@@ -1077,7 +1033,6 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
             <div class="result-placeholder"><div class="rph-ico">🚰</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">유량값 입력 후 자동 산정됩니다</div></div>
           </div>
         </div>
-        <button class="btn-b no-print" onclick="openMP('drainResult','🚰 오·배수 펌프')" style="width:100%;margin-top:8px;padding:9px;border-radius:8px;font-size:12px">📱 모바일 미리보기</button>
       </div>
     </div>
   </div>
@@ -1183,7 +1138,6 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
             <div class="result-placeholder"><div class="rph-ico">🔥</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">급탕량 입력 후 자동 산정됩니다</div></div>
           </div>
         </div>
-        <button class="btn-b no-print" onclick="openMP('hwResult','🔥 급수·급탕 펌프')" style="width:100%;margin-top:8px;padding:9px;border-radius:8px;font-size:12px">📱 모바일 미리보기</button>
       </div>
     </div>
   </div>
@@ -1275,7 +1229,6 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
             <div class="result-placeholder"><div class="rph-ico">🚿</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">급수량 입력 후 자동 산정됩니다</div></div>
           </div>
         </div>
-        <button class="btn-b no-print" onclick="openMP('wsResult','🚿 급수 펌프')" style="width:100%;margin-top:8px;padding:9px;border-radius:8px;font-size:12px">📱 모바일 미리보기</button>
       </div>
     </div>
   </div>
@@ -1669,52 +1622,6 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
   </div><!-- /.bottom-sheet -->
 </div><!-- /.bs-overlay -->
 
-<!-- Galaxy S24 Ultra 모바일 미리보기 모달 -->
-<div class="mp-modal-ov modal-ov" id="mpModal" onclick="if(event.target===this)closeModal('mpModal')">
-  <div class="mp-wrap">
-    <!-- 헤더 -->
-    <div class="mp-hd">
-      <span class="mp-tit">
-        📱 모바일 미리보기
-        <span class="mp-tit-badge">Galaxy S24 Ultra</span>
-      </span>
-      <button class="mp-cls" onclick="closeModal('mpModal')" title="닫기">✕</button>
-    </div>
-
-    <!-- Galaxy S24 Ultra 본체 (id=s24Frame — JPG 전체 캡처 대상) -->
-    <div class="s24-frame" id="s24Frame">
-      <!-- 측면 버튼들 -->
-      <div class="s24-btn-vol"></div>
-      <div class="s24-btn-vol2"></div>
-      <div class="s24-btn-pwr"></div>
-      <div class="s24-spen"></div>
-      <!-- 카메라 펀치홀 -->
-      <div class="s24-camera-bar">
-        <div class="s24-punch"></div>
-      </div>
-      <!-- 화면 -->
-      <div class="s24-screen">
-        <!-- 상태바 -->
-        <div class="s24-statusbar">
-          <span class="s24-time" id="s24Time">9:41</span>
-          <span class="s24-icons">▲ WiFi ◆ 5G 🔋</span>
-        </div>
-        <!-- 콘텐츠 스크롤 영역 -->
-        <div class="s24-content">
-          <div class="s24-inner" id="mpContent"></div>
-        </div>
-        <!-- 홈 인디케이터 -->
-        <div class="s24-home-bar"></div>
-      </div>
-    </div>
-
-    <!-- 하단 버튼 -->
-    <div class="mp-footer">
-      <button class="mp-btn jpg" onclick="exportMpJpg()">📸 전체화면 JPG 저장</button>
-      <button class="mp-btn share" onclick="shareMp()">🔗 공유하기</button>
-    </div>
-  </div>
-</div>
 
 <div class="pwa-banner" id="pwaBanner">
   <div class="pwa-banner-icon-wrap">
@@ -2170,345 +2077,6 @@ function exportJpg(){
     restoreScale();
     showToast('❌ JPG 저장 실패: '+err.message);
   });
-}
-/* ════════════════════════════════════════════════════
-   S24 Ultra JPG — RESULTS → Canvas 직접 렌더링
-   S24 Ultra 프레임 + 전체 콘텐츠 세로 출력
-════════════════════════════════════════════════════ */
-async function exportMpJpg(){
-  /* ── 산정된 펌프 수집 ── */
-  const keys = PUMP_ORDER.filter(k => RESULTS[k]);
-  if(!keys.length){ showToast('⚠️ 먼저 펌프를 산정하세요'); return; }
-  showToast('📸 JPG 생성 중...', 3000);
-
-  /* ── 상수 (CSS px 기준 — canvas scale로 2× 확대) ── */
-  const PX = 2;          // 출력 해상도 배율
-  const FW = 392;        // 프레임 전체 폭 (화면340 + 베젤26×2)
-  const BEZEL_H = 16;    // 상하 베젤
-  const CAM_H   = 38;    // 카메라 영역
-  const SB_H    = 26;    // 상태바
-  const SCR_X   = 26;    // 화면 시작 X (좌베젤)
-  const SCR_W   = 340;   // 화면 폭
-  const PAD     = 14;    // 콘텐츠 좌우 패딩
-  const CW      = SCR_W - PAD * 2;  // 콘텐츠 폭 (312px)
-  const GAP     = 12;    // 펌프 간 여백
-  const ROW_H   = 24;    // 사양 행 높이
-  const HERO_H  = 56;    // 히어로 박스 높이
-
-  const C = {
-    phoneDark:  '#0d0d0d',
-    phoneEdge:  '#2a2a2a',
-    screen:     '#f8fafc',
-    primary:    '#1d4ed8',
-    primary2:   '#1e40af',
-    dark:       '#0f172a',
-    muted:      '#64748b',
-    border:     '#e2e8f0',
-    head:       '#dbeafe',
-    heroText:   '#fde047',
-    hero: ['#1d4ed8','#0f766e','#7c3aed','#ea580c'],
-  };
-
-  /* ── 사양 행 데이터 생성 ── */
-  function specRows(r, k){
-    const dr = (k==='pit'||k==='rain');
-    const rows = [
-      ['형식', r.typeStr],
-      ['용도', r.purpose],
-      ['유량', r.Q_lpm.toFixed(2) + ' LPM'],
-      ['양정', r.H.toFixed(2) + ' m'],
-      ['동력', r.hpStr + ' HP  (' + (selHP(r.P_calc).v * 0.7457).toFixed(3) + ' kW)'],
-      ['구경', 'Ø ' + r.pipe + (r.pipeMain ? ' / 주Ø' + r.pipeMain : '') + ' mm'],
-      ['전원', r.power],
-      ['수량', r.qty],
-    ];
-    if(dr && r.solidLabel) rows.push(['고형물', r.solidLabel]);
-    if(dr) rows.push(['집수정', 'Ø450 이상 / D600 이상']);
-    return rows;
-  }
-
-  /* ── 펌프 1개 높이 계산 ── */
-  function pumpBlockH(r, k){
-    return 6           // 상단 여백
-      + 36             // 제목 바
-      + 8              // 간격
-      + HERO_H         // 히어로 4박스
-      + 8              // 간격
-      + 22             // "선정사양" 헤더
-      + specRows(r, k).length * ROW_H
-      + 10;            // 하단 여백
-  }
-
-  /* ── 콘텐츠 전체 높이 계산 ── */
-  const HDR_H    = 88;   // 앱 헤더 배너
-  const FOOTER_H = 20;   // 워터마크
-  let contentH = HDR_H;
-  keys.forEach(k => { contentH += pumpBlockH(RESULTS[k], k) + GAP; });
-  contentH += FOOTER_H;
-
-  /* ── 전체 프레임 높이 ── */
-  const FRAME_H = BEZEL_H + CAM_H + SB_H + contentH + BEZEL_H;
-
-  /* ── Canvas 생성 ── */
-  const cv = document.createElement('canvas');
-  cv.width  = FW  * PX;
-  cv.height = FRAME_H * PX;
-  const ctx = cv.getContext('2d');
-  ctx.scale(PX, PX);
-
-  /* ────────────────────────────────────────
-     S24 Ultra 폰 본체
-  ──────────────────────────────────────── */
-  /* 외형 그라디언트 */
-  const bodyG = ctx.createLinearGradient(0, 0, FW, FRAME_H);
-  bodyG.addColorStop(0,   '#262626');
-  bodyG.addColorStop(0.3, '#0d0d0d');
-  bodyG.addColorStop(0.7, '#111111');
-  bodyG.addColorStop(1,   '#1e1e1e');
-  ctx.fillStyle = bodyG;
-  ctx.beginPath();
-  ctx.roundRect(0, 0, FW, FRAME_H, 40);
-  ctx.fill();
-
-  /* 외곽 테두리 (광택) */
-  ctx.strokeStyle = 'rgba(255,255,255,.10)';
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.roundRect(0.75, 0.75, FW-1.5, FRAME_H-1.5, 40);
-  ctx.stroke();
-
-  /* 측면 버튼 — 좌측 볼륨 (2개) */
-  const btnR = 3;
-  [[BEZEL_H+CAM_H+60, 32], [BEZEL_H+CAM_H+104, 32]].forEach(([y,h])=>{
-    ctx.fillStyle = '#333';
-    ctx.beginPath(); ctx.roundRect(-btnR, y, btnR+1, h, 1); ctx.fill();
-    ctx.strokeStyle='rgba(255,255,255,.08)'; ctx.lineWidth=0.5;
-    ctx.beginPath(); ctx.roundRect(-btnR, y, btnR+1, h, 1); ctx.stroke();
-  });
-  /* 우측 전원 */
-  ctx.fillStyle = '#333';
-  ctx.beginPath(); ctx.roundRect(FW-1, BEZEL_H+CAM_H+90, btnR+1, 44, 1); ctx.fill();
-  /* S-Pen 슬롯 (우측 하단) */
-  ctx.fillStyle = '#1a1a1a';
-  ctx.beginPath(); ctx.roundRect(FW-2, FRAME_H-70, 3, 22, 1); ctx.fill();
-
-  /* ── 카메라 영역 ── */
-  const camY  = BEZEL_H + CAM_H/2;
-  const camCX = FW/2;
-  /* 렌즈 홀 */
-  const lg = ctx.createRadialGradient(camCX, camY, 0, camCX, camY, 7);
-  lg.addColorStop(0, '#1a1a1a'); lg.addColorStop(1, '#000');
-  ctx.beginPath(); ctx.arc(camCX, camY, 6, 0, Math.PI*2);
-  ctx.fillStyle = lg; ctx.fill();
-  /* 렌즈 테두리 */
-  ctx.strokeStyle = '#333'; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.arc(camCX, camY, 6.5, 0, Math.PI*2); ctx.stroke();
-  /* 내부 반사 */
-  ctx.beginPath(); ctx.arc(camCX-1.5, camY-1.5, 2, 0, Math.PI*2);
-  ctx.fillStyle = 'rgba(80,120,200,.35)'; ctx.fill();
-
-  /* ── 상태바 ── */
-  const sbY = BEZEL_H + CAM_H;
-  const sbG = ctx.createLinearGradient(SCR_X, sbY, SCR_X, sbY+SB_H);
-  sbG.addColorStop(0, 'rgba(29,78,216,.97)');
-  sbG.addColorStop(1, 'rgba(14,53,160,.90)');
-  ctx.fillStyle = sbG;
-  ctx.fillRect(SCR_X, sbY, SCR_W, SB_H);
-  /* 시각 */
-  const now = new Date();
-  const hh  = now.getHours(), mm = String(now.getMinutes()).padStart(2,'0');
-  ctx.fillStyle = '#fff';
-  ctx.font = 'bold 11px "JetBrains Mono", monospace';
-  ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
-  ctx.fillText(`${hh}:${mm}`, SCR_X+10, sbY + SB_H/2);
-  /* 아이콘 */
-  ctx.font = '9px sans-serif'; ctx.textAlign = 'right';
-  ctx.fillText('▲  WiFi  5G  🔋', SCR_X + SCR_W - 10, sbY + SB_H/2);
-  ctx.textAlign = 'left';
-
-  /* ── 화면 배경 ── */
-  const SCR_Y = sbY + SB_H;
-  ctx.fillStyle = C.screen;
-  ctx.fillRect(SCR_X, SCR_Y, SCR_W, contentH);
-
-  /* ────────────────────────────────────────
-     콘텐츠 렌더링
-  ──────────────────────────────────────── */
-  let cy = SCR_Y;
-  const cx = SCR_X;
-
-  /* 앱 헤더 배너 */
-  const hG = ctx.createLinearGradient(cx, cy, cx + SCR_W, cy + HDR_H);
-  hG.addColorStop(0, '#0c1a2e');
-  hG.addColorStop(0.5, '#1d4ed8');
-  hG.addColorStop(1, '#1e40af');
-  ctx.fillStyle = hG;
-  ctx.fillRect(cx, cy, SCR_W, HDR_H);
-  /* 헤더 텍스트 */
-  ctx.textBaseline = 'top';
-  ctx.fillStyle = '#fff';
-  ctx.font = 'bold 13px sans-serif';
-  ctx.fillText('💧 설비펌프 용량 자동선정 산출서', cx + PAD, cy + 10);
-  ctx.fillStyle = 'rgba(255,255,255,.65)';
-  ctx.font = '8.5px sans-serif';
-  ctx.fillText('국토교통부 고시 제2021-851호  별표1·5·6 기반  8종 펌프', cx + PAD, cy + 28);
-  ctx.fillStyle = '#93c5fd';
-  ctx.font = 'bold 10px sans-serif';
-  ctx.fillText('📋 ' + (proj.name || '설비펌프 산정'), cx + PAD, cy + 46);
-  ctx.fillStyle = 'rgba(255,255,255,.5)';
-  ctx.font = '8.5px sans-serif';
-  ctx.fillText('작성자: ' + (proj.author||'—') + '   일자: ' + (proj.date||today()), cx+PAD, cy+62);
-  /* 산정 뱃지 */
-  ctx.fillStyle = 'rgba(255,255,255,.12)';
-  ctx.beginPath(); ctx.roundRect(cx+PAD, cy+74, 56, 11, 4); ctx.fill();
-  ctx.fillStyle = '#bfdbfe'; ctx.font = '7.5px sans-serif';
-  ctx.fillText('MANMIN-Ver5.0', cx+PAD+4, cy+75.5);
-  cy += HDR_H;
-
-  /* 각 펌프 블록 */
-  keys.forEach((k, ki) => {
-    const r    = RESULTS[k];
-    const meta = PUMP_META[k];
-    const rows = specRows(r, k);
-    cy += 6;
-
-    /* 제목 바 */
-    ctx.fillStyle = C.head;
-    ctx.fillRect(cx, cy, SCR_W, 36);
-    /* 좌측 강조 선 */
-    const titleAccent = ctx.createLinearGradient(cx, cy, cx, cy+36);
-    titleAccent.addColorStop(0, C.primary); titleAccent.addColorStop(1, '#0ea5e9');
-    ctx.fillStyle = titleAccent;
-    ctx.fillRect(cx, cy, 4, 36);
-    /* 제목 텍스트 */
-    ctx.fillStyle = C.dark;
-    ctx.font = 'bold 11px sans-serif'; ctx.textBaseline = 'middle';
-    ctx.fillText(meta.ico + ' ' + meta.lbl, cx+12, cy+18);
-    /* 법령 태그 */
-    ctx.fillStyle = 'rgba(29,78,216,.12)';
-    ctx.beginPath(); ctx.roundRect(cx+SCR_W-46, cy+10, 36, 14, 5); ctx.fill();
-    ctx.fillStyle = C.primary; ctx.font = '8px sans-serif'; ctx.textAlign='center';
-    ctx.fillText(meta.law, cx+SCR_W-28, cy+17); ctx.textAlign='left';
-    cy += 36 + 8;
-
-    /* 히어로 4박스 */
-    const heroItems = [
-      { lbl:'유량 Q',   val: r.Q_lpm.toFixed(2), unit:'LPM' },
-      { lbl:'양정 H',   val: r.H.toFixed(2),      unit:'m' },
-      { lbl:'계산동력', val: r.P_calc.toFixed(3),  unit:'HP' },
-      { lbl:'선정동력', val: r.hpStr,              unit:'HP' },
-    ];
-    const bw = Math.floor((SCR_W - PAD*2 - 3*5) / 4);  // 박스 폭
-    heroItems.forEach((d, i) => {
-      const bx = cx + PAD + i * (bw + 5);
-      /* 박스 그라디언트 */
-      const hbG = ctx.createLinearGradient(bx, cy, bx+bw, cy+HERO_H);
-      const base = C.hero[i];
-      hbG.addColorStop(0, base); hbG.addColorStop(1, base + 'cc');
-      ctx.fillStyle = hbG;
-      ctx.beginPath(); ctx.roundRect(bx, cy, bw, HERO_H, 7); ctx.fill();
-      /* 광택 오버레이 */
-      ctx.fillStyle = 'rgba(255,255,255,.08)';
-      ctx.beginPath(); ctx.roundRect(bx, cy, bw, HERO_H/2, [7,7,0,0]); ctx.fill();
-      /* 텍스트 */
-      ctx.textBaseline = 'top'; ctx.textAlign = 'center';
-      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '7px sans-serif';
-      ctx.fillText(d.lbl, bx+bw/2, cy+6);
-      ctx.fillStyle = C.heroText; ctx.font = 'bold 13px "JetBrains Mono",monospace';
-      ctx.fillText(d.val, bx+bw/2, cy+17);
-      ctx.fillStyle = 'rgba(255,255,255,.65)'; ctx.font = '8px sans-serif';
-      ctx.fillText(d.unit, bx+bw/2, cy+37);
-    });
-    ctx.textAlign = 'left'; cy += HERO_H + 8;
-
-    /* 선정사양 헤더 */
-    ctx.fillStyle = C.primary2;
-    ctx.beginPath(); ctx.roundRect(cx+PAD, cy, CW, 22, [5,5,0,0]); ctx.fill();
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 9.5px sans-serif'; ctx.textBaseline = 'middle';
-    ctx.fillText('✅  펌프 선정 사양', cx+PAD+8, cy+11);
-    cy += 22;
-
-    /* 사양 행 */
-    rows.forEach((row, idx) => {
-      ctx.fillStyle = idx%2===0 ? '#f1f5f9' : '#fff';
-      ctx.fillRect(cx+PAD, cy, CW, ROW_H);
-      /* 구분선 */
-      ctx.strokeStyle = C.border; ctx.lineWidth = 0.5;
-      ctx.beginPath(); ctx.moveTo(cx+PAD, cy+ROW_H); ctx.lineTo(cx+PAD+CW, cy+ROW_H); ctx.stroke();
-      /* 키 */
-      ctx.fillStyle = C.muted; ctx.font = '9px sans-serif'; ctx.textBaseline = 'middle';
-      ctx.fillText(row[0], cx+PAD+8, cy+ROW_H/2);
-      /* 값 */
-      ctx.fillStyle = C.dark; ctx.font = 'bold 9px sans-serif';
-      ctx.fillText(row[1], cx+PAD+62, cy+ROW_H/2);
-      cy += ROW_H;
-    });
-
-    /* 하단 구분선 */
-    if(ki < keys.length-1){
-      ctx.strokeStyle = 'rgba(29,78,216,.15)'; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(cx, cy+4); ctx.lineTo(cx+SCR_W, cy+4); ctx.stroke();
-    }
-    cy += GAP + 4;
-  });
-
-  /* 워터마크 */
-  cy = SCR_Y + contentH - FOOTER_H;
-  ctx.fillStyle = 'rgba(100,116,139,.5)';
-  ctx.font = '7.5px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(
-    'MANMIN-Ver5.0  ·  Engineer Kim Manmin  ·  ' + today(),
-    cx + SCR_W/2, cy + FOOTER_H/2
-  );
-  ctx.textAlign = 'left';
-
-  /* ── 화면 하단 라운드 처리 ── */
-  ctx.fillStyle = C.phoneDark;
-  ctx.beginPath();
-  ctx.roundRect(cx, SCR_Y+contentH-1, SCR_W, BEZEL_H+2, [0,0,30,30]);
-  ctx.fill();
-
-  /* 홈 인디케이터 */
-  ctx.fillStyle = 'rgba(255,255,255,.28)';
-  ctx.beginPath(); ctx.roundRect(FW/2-44, FRAME_H-14, 88, 4, 2); ctx.fill();
-
-  /* ── 다운로드 ── */
-  const a = document.createElement('a');
-  a.href = cv.toDataURL('image/jpeg', 0.95);
-  a.download = `설비펌프_S24_${today()}.jpg`;
-  a.click();
-  showToast(`📸 완료! ${keys.length}종 · ${FW}×${FRAME_H}px`);
-}
-
-async function shareMp(){
-  await exportMpJpg();
-}
-
-
-
-function openMP(srcId, title){
-  const s = document.getElementById(srcId);
-  const inner = document.getElementById('mpContent');
-
-  if(s && inner){
-    /* 소스 복제 후 계산 과정 블록 제거 */
-    const clone = s.cloneNode(true);
-    /* .cbox 전체 제거 (계산 과정 + EPI 장비선정계산서) — 단, spec-box(선정사양)는 유지 */
-    clone.querySelectorAll('.cbox').forEach(el => el.remove());
-    inner.innerHTML = clone.innerHTML;
-  } else if(inner) {
-    inner.innerHTML = '<div style="padding:20px;text-align:center;color:#94a3b8">결과를 먼저 산정하세요</div>';
-  }
-
-  /* 모달 제목 업데이트 */
-  const tit = document.querySelector('.mp-tit');
-  if(tit) tit.childNodes[0].textContent = '📱 ' + title + ' ';
-
-  /* 현재 시각 */
-  const tEl = document.getElementById('s24Time');
-  if(tEl){ const now=new Date(); tEl.textContent=`${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`; }
-
-  openModal('mpModal');
 }
 
 /* ═══════════════════════════════════════════════
