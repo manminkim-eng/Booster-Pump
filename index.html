@@ -153,21 +153,23 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
   box-shadow:0 2px 20px rgba(29,78,216,.35);}
 .app-header{background:transparent;color:#fff;}
 .header-inner{max-width:1300px;margin:0 auto;padding:20px 24px 16px;
-  display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;}   /* v5.0-HDR — 마스터 flex-start */
 /* v5.0 — 소방 마스터의 3단 헤더 구조(§3-1). 심벌 로고 없이 텍스트 3단만 둔다. */
 .brand-logo{display:flex;align-items:flex-start;min-width:0;}
 .brand-texts{min-width:0;}
 .hdr-eyebrow{font-size:11px;font-weight:600;opacity:.7;color:#fff;letter-spacing:.15em;
   text-transform:uppercase;margin-bottom:6px;}
 .hdr-h1{font-size:26px;font-weight:900;color:#fff;letter-spacing:.04em;line-height:1.2;}
-.hdr-sub{font-size:11px;margin-top:8px;color:#fff;opacity:.85;letter-spacing:.02em;line-height:1.7;}
+/* v5.0-HDR — line-height normal(17px). 1.7 이면 20.4px 가 되어 마스터 78.2/162.2 가 안 나온다 */
+.hdr-sub{font-size:11px;margin-top:8px;color:#fff;opacity:.85;letter-spacing:.02em;line-height:normal;}
 .hdr-manmin{font-family:'Orbitron',sans-serif!important;font-weight:900;font-size:12px;
   color:#93c5fd;letter-spacing:.08em;text-shadow:0 0 8px rgba(29,78,216,.6);
   white-space:nowrap;display:inline-block;}
 .hdr-right-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px;
   padding-bottom:2px;flex-shrink:0;}
-.hdr-right{text-align:right;opacity:.75;color:#fff;font-size:11px;line-height:1.5;padding-bottom:4px;}
-.hdr-right em{opacity:.9;font-style:normal;}
+.hdr-right{text-align:right;opacity:.75;color:#fff;font-size:11px;line-height:normal;}   /* v5.0-HDR */
+.hdr-right strong{font-size:13px;font-weight:700;}
+.hdr-right em{font-size:10px;color:#7dd3fc;font-style:normal;display:block;margin-top:4px;}
 .hdr-btns{display:flex;gap:5px;flex-shrink:0;}
 .btn-pwa{display:none;padding:6px 10px;background:var(--c-accent);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer}
 .btn-pwa.show{display:flex;align-items:center;gap:4px}
@@ -184,25 +186,32 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
 @media(max-width:768px){ .hdr-right{display:none;} .hdr-right-wrap{gap:0;} }
 @media(max-width:640px){
   .hdr-h1{font-size:18px;}
-  .hdr-eyebrow{display:none;}
-  .hdr-sub{font-size:10.5px;margin-top:6px;line-height:1.65;}
-  .hdr-manmin{font-size:11px;}
+  /* v5.0-HDR (2026-09-02 확정) — eyebrow 표시 · sub 11px · 각인 12px 유지 · 좌우 14px · 유령 gap 제거 : 01 마스터 실측 */
+  .header-inner{padding:20px 14px 16px;row-gap:0;}
+  .hdr-right-wrap{padding-bottom:0;}
+  .tab-bar-inner{padding:4px 14px 0;}
   .btn-g .btn-txt,.btn-b .btn-txt,.btn-pwa .btn-txt{display:none;}
   .hdr-btns{gap:3px;}.btn-g,.btn-b,.btn-pwa{padding:6px 8px;}
 }
-@media(max-width:420px){ .header-inner{padding:20px 14px 16px;} .tab-bar-inner{padding:4px 14px 0;} }
 
 /* ── TAB BAR ── */
 .tab-bar{background:transparent;overflow-x:auto;scrollbar-width:none;}   /* 배경은 .hdr-shell 이 담당 */
 .tab-bar::-webkit-scrollbar{display:none;}
 .tab-bar-inner{max-width:1300px;margin:0 auto;padding:4px 24px 0;display:flex;}
 .tb{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.75);font-family:inherit;
-  padding:11px 16px;font-size:13px;font-weight:700;letter-spacing:.02em;position:relative;
-  transition:color .15s,background .15s;display:flex;align-items:center;gap:5px;
+  padding:11px 16px;font-size:13px;font-weight:700;letter-spacing:.02em;line-height:normal;
+  border-bottom:3px solid transparent;   /* v5.0-HDR — 마스터 구조 → 44px */
+  transition:all .15s;display:flex;align-items:center;gap:5px;
   white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent;}
 .tb:hover{color:#fff;background:rgba(255,255,255,.09);}
-.tb.active{color:#fff;background:rgba(255,255,255,.12);}
-.tb.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:#f97316;border-radius:2px 2px 0 0;}
+/* v5.0-HDR (2026-09-02 확정) — 활성 탭 단색 배경 + 강조색 바 */
+.tb.active{color:#fff;background:#0e7490;border-bottom-color:#7dd3fc;}
+/* v5.0-HDR — 요약 스트립 (마스터 3층) */
+.sum-bar-wrap{background:#0f172a;padding:10px 0;}
+.sum-bar{max-width:1300px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;gap:14px;}
+.sum-item{font-size:12px;color:#94a3b8;}
+.sum-item b{font-family:'JetBrains Mono','Noto Sans KR',monospace;font-weight:700;color:#7dd3fc;}
+@media(max-width:640px){.sum-bar{padding:0 14px;}.sum-item{font-size:11px;}}
 
 /* MAIN */
 .main-wrap{max-width:1300px;margin:0 auto;padding:16px 16px 100px}
@@ -614,7 +623,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
     font-family:'Orbitron',sans-serif;font-size:8pt;font-weight:700;
     color:#9CA3AF;letter-spacing:.06em;z-index:9999;}
   html,body{background:#fff!important;margin:0;padding:0}
-  .hdr-shell,.app-header,.tab-bar,.hdr-btns,.pwa-banner,.pwa-update-bar,.net-toast,.no-print,.fab-wrap,.bs-overlay,.bottom-sheet,.modal-ov,#mm-save-ov,.toast{display:none!important}
+  .hdr-shell,.app-header,.tab-bar,.sum-bar-wrap,.hdr-btns,.pwa-banner,.pwa-update-bar,.net-toast,.no-print,.fab-wrap,.bs-overlay,.bottom-sheet,.modal-ov,#mm-save-ov,.toast{display:none!important}
   /* ⛔ v5.0 — 컨테이너 패딩이 남으면 A4 가 아래로 밀린다(§16-15). 숨길 수 없는 조상은 패딩만 해제한다. */
   .main-wrap{padding:0!important;margin:0!important;max-width:none!important}
   .tab-panel{display:none!important}
@@ -731,7 +740,8 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
   <div class="header-inner">
     <div class="brand-logo">
       <div class="brand-texts">
-        <div class="hdr-eyebrow">BOOSTER / DRAINAGE PUMP SIZING · 기계설비 기술기준</div>
+        <!-- v5.0-HDR — 375px 1줄 유지(≤40자) -->
+        <div class="hdr-eyebrow">Building Pump Sizing · 기계설비 기술기준</div>
         <h1 class="hdr-h1">설비펌프 용량 자동선정 시스템</h1>
         <div class="hdr-sub">
           냉난방순환 · 오배수 · 급수급탕 펌프 8종 유량 · 양정 · 동력 자동 산정
@@ -740,7 +750,8 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
       </div>
     </div>
     <div class="hdr-right-wrap">
-      <div class="hdr-right"><strong>기계설비 기술기준</strong><br/>국토교통부 고시 제2021-851호<br/><em>별표 1 · 5 · 6</em></div>
+      <!-- v5.0-HDR — 마스터 4줄(13/11/11/10) -->
+      <div class="hdr-right"><strong>기계설비 기술기준</strong><br/>국토교통부 고시 제2021-851호<br/>별표 1 · 5 · 6<br/><em>[시행 2026. 7. 8.]</em></div>
       <div class="hdr-btns">
         <!-- v5.0 : 헤더 출력 버튼 없음 — A4 탭 출력바로 일원화한다(§3-1)
              초기화도 우측 하단 FAB 스택으로 이관했다(§16-18) -->
@@ -758,6 +769,16 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
   </div>
 </nav>
 </div><!-- /.hdr-shell -->
+<!-- v5.0-HDR : 요약 스트립 (헤더 3층) — 값은 하단 스크립트가 RESULTS 에서 읽어 채운다 -->
+<div class="sum-bar-wrap no-print">
+  <div class="sum-bar">
+    <span class="sum-item">📊 산정 완료: <b id="sb-done">0 / 8</b></span>
+    <span class="sum-item">🔧 최근 펌프: <b id="sb-pump">—</b></span>
+    <span class="sum-item">💧 유량 Q: <b id="sb-q">—</b></span>
+    <span class="sum-item">📏 양정 H: <b id="sb-h">—</b></span>
+    <span class="sum-item">⚡ 출력: <b id="sb-hp">—</b></span>
+  </div>
+</div>
 
 <main class="main-wrap">
 
@@ -1845,9 +1866,11 @@ function scaleA4(){
   const parentW = w.clientWidth
                 - (parseFloat(wcs.paddingLeft)||0) - (parseFloat(wcs.paddingRight)||0);
   if(wasHidden){ panel.style.display=''; panel.style.visibility=''; }
-  if(parentW <= 0) return;
+  /* ⛔ 폭이 비정상이면 배율을 건드리지 않고 원래 크기로 되돌린다.
+     음수 배율이 들어가면 화면이 뒤집히고 JPG 캡처까지 깨진다(25번 실측 확인). */
+  if(parentW <= 0){ sw.style.transform='none'; sw.style.height=''; return; }
 
-  const scale = Math.min(1, parentW / 794);
+  const scale = Math.max(0.05, Math.min(1, parentW / 794));
   sw.style.transformOrigin = 'top center';
   sw.style.transform = `scale(${scale})`;
   /* transform 은 레이아웃 공간을 바꾸지 않으므로 래퍼 높이를 보정한다 */
@@ -2046,7 +2069,10 @@ function exportJpg(){
   var segs=mmSegments(el);
   var fullH=Math.max(mmContentHeight(el),1);
   html2canvas(el,{
-    scale:2, useCORS:true, allowTaint:true,
+    /* ⛔ allowTaint 는 false 다. true 면 CORS 헤더 없는 외부 리소스가 그려질 때
+       캔버스가 오염되어 toDataURL() 이 SecurityError 로 막힌다.
+       특히 file:// 로 열었을 때 반드시 터진다. */
+    scale:2, useCORS:true, allowTaint:false,
     backgroundColor:'#ffffff', logging:false,
     width:el.scrollWidth, height:fullH,
     windowWidth:el.scrollWidth, windowHeight:fullH,
@@ -2785,5 +2811,26 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 
 <div id="dev-stamp">MANMIN · Ver-5.0</div>
+<script>
+/* v5.0-HDR — 요약 스트립 갱신. 계산 함수는 건드리지 않고 updateStatusBar/resetAll 을 감싸 RESULTS 를 읽기만 한다 */
+(function(){
+  var prev={}, last=null;
+  function setSum(){
+    var f=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+    if(typeof RESULTS==='undefined'){return;}
+    var keys=Object.keys(RESULTS), done=keys.filter(function(k){return RESULTS[k];});
+    keys.forEach(function(k){ if(RESULTS[k]&&RESULTS[k]!==prev[k]) last=k; prev[k]=RESULTS[k]; });
+    if(last&&!RESULTS[last]) last=done.length?done[done.length-1]:null;
+    f('sb-done',done.length+' / '+keys.length);
+    var r=last?RESULTS[last]:null, m=(typeof PUMP_META!=='undefined'&&last)?PUMP_META[last]:null;
+    f('sb-pump',m?m.lbl:'—'); f('sb-q',r&&r.Q_lpm!=null?r.Q_lpm.toFixed(1)+' LPM':'—');
+    f('sb-h',r&&r.H!=null?r.H.toFixed(2)+' m':'—'); f('sb-hp',r&&r.hpStr?r.hpStr+' HP':'—');
+  }
+  var _us=window.updateStatusBar,_ra=window.resetAll;
+  if(typeof _us==='function'){window.updateStatusBar=function(){var x=_us.apply(this,arguments);setSum();return x;};}
+  if(typeof _ra==='function'){window.resetAll=function(){var x=_ra.apply(this,arguments);prev={};last=null;setSum();return x;};}
+  setSum();
+})();
+</script>
 </body>
 </html>

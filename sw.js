@@ -16,7 +16,7 @@
       SW 가 아예 안 붙는다 → allSettled + 개별 catch 로 감쌌다(§11-3).
 ═══════════════════════════════════════════════════ */
 const PREFIX = 'pump-';
-const CACHE = 'pump-v5.0.4';
+const CACHE = 'pump-v5.1.2';   /* 2026-09-02 헤더 통일 */
 const ASSETS = [
   './',
   './index.html',
