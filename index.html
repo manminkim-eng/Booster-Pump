@@ -157,19 +157,20 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
 /* v5.0 — 소방 마스터의 3단 헤더 구조(§3-1). 심벌 로고 없이 텍스트 3단만 둔다. */
 .brand-logo{display:flex;align-items:flex-start;min-width:0;}
 .brand-texts{min-width:0;}
-.hdr-eyebrow{font-size:11px;font-weight:600;opacity:.7;color:#fff;letter-spacing:.15em;
+/* v5.0-HDR — 줄높이를 px 로 고정한다. 본문 서체(Pretendard 등)에 따라 normal 값이 달라져 162.2 가 깨졌다 */
+.hdr-eyebrow{font-size:11px;font-weight:600;opacity:.7;color:#fff;letter-spacing:.15em;line-height:16px;
   text-transform:uppercase;margin-bottom:6px;}
 .hdr-h1{font-size:26px;font-weight:900;color:#fff;letter-spacing:.04em;line-height:1.2;}
 /* v5.0-HDR — line-height normal(17px). 1.7 이면 20.4px 가 되어 마스터 78.2/162.2 가 안 나온다 */
-.hdr-sub{font-size:11px;margin-top:8px;color:#fff;opacity:.85;letter-spacing:.02em;line-height:normal;}
+.hdr-sub{font-size:11px;margin-top:8px;color:#fff;opacity:.85;letter-spacing:.02em;line-height:17px;}
 .hdr-manmin{font-family:'Orbitron',sans-serif!important;font-weight:900;font-size:12px;
   color:#93c5fd;letter-spacing:.08em;text-shadow:0 0 8px rgba(29,78,216,.6);
-  white-space:nowrap;display:inline-block;}
+  white-space:nowrap;display:inline-block;line-height:17px;vertical-align:top;}
 .hdr-right-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px;
   padding-bottom:2px;flex-shrink:0;}
-.hdr-right{text-align:right;opacity:.75;color:#fff;font-size:11px;line-height:normal;}   /* v5.0-HDR */
-.hdr-right strong{font-size:13px;font-weight:700;}
-.hdr-right em{font-size:10px;color:#7dd3fc;font-style:normal;display:block;margin-top:4px;}
+.hdr-right{text-align:right;opacity:.75;color:#fff;font-size:11px;line-height:16px;}   /* v5.0-HDR */
+.hdr-right strong{font-size:13px;font-weight:700;line-height:19px;}
+.hdr-right em{font-size:10px;color:#7dd3fc;font-style:normal;display:block;margin-top:4px;line-height:15px;}
 .hdr-btns{display:flex;gap:5px;flex-shrink:0;}
 .btn-pwa{display:none;padding:6px 10px;background:var(--c-accent);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer}
 .btn-pwa.show{display:flex;align-items:center;gap:4px}
@@ -199,7 +200,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
 .tab-bar::-webkit-scrollbar{display:none;}
 .tab-bar-inner{max-width:1300px;margin:0 auto;padding:4px 24px 0;display:flex;}
 .tb{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.75);font-family:inherit;
-  padding:11px 16px;font-size:13px;font-weight:700;letter-spacing:.02em;line-height:normal;
+  padding:11px 16px;font-size:13px;font-weight:700;letter-spacing:.02em;line-height:19px;
   border-bottom:3px solid transparent;   /* v5.0-HDR — 마스터 구조 → 44px */
   transition:all .15s;display:flex;align-items:center;gap:5px;
   white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent;}
@@ -209,7 +210,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
 /* v5.0-HDR — 요약 스트립 (마스터 3층) */
 .sum-bar-wrap{background:#0f172a;padding:10px 0;}
 .sum-bar{max-width:1300px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;gap:14px;}
-.sum-item{font-size:12px;color:#94a3b8;}
+.sum-item{font-size:12px;color:#94a3b8;line-height:18px;}
 .sum-item b{font-family:'JetBrains Mono','Noto Sans KR',monospace;font-weight:700;color:#7dd3fc;}
 @media(max-width:640px){.sum-bar{padding:0 14px;}.sum-item{font-size:11px;}}
 
@@ -280,7 +281,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
 
 /* FORM */
 .flbl{display:block;font-size:11px;font-weight:600;color:var(--c-muted);margin-bottom:3px}
-.finput,.fselect{width:100%;padding:7px 10px;border:1px solid var(--c-border);border-radius:6px;font-size:13px;font-family:var(--font);background:var(--c-surface);color:var(--c-dark);transition:.15s;min-height:34px}
+.finput,.fselect{width:100%;padding:7px 10px;border:1px solid var(--c-border);border-radius:6px;font-size:13px;font-family:var(--font);background:var(--c-surface);color:var(--c-dark);transition:.15s;min-height:38px}
 .finput:focus,.fselect:focus{outline:none;border-color:var(--c-primary);box-shadow:0 0 0 2px rgba(29,78,216,.12)}
 .input-sfx{display:flex;align-items:center}
 .input-sfx .finput{border-radius:6px 0 0 6px;flex:1}
@@ -730,6 +731,9 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
   .psb-item{min-height:52px}
 }
 </style>
+<style id="mm-r1">/* R1 (2026-09-04 · 지시서 §20-1 · S10 소급) — 인쇄 PDF 하단 각인 MANMIN · Ver 비표시. 버전은 A4 푸터 [MANMIN-Ver5.0] 이 담당 */
+#dev-stamp,#dev-stamp-print,.dev-stamp{display:none!important;}
+@media print{#dev-stamp,#dev-stamp-print,.dev-stamp{display:none!important;}}</style>
 </head>
 <body>
 <div class="toast" id="toastEl"></div>
@@ -2832,5 +2836,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   setSum();
 })();
 </script>
+<script>/* R26 (2026-09-04 · 지시서 §20-15 ③ · S10 소급) — 인쇄 중 문서 제목을 비워 PDF 머리글의 페이지 제목을 지운다. 쪽번호·URL 은 브라우저 옵션 */
+(function(){var t=null;window.addEventListener('beforeprint',function(){if(t===null){t=document.title;}document.title=' ';});window.addEventListener('afterprint',function(){if(t!==null){document.title=t;t=null;}});})();</script>
 </body>
 </html>
