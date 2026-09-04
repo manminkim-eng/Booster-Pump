@@ -1,4 +1,5 @@
 /* ═══════════════════════════════════════════════════
+   S3-0 회차 2026-09-04 — R27 html2canvas 클론 정화 동반 캐시명 v5.1.5
    S2 회차 2026-09-04 — index 소급(R1·R21·R26 등) 동반 캐시명 v5.1.4
    R25 회차 2026-09-04 — 자기 접두어 캐시 조회 · cors 프리캐시 · opaque 가드 · 캐시명 v5.1.3 (S10)
    설비펌프 용량 자동선정 시스템  MANMIN Ver-5.0
@@ -31,7 +32,7 @@ const mmMatch = (req, opt) => caches.keys()
   .then((ks) => ks.reduce((p, k) => p.then((r) => r || caches.open(k).then((c) => c.match(req, opt))), Promise.resolve(undefined)))
   .then((r) => (r && r.type === 'opaque' && req && req.mode === 'cors') ? undefined : r);
 
-const CACHE = 'pump-v5.1.4';   /* 2026-09-02 헤더 통일 */
+const CACHE = 'pump-v5.1.5';   /* 2026-09-02 헤더 통일 */
 const ASSETS = [
   './',
   './index.html',
