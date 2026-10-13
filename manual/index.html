@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>설비펌프 용량 자동선정 시스템 사용자 매뉴얼 Ver-5.0 · MANMIN</title>
+<meta name="description" content="설비펌프 용량 자동선정 시스템 MANMIN Ver-5.0 사용자 매뉴얼 — 펌프 8종 화면 기능, 기술기준(기계설비 기술기준 별표 1 · 5 · 6 · 에너지절약설계기준), 실무 작업 방법">
+<meta name="author" content="김만민 건축사 · ㈜대성건축사사무소">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@700;900&display=swap">
+<link rel="stylesheet" href="./assets/fonts/manmin-fonts.css">
+<style>
+:root{
+  --navy:#2D3A8C;--navy-d:#1F2A6B;--navy-l:#E9ECF8;--accent:#F4A261;--accent-d:#C97A3A;--accent-l:#FDF1E7;
+  --bg:#F8F9FA;--card:#FFFFFF;--text:#1A1A2E;--text2:#4A4F66;--line:#DDE1EA;--ok:#0F766E;--ng:#B42318;
+  --r:12px;--pad:24px;--shadow:0 4px 20px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:16px;line-height:1.75;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--navy)}a:hover{color:var(--accent-d)}
+code,kbd,.mono{font-family:var(--font-mono);font-size:.9em}
+code{background:var(--navy-l);color:var(--navy-d);padding:1px 6px;border-radius:5px}
+kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 6px;background:#fff}
+/* 상단 */
+.top{background:linear-gradient(135deg,var(--navy-d),var(--navy));color:#fff}
+.top-in{max-width:1240px;margin:0 auto;padding:44px 24px 36px}
+.eyebrow{font-family:var(--font-brand);font-weight:700;font-size:12px;letter-spacing:.18em;opacity:.85}
+.top h1{font-size:28px;font-weight:900;margin:8px 0 6px;line-height:1.35}
+.top .sub{opacity:.9;margin:0}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 12px;font-size:13px}
+a.badge{color:#fff;text-decoration:none}a.badge:hover{background:rgba(255,255,255,.24);color:#fff}
+.badge.acc{background:var(--accent);border-color:var(--accent);color:#1A1A2E;font-weight:700}
+/* 레이아웃 */
+.wrap{max-width:1240px;margin:0 auto;padding:28px 24px 80px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:32px}
+nav.toc{position:sticky;top:16px;align-self:start;max-height:calc(100vh - 32px);overflow:auto;background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 16px;font-size:14px}
+nav.toc h2{font-size:13px;letter-spacing:.12em;color:var(--text2);margin:0 0 8px}
+nav.toc ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:block;padding:5px 8px;border-radius:8px;text-decoration:none;color:var(--text)}
+nav.toc li a:hover,nav.toc li a.on{background:var(--navy-l);color:var(--navy)}
+nav.toc li.sub a{padding-left:20px;font-size:13px;color:var(--text2)}
+main{min-width:0}
+section.ch{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:var(--pad) calc(var(--pad) + 8px);margin-bottom:28px}
+section.ch>h2{font-size:24px;font-weight:700;color:var(--navy);margin:0 0 4px;display:flex;align-items:baseline;gap:10px}
+section.ch>h2 .n{font-family:var(--font-brand);font-weight:700;font-size:14px;color:#fff;background:var(--navy);border-radius:8px;padding:2px 9px}
+section.ch>.lead{color:var(--text2);margin:0 0 18px}
+h3{font-size:19px;color:var(--navy-d);margin:34px 0 10px;padding-top:6px;border-top:1px solid var(--line)}
+h3:first-of-type{border-top:0}
+h4{font-size:16px;margin:22px 0 8px}
+p{margin:8px 0}
+ul,ol{padding-left:22px}
+.note,.tip,.warn{border-radius:10px;padding:12px 16px;margin:14px 0;font-size:15px}
+.note{background:var(--navy-l);border-left:4px solid var(--navy)}
+.tip{background:var(--accent-l);border-left:4px solid var(--accent)}
+.warn{background:#FEF3F2;border-left:4px solid var(--ng)}
+.note b:first-child,.tip b:first-child,.warn b:first-child{margin-right:6px}
+/* 표 */
+.tbl{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:#fff}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--navy-l);color:var(--navy-d);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-family:var(--font-mono);white-space:nowrap}
+.ok{color:var(--ok);font-weight:700}.ng{color:var(--ng);font-weight:700}
+/* 그림 */
+figure.shot{margin:18px 0 26px}
+figure.shot .frame{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;cursor:zoom-in}
+figure.shot img{display:block;width:100%;height:auto}
+figure.narrow{max-width:420px}
+.pin{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:var(--accent);color:#1A1A2E;font:700 13px/26px var(--font-mono);text-align:center;box-shadow:0 0 0 3px #fff,0 2px 8px rgba(0,0,0,.35);pointer-events:none}
+figcaption{font-size:14px;color:var(--text2);margin-top:8px}
+.fno{font-family:var(--font-mono);font-size:11px;background:var(--navy);color:#fff;border-radius:6px;padding:1px 7px;margin-right:8px}
+ol.legend{list-style:none;padding:0;margin:10px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px 16px;font-size:14px}
+ol.legend li{display:flex;gap:8px;align-items:flex-start}
+ol.legend b{flex:0 0 22px;height:22px;border-radius:50%;background:var(--accent);font:700 12px/22px var(--font-mono);text-align:center}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+/* 단계 */
+.steps{counter-reset:st;list-style:none;padding:0;margin:16px 0}
+.steps>li{counter-increment:st;position:relative;padding:4px 0 18px 54px;border-left:2px solid var(--line);margin-left:18px}
+.steps>li:last-child{border-left-color:transparent}
+.steps>li::before{content:counter(st);position:absolute;left:-19px;top:0;width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;font:700 15px/36px var(--font-mono);text-align:center;box-shadow:0 0 0 4px var(--bg)}
+.steps>li>b.t{display:block;font-size:17px;color:var(--navy-d);margin-bottom:2px}
+/* 수식 */
+.eq{font-family:var(--font-mono);background:#0F1630;color:#E8ECFF;border-radius:10px;padding:14px 18px;margin:12px 0;overflow-x:auto;font-size:14px;line-height:1.9;white-space:pre}
+.eq .c{color:#9AA6D6}
+.svgbox{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;margin:14px 0;overflow-x:auto}
+.svgbox svg{display:block;width:100%;min-width:640px;height:auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:var(--r);padding:16px;background:#fff}
+.card h5{margin:0 0 4px;font-size:15px;color:var(--navy)}
+.card p{margin:0;font-size:14px;color:var(--text2)}
+footer.foot{max-width:1240px;margin:0 auto;padding:0 24px 40px;color:var(--text2);font-size:13px}
+/* 라이트박스 */
+#lb{position:fixed;inset:0;background:rgba(10,14,30,.88);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out;padding:16px}
+#lb.open{display:flex}#lb img{max-width:100%;max-height:100%;border-radius:8px;background:#fff}
+.totop{position:fixed;right:18px;bottom:18px;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;border:0;font-size:18px;box-shadow:var(--shadow);cursor:pointer}
+/* 반응형 5단계 */
+@media (max-width:1240px){.wrap{grid-template-columns:230px minmax(0,1fr);gap:24px}}
+@media (max-width:1024px){.wrap{grid-template-columns:1fr}nav.toc{position:static;max-height:none}nav.toc ol{columns:2}}
+@media (max-width:760px){.pair{grid-template-columns:1fr}section.ch{padding:20px 18px}.top h1{font-size:24px}}
+@media (max-width:640px){nav.toc ol{columns:1}body{font-size:15px}}
+@media (max-width:480px){.wrap,.top-in{padding-left:16px;padding-right:16px}.pin{width:22px;height:22px;font-size:11px;line-height:22px}}
+@media (max-width:400px){section.ch>h2{font-size:20px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* A4 인쇄 */
+@page{size:A4;margin:14mm 12mm 14mm}
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff;font-size:10.5pt}
+  nav.toc,.totop,#lb{display:none!important}
+  .wrap{display:block;padding:0}
+  section.ch{box-shadow:none;padding:0 0 8mm;margin:0;break-before:page}
+  main{padding-bottom:8mm}
+  section.ch:first-of-type{break-before:auto}
+  figure.shot,.tbl,.eq,.svgbox,.note,.tip,.warn,.steps>li{break-inside:avoid}
+  h3,h4{break-after:avoid}
+  .top{border-radius:0}
+  .pfoot{position:fixed;bottom:0;left:0;right:0;height:6mm;background:#fff;font-size:8pt;color:#666;border-top:1px solid #ccc;padding-top:1.5mm;display:flex;justify-content:space-between}
+}
+.pfoot{display:none}
+@media print{.pfoot{display:flex}}
+/* ── 좁은 화면 대응(r1 · 2026-10-12) : 화면 전용 — 인쇄·PDF에는 영향 없음 ── */
+@media screen and (max-width:640px){
+  .k1 td:first-child,.k1 th:first-child{white-space:normal}
+  /* 글 표(숫자 칸 없는 표) → 행마다 카드로 쌓기 */
+  .tbl.stack{border:0;border-radius:0;overflow:visible}
+  .tbl.stack table,.tbl.stack tbody,.tbl.stack tr,.tbl.stack td{display:block;width:auto}
+  .tbl.stack thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .tbl.stack table{background:transparent}
+  .tbl.stack tr{border:1px solid var(--line);border-radius:10px;background:#fff;margin:0 0 10px;overflow:hidden}
+  .tbl.stack td{border-bottom:1px solid var(--line);padding:8px 12px}
+  .tbl.stack tr td:last-child{border-bottom:0}
+  .tbl.stack td:first-child{background:var(--navy-l);color:var(--navy-d);font-weight:700}
+  .tbl.stack td[data-th]:not(:first-child)::before{content:attr(data-th);display:block;font-size:12px;font-weight:700;color:var(--text2);margin-bottom:2px}
+  .tbl.stack.c2 td[data-th]:not(:first-child)::before{display:none}
+  .tbl.stack td:empty{display:none}
+  /* 숫자 표 → 표 모양 유지, 글자·여백 축소, 넘치면 좌우로 밀기(오른쪽 그림자로 표시) */
+  .tbl:not(.stack){background:linear-gradient(to right,#fff 30%,rgba(255,255,255,0)) left/40px 100% no-repeat local,linear-gradient(to left,#fff 30%,rgba(255,255,255,0)) right/40px 100% no-repeat local,radial-gradient(farthest-side at 100% 50%,rgba(26,26,46,.22),transparent) right/12px 100% no-repeat scroll,#fff}
+  .tbl:not(.stack) table{font-size:13px;background:transparent}
+  .tbl:not(.stack) th,.tbl:not(.stack) td{padding:7px 8px}
+  /* 수식 → 줄바꿈 허용 */
+  .eq{white-space:pre-wrap;word-break:keep-all;font-size:13px;line-height:1.75;padding:12px 14px}
+  .eq .c{display:block;padding-left:1em}
+  .svgbox{position:relative}
+  .svgbox::after{content:"← 좌우로 밀어서 보기 →";display:block;text-align:center;font-size:12px;color:var(--text2);margin-top:6px;position:sticky;left:0}
+  ol.legend{grid-template-columns:1fr}
+  .steps>li{padding-left:34px;margin-left:14px}
+}
+.rev{white-space:nowrap}
+@media print{.rev{display:none}}
+</style>
+</head><body>
+<header class="top"><div class="top-in">
+<div class="eyebrow">MANMIN ENGINEERING · USER MANUAL</div>
+<h1>설비펌프 용량 자동선정 시스템 사용자 매뉴얼</h1>
+<p class="sub">부하 · 급수량 → 유량 · 전양정 → 축동력 kW → 전동기 HP → A4 산출서</p>
+<div class="badges"><span class="badge acc">매뉴얼 <span style="font-family:var(--font-brand)">Ver-5.0</span></span><a class="badge" href="../index.html">▶ 설비펌프 용량 자동선정 시스템 열기</a><a class="badge" href="설비펌프_사용자매뉴얼_Ver-5.0.pdf" download>⤓ PDF</a><span class="badge">2026-10-14</span><span class="badge">김만민 건축사 · ㈜대성건축사사무소</span></div>
+</div></header>
+<div class="wrap"><nav class="toc" aria-label="목차"><h2>목차</h2><ol><li><a href="#ch0">0. 이 매뉴얼에 대하여</a></li><li><a href="#ch1">1. 한눈에 보기</a></li><li class="sub"><a href="#s1-1">화면 구성</a></li><li class="sub"><a href="#s1-2">작업 탭·근거 표시</a></li><li class="sub"><a href="#s1-3">설치·보관·매뉴얼</a></li><li><a href="#ch2">2. 1분 따라하기</a></li><li><a href="#ch3">3. 화면별 기능 상세</a></li><li class="sub"><a href="#s3-1">진행 상태·분류 탭</a></li><li class="sub"><a href="#s3-2">냉난방 순환펌프 입력</a></li><li class="sub"><a href="#s3-3">산정 기준 상자</a></li><li class="sub"><a href="#s3-4">산정 결과</a></li><li class="sub"><a href="#s3-5">오·배수 펌프</a></li><li class="sub"><a href="#s3-6">급탕 순환·재순환 펌프</a></li><li class="sub"><a href="#s3-7">급수 펌프</a></li><li class="sub"><a href="#s3-8">기준표 탭</a></li><li class="sub"><a href="#s3-9">사용방법 창</a></li><li class="sub"><a href="#s3-10">A4 미리보기·출력</a></li><li class="sub"><a href="#s3-11">휴대전화 화면</a></li><li><a href="#ch4">4. 기술기준 해설</a></li><li class="sub"><a href="#s4-1">근거 체계</a></li><li class="sub"><a href="#s4-2">동력 산정식</a></li><li class="sub"><a href="#s4-3">냉난방 순환펌프</a></li><li class="sub"><a href="#s4-4">오·배수 펌프</a></li><li class="sub"><a href="#s4-5">급탕 순환펌프</a></li><li class="sub"><a href="#s4-6">급수 펌프·수압</a></li><li class="sub"><a href="#s4-7">효율·제어방식</a></li><li class="sub"><a href="#s4-8">계산 범위·한계</a></li><li class="sub"><a href="#s4-9">v5.0.1 근거·계산 정정</a></li><li><a href="#ch5">5. 실무 작업 방법</a></li><li class="sub"><a href="#s5-1">단계별 절차</a></li><li class="sub"><a href="#s5-2">장비일람 반영 전 확인</a></li><li class="sub"><a href="#s5-3">예제 B — 부스터 hₐ 25 m</a></li><li><a href="#ch6">6. 문제 해결·FAQ</a></li><li><a href="#ch7">부록</a></li><li class="sub"><a href="#a1">예제 입력값</a></li><li class="sub"><a href="#a2">예제 결과 8종</a></li><li class="sub"><a href="#a3">버전 변경 내역</a></li><li class="sub"><a href="#a4">용어</a></li></ol></nav><main><style>
+#fig-s04_heat_input,#fig-s08_pit_input,#fig-s11_circ_input,#fig-s14_ws_input{max-width:330px}
+#fig-s05_heat_basis,#fig-s06_heat_result,#fig-s07_cool_result,#fig-s09_pit_result,#fig-s12_circ_result,#fig-s15_ws_result,#fig-s16_ws_b{max-width:480px}
+#fig-s20_a4page{max-width:560px}
+#fig-s18_formula{max-width:600px}
+.k1 td:first-child,.k1 th:first-child{white-space:nowrap}
+@media (max-width:1240px){.eq{white-space:pre-wrap;word-break:keep-all}}
+.eq .c{display:block;margin-top:2px}
+.pair>div{min-width:0}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+@media (max-width:760px){.tri{grid-template-columns:1fr}}
+@media print{
+  figure.shot{max-width:none!important}
+  figure.shot .frame{width:fit-content;max-width:100%}
+  figure.shot img{width:auto;height:auto;max-width:100%;max-height:118mm}
+  #fig-s20_a4page img,#fig-s04_heat_input img,#fig-s08_pit_input img,#fig-s11_circ_input img,#fig-s14_ws_input img,#fig-s06_heat_result img,#fig-s15_ws_result img,#fig-s05_heat_basis img{max-height:200mm}
+  figure.narrow img{max-height:105mm}
+  .pair{grid-template-columns:1fr 1fr}.tri{grid-template-columns:repeat(3,1fr)}
+  .brk .tbl{break-inside:auto}.brk tr{break-inside:avoid}.brk thead{display:table-header-group}
+}
+</style><section class="ch" id="ch0"><h2><span class="n">00</span>이 매뉴얼에 대하여</h2>
+<p class="lead">설비펌프 용량 자동선정 시스템은 건물에 들어가는 펌프 8종 — 냉난방 순환 2종 · 오·배수 2종 · 급탕 순환 2종 · 급수 2종 — 의 <b>유량 · 전양정 · 축동력 · 전동기 마력</b>을 산정하고 A4 산출서를 만듭니다. 근거는 기계설비 기술기준 국토교통부 고시 제2021-851호(제2026-360호로 타법개정, 2026. 7. 8. 시행) 별표 1 · 5 · 6 · 7 · 8과 건축물의 에너지절약설계기준(2026. 7. 8. 시행) 제8조 · 제9조이며, 기준에 수치가 없는 계수(여유율 · 단위손실 · 효율 기본값 · PIT 200 % · 단위 열손실 30 W/m 등)는 <b>MANMIN 참고값</b>으로 표시합니다.</p>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">내용</th></tr></thead><tbody><tr><td class="">대상 프로그램</td><td class="">설비펌프 용량 자동선정 시스템 <b>MANMIN Ver-5.0</b>(v5.0.2) — 탭 막대 「📘 매뉴얼」 버튼으로 이 문서가 열립니다</td></tr><tr><td class="">접속 주소</td><td class=""><a href="https://manminkim-eng.github.io/Booster-Pump/" target="_blank" rel="noopener">manminkim-eng.github.io/Booster-Pump</a></td></tr><tr><td class="">매뉴얼 판</td><td class=""><b>Ver-5.0</b> (화면 표기와 같은 판 번호, 초판) · 2026-10-14 · 작성 김만민 건축사(㈜대성건축사사무소)</td></tr><tr><td class="">내려받기</td><td class=""><a href="설비펌프_사용자매뉴얼_Ver-5.0.pdf" download>PDF(A4)</a> · <a href="../index.html">설비펌프 용량 자동선정 시스템 열기</a></td></tr><tr><td class="">예제</td><td class="">본문 그림은 예제 A(업무시설 10층 사옥 — 8종 모두 산정)로 캡처했습니다. 난방 순환펌프 <b>641.67 LPM · 14.3 m · 4.123 kW → 7.5 HP</b>, 자동부스터 <b>59.18 m → 토출압 550 kPa 이상 경고</b>. 8종 결과는 <a href="#a2">부록 A2</a></td></tr><tr><td class="">근거 기준</td><td class="">기계설비 기술기준 국토교통부 고시 제2021-851호(제2026-360호로 타법개정, 2026. 7. 8. 시행) 별표 1 2.6 · 2.8 / 별표 5 2.1.3 · 2.1.6 · 2.1.7 · 2.2.6 / 별표 6 2.1.3 / 별표 7 2.2.5 / 별표 8 2.5 · 건축물의 에너지절약설계기준(2026. 7. 8. 시행) 제8조제2호나목 · 제9조제4호 — LawMCP 원문 대조(2026-10-14)</td></tr><tr><td class="">읽는 순서</td><td class="">처음이면 1장 → 2장(따라하기) → 필요할 때 3장(화면별 상세). 장비 선정 전에는 4장(기술기준) · 5장(작업 방법)</td></tr></tbody></table></div></div>
+<div class="note"><b>표기</b>그림 위 주황색 번호(①②…)는 그림 아래 범례 번호와 같습니다. 그림을 누르면 크게 볼 수 있습니다. 유량은 LPM(ℓ/min), 양정은 m(수주), 동력은 kW로 계산하고 HP(1 HP = 0.7457 kW)로 전동기를 고릅니다.</div>
+<div class="warn"><b>책임 한계</b>기술기준은 펌프의 유량 기준(급수 2.1.3 · 급탕 2.2.6 등)과 설치 조건을 정할 뿐, <b>여유율 · 단위손실 · 효율 기본값 · 국부저항 비율</b> 같은 계수는 정하지 않습니다. 이 앱의 기본값은 MANMIN 참고값이며, 최종 사양은 제조사 성능곡선과 설계자 판단으로 정합니다.</div>
+</section>
+<section class="ch" id="ch1"><h2><span class="n">01</span>한눈에 보기</h2>
+<p class="lead">설치 없이 브라우저에서 바로 실행되는 단일 페이지 앱(PWA)입니다. 입력한 내용은 내 PC 브라우저 안에서만 계산되며 서버로 전송되지 않습니다.</p>
+<div class="cards">
+<div class="card"><h5>무엇을 산정하나</h5><p>유량 Q · 전양정 H · 축동력 P(kW) · 선정 마력(HP) · 구경 · 전원 · 수량</p></div>
+<div class="card"><h5>펌프 8종</h5><p>난방 · 냉방 순환 / PIT · 우수 배수 / 급탕 순환 · 재순환 / 고가수조 양수 · 자동부스터</p></div>
+<div class="card"><h5>근거</h5><p>기계설비 기술기준 별표 1 · 5 · 6 · 7 · 8 · 에너지절약설계기준 제8조 · 제9조</p></div>
+</div>
+<h3 id="s1-1">1-1. 화면 구성</h3>
+<figure class="shot" id="fig-s01_overview"><div class="frame"><img src="images/s01_overview.webp" width="1440" height="900" loading="lazy" alt="전체 화면 — 펌프 용량 산정 탭(예제 A · 8종 완료)"><span class="pin" style="left:5.26%;top:13.49%">1</span><span class="pin" style="left:5.26%;top:19.93%">2</span><span class="pin" style="left:6.37%;top:24.93%">3</span><span class="pin" style="left:6.37%;top:33.85%">4</span><span class="pin" style="left:6.37%;top:47.99%">5</span><span class="pin" style="left:6.37%;top:53.54%">6</span><span class="pin" style="left:6.37%;top:61.52%">7</span><span class="pin" style="left:28.18%;top:61.52%">8</span><span class="pin" style="left:61.79%;top:61.52%">9</span><span class="pin" style="left:94.57%;top:85.69%">10</span></div><figcaption><span class="fno">S01</span>전체 화면 — 펌프 용량 산정 탭(예제 A · 8종 완료)</figcaption><ol class="legend"><li><b>1</b><span>작업 탭: 펌프 용량 산정 · 기준표 · A4 미리보기 · 매뉴얼</span></li><li><b>2</b><span>요약 스트립: 완료 수 · 최근 펌프 · Q · H · 출력</span></li><li><b>3</b><span>프로젝트 배너 — 공사명 · 작성자 · 날짜</span></li><li><b>4</b><span>8종 진행 상태(누르면 해당 펌프로 이동)</span></li><li><b>5</b><span>펌프 분류 탭 4개</span></li><li><b>6</b><span>서브탭(난방/냉방 등 — 결과 따로 저장)</span></li><li><b>7</b><span>입력</span></li><li><b>8</b><span>산정 기준(식 · 근거)</span></li><li><b>9</b><span>산정 결과</span></li><li><b>10</b><span>오른쪽 아래 「초기화」 · 「사용방법」</span></li></ol></figure>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">영역</th><th class="">내용</th></tr></thead><tbody><tr><td class="">왼쪽 — 입력</td><td class="">펌프 형식 → 부하 · 유량 → 양정(배관 길이 · 단위손실 · 기기저항) → 안전율 · 효율 · 전동기 여유율 → 제어방식 · KS 인증 · A/B특성 효율</td></tr><tr><td class="">가운데 — 산정 기준</td><td class="">이 펌프에 쓰는 식과 근거 조항, MANMIN 참고값 구분</td></tr><tr><td class="">오른쪽 — 결과</td><td class="">유량 · 양정 · 계산동력(kW) · 선정동력(HP) → 계산 과정 → 펌프 선정 사양 → 제어방식 · KS 정보</td></tr></tbody></table></div></div>
+<h3 id="s1-2">1-2. 작업 탭·근거 표시</h3>
+<figure class="shot" id="fig-s02_tabs"><div class="frame"><img src="images/s02_tabs.webp" width="1440" height="186" loading="lazy" alt="헤더 — 작업 탭과 근거 표시"><span class="pin" style="left:6.82%;top:66.48%">1</span><span class="pin" style="left:15.80%;top:66.48%">2</span><span class="pin" style="left:21.83%;top:66.48%">3</span><span class="pin" style="left:86.30%;top:66.48%">4</span><span class="pin" style="left:80.14%;top:13.74%">5</span></div><figcaption><span class="fno">S02</span>헤더 — 작업 탭과 근거 표시</figcaption><ol class="legend"><li><b>1</b><span>펌프 용량 산정</span></li><li><b>2</b><span>기준표 — 구경 · 온도 · HP 환산 · 급수 기준</span></li><li><b>3</b><span>A4 미리보기 — 산출서 · 인쇄 · JPG</span></li><li><b>4</b><span>매뉴얼(이 문서)</span></li><li><b>5</b><span>근거: 기술기준 별표 1 · 5 · 6 · 고시 제2021-851호 · 제2026-360호 · 에너지절약설계기준 제8조 · 제9조</span></li></ol></figure>
+<h3 id="s1-3">1-3. 설치·보관·매뉴얼</h3>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">내용</th></tr></thead><tbody><tr><td class="">설치</td><td class="">주소창의 설치 아이콘 또는 휴대전화 「홈 화면에 추가」로 앱처럼 쓸 수 있습니다. 한 번 연 뒤에는 인터넷 없이도 계산됩니다</td></tr><tr><td class="">결과 보관</td><td class="">8종 결과는 서브탭마다 따로 저장되어 A4에 함께 나옵니다. 문서로 남기려면 A4 산출서(PDF · JPG)를 쓰십시오</td></tr><tr><td class="">매뉴얼</td><td class="">탭 막대 오른쪽 끝 「📘 매뉴얼」 — 인터넷 연결 시 새 창으로 열립니다. 좁은 화면에서는 탭 막대를 좌우로 밀면 보입니다</td></tr><tr><td class="">업데이트</td><td class="">새 버전이 올라오면 다음 접속 때 자동으로 바뀝니다. 화면이 예전 그대로면 새로 고침(Ctrl+F5)</td></tr></tbody></table></div></div>
+</section>
+<section class="ch" id="ch2"><h2><span class="n">02</span>1분 따라하기</h2>
+<p class="lead">예제 A의 난방 순환펌프로 6단계를 따라 하면 <b>641.67 LPM · 14.3 m · 4.123 kW → 7.5 HP</b>가 나옵니다. 나머지 7종도 같은 순서입니다.</p>
+<ol class="steps">
+<li><b class="t">① 펌프 선택</b>펌프 분류 탭에서 「🌡️ 냉난방 순환펌프」, 서브탭에서 「🔴 난방 순환펌프」를 고릅니다. 위 진행 상태 바를 눌러도 됩니다(<a href="#s3-1">3-1</a>).</li>
+<li><b class="t">② 부하 입력</b>펌프 형식(라인형)을 고르고 난방 부하 350,000 kcal/h · 배관부하 여유율 10 % · ΔT 10℃를 넣습니다(<a href="#s3-2">3-2</a>).</li>
+<li><b class="t">③ 양정 입력</b>왕복 배관 200 m · 단위손실 0.02 mAq/m · 코일 2 m · 보일러 5 m · 안전율 10 % · 효율 0.40 · 전동기 여유율 10 %를 넣습니다. 입력하는 대로 자동 계산됩니다.</li>
+<li><b class="t">④ 산정 결과</b>유량 641.67 LPM · 전양정 14.3 m · 계산동력 4.123 kW → 선정동력 <b>7.5 HP</b>(<a href="#s3-4">3-4</a>).</li>
+<li><b class="t">⑤ 8종 진행</b>서브탭과 분류 탭을 바꿔 가며 냉방 · PIT · 우수 · 급탕 순환 · 재순환 · 양수 · 부스터를 산정합니다. 진행 상태 바에 「완료」가 8개 켜집니다.</li>
+<li><b class="t">⑥ A4 산출서</b>「📄 A4 미리보기」에서 「🖨️ 인쇄 / PDF」 또는 「📸 JPG 저장」으로 8종 산출서를 남깁니다(<a href="#s3-10">3-10</a>).</li>
+</ol>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">예제 A 난방 순환펌프</th></tr></thead><tbody><tr><td class="">밀폐회로 실양정 hₐ</td><td class="">0 m (팽창탱크 설치 폐회로)</td></tr><tr><td class="">부하</td><td class="">350,000 kcal/hr</td></tr><tr><td class="">여유율</td><td class="">10%</td></tr><tr><td class="">ΔT</td><td class="">10℃</td></tr><tr><td class="">→ Q</td><td class="">641.667 LPM</td></tr><tr><td class="">배관손실 (L×R)</td><td class="">4.000 m</td></tr><tr><td class="">배관부속 (×0.5)</td><td class="">2.000 m</td></tr><tr><td class="">코일 저항</td><td class="">2 m</td></tr><tr><td class="">보일러 저항</td><td class="">5 m</td></tr><tr><td class="">기기저항 합계</td><td class="">7.000 m (69 kPa)</td></tr><tr><td class="">소계</td><td class="">13.000 m</td></tr><tr><td class="">안전율(10%)</td><td class="">1.300 m</td></tr><tr><td class="">→ H (전양정)</td><td class="">14.300 m</td></tr><tr><td class="">전동기 여유율(10%)</td><td class="">10% (적정)</td></tr><tr><td class="">→ P 계산</td><td class="">4.123 kW = 5.529 HP</td></tr><tr><td class="">→ 선정동력</td><td class="">7.5 HP</td></tr></tbody></table></div></div>
+<div class="tip"><b>확인</b>따라 한 결과가 위 표와 같으면 준비가 끝난 것입니다. v5.0.1부터 동력은 kW = Q × H × (1 + α) ÷ (6120 × η)로 계산한 뒤 HP로 바꿉니다(예전 판은 4500으로 나눈 PS 값을 HP로 표시 — 약 1.4 % 차이, <a href="#s4-9">4-9</a>).</div>
+</section>
+<section class="ch" id="ch3"><h2><span class="n">03</span>화면별 기능 상세</h2>
+<h3 id="s3-1">3-1. 진행 상태·분류 탭</h3>
+<figure class="shot" id="fig-s03_status"><div class="frame"><img src="images/s03_status.webp" width="1292" height="189" loading="lazy" alt="8종 진행 상태 바 · 펌프 분류 탭"><span class="pin" style="left:2.33%;top:15.16%">1</span><span class="pin" style="left:14.41%;top:15.16%">2</span><span class="pin" style="left:26.48%;top:15.16%">3</span><span class="pin" style="left:38.56%;top:15.16%">4</span><span class="pin" style="left:50.63%;top:15.16%">5</span><span class="pin" style="left:62.71%;top:15.16%">6</span><span class="pin" style="left:74.78%;top:15.16%">7</span><span class="pin" style="left:86.86%;top:15.16%">8</span><span class="pin" style="left:1.50%;top:76.57%">9</span></div><figcaption><span class="fno">S03</span>8종 진행 상태 바 · 펌프 분류 탭</figcaption><ol class="legend"><li><b>1</b><span>난방 순환펌프</span></li><li><b>2</b><span>냉방 순환펌프</span></li><li><b>3</b><span>PIT 배수펌프</span></li><li><b>4</b><span>우수 배수펌프</span></li><li><b>5</b><span>급탕 순환펌프</span></li><li><b>6</b><span>급탕 재순환펌프</span></li><li><b>7</b><span>고가수조 양수펌프</span></li><li><b>8</b><span>자동부스터 급수펌프</span></li><li><b>9</b><span>펌프 분류 탭 — 냉난방 · 오·배수 · 급수·급탕 · 급수</span></li></ol></figure>
+<p>진행 상태 바의 칸을 누르면 그 펌프의 분류 탭 · 서브탭으로 바로 이동합니다. 결과는 펌프마다 따로 저장되므로 서브탭을 바꿔도 앞서 산정한 결과는 남습니다.</p>
+<h3 id="s3-2">3-2. 냉난방 순환펌프 입력</h3>
+<div class="pair"><div><figure class="shot" id="fig-s04_heat_input"><div class="frame"><img src="images/s04_heat_input.webp" width="324" height="1199" loading="lazy" alt="난방 순환펌프 입력 — 예제 A"><span class="pin" style="left:8.73%;top:10.29%">1</span><span class="pin" style="left:8.73%;top:21.14%">2</span><span class="pin" style="left:8.73%;top:25.06%">3</span><span class="pin" style="left:8.73%;top:41.37%">4</span><span class="pin" style="left:8.73%;top:46.96%">5</span><span class="pin" style="left:8.73%;top:52.54%">6</span><span class="pin" style="left:8.73%;top:58.13%">7</span><span class="pin" style="left:8.73%;top:77.24%">8</span><span class="pin" style="left:8.73%;top:82.83%">9</span><span class="pin" style="left:8.73%;top:88.59%">10</span></div><figcaption><span class="fno">S04</span>난방 순환펌프 입력 — 예제 A</figcaption><ol class="legend"><li><b>1</b><span>① 펌프 형식</span></li><li><b>2</b><span>② 난방 부하</span></li><li><b>3</b><span>배관부하 여유율 · ΔT</span></li><li><b>4</b><span>왕복 배관 길이 · 단위손실</span></li><li><b>5</b><span>코일 · 보일러(냉동기) 저항</span></li><li><b>6</b><span>안전율 · 펌프 효율</span></li><li><b>7</b><span>전동기 여유율 · 제어방식</span></li><li><b>8</b><span>④ KS 인증 · 고효율 인증</span></li><li><b>9</b><span>A · B특성 효율</span></li><li><b>10</b><span>산정 버튼</span></li></ol></figure></div><div>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">내용</th></tr></thead><tbody><tr><td class="">유량</td><td class="">Q = 부하 × (1 + 여유율) ÷ ΔT ÷ 60 [LPM] — 물 1 kcal/kg·℃ · 1 kg/ℓ</td></tr><tr><td class="">ΔT</td><td class="">서브탭을 바꾸면 난방 10℃ · 냉방 5℃로 다시 채워집니다</td></tr><tr><td class="">양정</td><td class="">밀폐회로라 실양정 hₐ = 0 — 배관손실(L × R) + 부속(L × R × 0.5) + 코일 + 보일러(냉동기) + 안전율</td></tr><tr><td class="">기기저항 70 kPa</td><td class="">코일 + 보일러 합계가 70 kPa를 넘으면 경고 — 판형 열교환기 손실수두 70 kPa 이하(별표 1 2.6(4)) 확인</td></tr><tr><td class="">제어방식</td><td class="">대수 · 가변속 제어 권장(에너지절약설계기준 제9조제4호) · 대수제어면 예비펌프 생략 가능(별표 1 2.8(5))</td></tr><tr><td class="">KS · 효율</td><td class="">펌프 효율은 KS 규격 효율 이상(별표 1 2.8(1)) · KS 표시인증 또는 KS 효율 이상(에너지절약설계기준 제8조제2호나목) — A/B특성 효율은 장비선정계산서 기재용</td></tr></tbody></table></div></div></div></div>
+<h3 id="s3-3">3-3. 산정 기준 상자</h3>
+<figure class="shot" id="fig-s05_heat_basis"><div class="frame"><img src="images/s05_heat_basis.webp" width="494" height="1199" loading="lazy" alt="산정 기준 (별표 1) — 가운데 칸"></div><figcaption><span class="fno">S05</span>산정 기준 (별표 1) — 가운데 칸</figcaption></figure>
+<p>펌프마다 가운데 칸에 쓰는 식 · 근거 조항 · 구경 표가 나옵니다. 기준에 수치가 없는 값은 「MANMIN 참고값」으로 적혀 있습니다.</p>
+<h3 id="s3-4">3-4. 산정 결과</h3>
+<div class="pair"><div><figure class="shot" id="fig-s06_heat_result"><div class="frame"><img src="images/s06_heat_result.webp" width="494" height="1199" loading="lazy" alt="산정 결과 — 난방(예제 A)"><span class="pin" style="left:5.87%;top:6.87%">1</span><span class="pin" style="left:5.87%;top:25.42%">2</span><span class="pin" style="left:5.87%;top:62.25%">3</span><span class="pin" style="left:5.87%;top:84.71%">4</span></div><figcaption><span class="fno">S06</span>산정 결과 — 난방(예제 A)</figcaption><ol class="legend"><li><b>1</b><span>유량 · 양정 · 계산동력(kW) · 선정동력(HP)</span></li><li><b>2</b><span>계산 과정</span></li><li><b>3</b><span>펌프 선정 사양 — 형식 · 용도 · 구경 · 전원 · 수량</span></li><li><b>4</b><span>제어방식 · KS · A/B특성 효율</span></li></ol></figure></div><div><figure class="shot" id="fig-s07_cool_result"><div class="frame"><img src="images/s07_cool_result.webp" width="494" height="1199" loading="lazy" alt="산정 결과 — 냉방(예제 A)"><span class="pin" style="left:5.87%;top:6.87%">1</span><span class="pin" style="left:5.87%;top:62.25%">2</span></div><figcaption><span class="fno">S07</span>산정 결과 — 냉방(예제 A)</figcaption><ol class="legend"><li><b>1</b><span>Q 1,100 LPM · H 12.1 m · 10 HP</span></li><li><b>2</b><span>선정 사양</span></li></ol></figure></div></div>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">내용</th></tr></thead><tbody><tr><td class="">선정동력</td><td class="">계산동력(HP)의 바로 위 표준 마력(1/20 ~ 20 HP). 20 HP를 넘으면 「20+」로 표시</td></tr><tr><td class="">전원</td><td class="">¼ HP 이하 1Φ 220V · 그 이상 3Φ 380V</td></tr><tr><td class="">구경</td><td class="">유량 구간표(기준표 탭) — 배관 호칭지름 산정(별표 8)과는 별개인 펌프 토출구 참고값</td></tr><tr><td class="">수량</td><td class="">순환 · 양수 2대(1대 예비) · 배수 2대 교대운전 · 부스터는 입력 대수 병렬</td></tr></tbody></table></div></div>
+<h3 id="s3-5">3-5. 오·배수 펌프</h3>
+<div class="pair"><div><figure class="shot" id="fig-s08_pit_input"><div class="frame"><img src="images/s08_pit_input.webp" width="324" height="1179" loading="lazy" alt="PIT 배수펌프 입력"><span class="pin" style="left:8.73%;top:11.39%">1</span><span class="pin" style="left:8.73%;top:28.10%">2</span><span class="pin" style="left:8.73%;top:44.09%">3</span><span class="pin" style="left:8.73%;top:53.42%">4</span><span class="pin" style="left:8.73%;top:59.11%">5</span><span class="pin" style="left:8.73%;top:64.79%">6</span></div><figcaption><span class="fno">S08</span>PIT 배수펌프 입력</figcaption><ol class="legend"><li><b>1</b><span>시간 최대 유입량</span></li><li><b>2</b><span>집수조 유효 용량(30분 검증)</span></li><li><b>3</b><span>배수 용도 — 고형물 Ø50 / Ø25</span></li><li><b>4</b><span>층고 · 배관 길이</span></li><li><b>5</b><span>단위손실 · 안전율</span></li><li><b>6</b><span>효율 · 전동기 여유율</span></li></ol></figure></div><div><figure class="shot" id="fig-s09_pit_result"><div class="frame"><img src="images/s09_pit_result.webp" width="494" height="1179" loading="lazy" alt="산정 결과 — PIT(예제 A)"><span class="pin" style="left:5.87%;top:9.17%">1</span><span class="pin" style="left:5.87%;top:25.80%">2</span><span class="pin" style="left:5.87%;top:57.14%">3</span></div><figcaption><span class="fno">S09</span>산정 결과 — PIT(예제 A)</figcaption><ol class="legend"><li><b>1</b><span>유량 · 양정 · 동력</span></li><li><b>2</b><span>계산 과정</span></li><li><b>3</b><span>고형물 통과 · 집수정 규격</span></li></ol></figure></div></div>
+<figure class="shot" id="fig-s10_rain_result"><div class="frame"><img src="images/s10_rain_result.webp" width="1292" height="1155" loading="lazy" alt="우수 배수펌프 — 입력과 결과(예제 A)"><span class="pin" style="left:2.49%;top:11.61%">1</span><span class="pin" style="left:2.49%;top:14.90%">2</span><span class="pin" style="left:64.25%;top:9.30%">3</span></div><figcaption><span class="fno">S10</span>우수 배수펌프 — 입력과 결과(예제 A)</figcaption><ol class="legend"><li><b>1</b><span>시간 최대 강수량</span></li><li><b>2</b><span>집수 면적 · 설치 대수</span></li><li><b>3</b><span>우수 결과</span></li></ol></figure>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">내용</th></tr></thead><tbody><tr><td class="">PIT 유량</td><td class="">설계 Q = 시간최대 유입량 × 200 % (MANMIN 참고값). 별표 6 2.1.3(4)①은 「예상 사용 요구량에 적합」하도록만 정합니다</td></tr><tr><td class="">30분 검증</td><td class="">집수조 용량을 설계 Q로 30분 안에 비우는지 확인 — 오수정화시설 배수펌프 기준(별표 7 2.2.5) 준용</td></tr><tr><td class="">우수 유량</td><td class="">Q = 강수량[mm/h] × 면적[㎡] ÷ 60 ÷ 대수 [LPM] — 강수량은 지역 기상자료(별표 8 2.8)</td></tr><tr><td class="">고형물</td><td class="">대변기용 Ø50 mm 이하 · 그 외 Ø25 mm 이하 구형 고형물 처리(별표 6 2.1.3(2)③④)</td></tr><tr><td class="">집수정 · 대수</td><td class="">직경 450 mm · 깊이 600 mm 이상, 상시 유입은 2대 이상(1대 예비)(별표 6 2.1.3(4)②③)</td></tr><tr><td class="">효율</td><td class="">PIT · 우수 모두 입력한 η를 씁니다(v5.0.1 — 예전 판은 우수 0.30 고정)</td></tr></tbody></table></div></div>
+<h3 id="s3-6">3-6. 급탕 순환·재순환 펌프</h3>
+<div class="pair"><div><figure class="shot" id="fig-s11_circ_input"><div class="frame"><img src="images/s11_circ_input.webp" width="324" height="1127" loading="lazy" alt="급탕 순환펌프 입력 — 열손실 기준"><span class="pin" style="left:8.73%;top:10.10%">1</span><span class="pin" style="left:8.73%;top:15.25%">2</span><span class="pin" style="left:8.73%;top:22.09%">3</span><span class="pin" style="left:8.73%;top:40.95%">4</span><span class="pin" style="left:8.73%;top:45.12%">5</span><span class="pin" style="left:8.73%;top:52.84%">6</span><span class="pin" style="left:8.73%;top:62.83%">7</span></div><figcaption><span class="fno">S11</span>급탕 순환펌프 입력 — 열손실 기준</figcaption><ol class="legend"><li><b>1</b><span>배관 길이 · 단위 열손실</span></li><li><b>2</b><span>열손실 직접 입력 · 환탕 Δt</span></li><li><b>3</b><span>순환 Q 근거</span></li><li><b>4</b><span>건물 규모(K · R 기본값)</span></li><li><b>5</b><span>배관저항 R · 왕복 길이 I</span></li><li><b>6</b><span>국부저항 비율 K</span></li><li><b>7</b><span>효율 · 전동기 여유율</span></li></ol></figure></div><div><figure class="shot" id="fig-s12_circ_result"><div class="frame"><img src="images/s12_circ_result.webp" width="494" height="1127" loading="lazy" alt="산정 결과 — 급탕 순환(예제 A)"><span class="pin" style="left:5.87%;top:9.46%">1</span><span class="pin" style="left:5.87%;top:26.86%">2</span></div><figcaption><span class="fno">S12</span>산정 결과 — 급탕 순환(예제 A)</figcaption><ol class="legend"><li><b>1</b><span>유량 · 양정 · 동력</span></li><li><b>2</b><span>열손실 → 유량 계산 과정</span></li></ol></figure></div></div>
+<figure class="shot" id="fig-s13_recirc"><div class="frame"><img src="images/s13_recirc.webp" width="1292" height="1103" loading="lazy" alt="급탕 재순환펌프 — 가열장치 출력 기준(예제 A)"><span class="pin" style="left:2.49%;top:10.30%">1</span><span class="pin" style="left:64.25%;top:9.60%">2</span></div><figcaption><span class="fno">S13</span>급탕 재순환펌프 — 가열장치 출력 기준(예제 A)</figcaption><ol class="legend"><li><b>1</b><span>가열장치 출력 · 가열 Δt</span></li><li><b>2</b><span>재순환 결과</span></li></ol></figure>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">내용</th></tr></thead><tbody><tr><td class="">순환 유량</td><td class="">Q = 배관 열손실[kcal/h] ÷ (60 × Δt) — 별표 5 2.2.6(1) 순환펌프 유량 = 환탕유량, 별표 8 2.5(2) 환탕유량은 급탕배관 열손실로 계산</td></tr><tr><td class="">열손실</td><td class="">배관 길이 × 단위 열손실(W/m) × 0.86 = kcal/h. 30 W/m · Δt 5℃는 MANMIN 참고값 — 보온 두께 · 관경별로 구한 값이 있으면 「직접 입력」</td></tr><tr><td class="">재순환 유량</td><td class="">Q = 가열장치 출력[kcal/h] ÷ (60 × Δt) — 가열장치 ↔ 저탕조 열량 평형식(MANMIN 참고값)</td></tr><tr><td class="">양정</td><td class="">H = R × I × (1 + K) ÷ 1000 — 마찰손실수두가 가장 큰 순환관로(별표 5 2.2.6(1))</td></tr><tr><td class="">정지</td><td class="">급탕하지 않을 때 순환펌프를 자동이나 수동으로 정지시킬 수 있어야 함(별표 5 2.2.6(2))</td></tr></tbody></table></div></div>
+<h3 id="s3-7">3-7. 급수 펌프</h3>
+<div class="pair"><div><figure class="shot" id="fig-s14_ws_input"><div class="frame"><img src="images/s14_ws_input.webp" width="324" height="1099" loading="lazy" alt="자동부스터 급수펌프 입력 — 예제 A"><span class="pin" style="left:8.73%;top:12.16%">1</span><span class="pin" style="left:8.73%;top:17.45%">2</span><span class="pin" style="left:8.73%;top:21.09%">3</span><span class="pin" style="left:8.73%;top:37.43%">4</span><span class="pin" style="left:8.73%;top:41.71%">5</span><span class="pin" style="left:8.73%;top:49.63%">6</span><span class="pin" style="left:8.73%;top:76.22%">7</span><span class="pin" style="left:8.73%;top:84.05%">8</span></div><figcaption><span class="fno">S14</span>자동부스터 급수펌프 입력 — 예제 A</figcaption><ol class="legend"><li><b>1</b><span>순간최대 예상급수량</span></li><li><b>2</b><span>병렬 운전 대수(최소 2대)</span></li><li><b>3</b><span>별표 5 2.1.3(2) 기준</span></li><li><b>4</b><span>실양정 hₐ</span></li><li><b>5</b><span>배관 길이 · 단위마찰손실</span></li><li><b>6</b><span>말단기구 최저필요수압 hₒ</span></li><li><b>7</b><span>효율 · 전동기 여유율</span></li><li><b>8</b><span>550 kPa 경고</span></li></ol></figure></div><div><figure class="shot" id="fig-s15_ws_result"><div class="frame"><img src="images/s15_ws_result.webp" width="494" height="1078" loading="lazy" alt="산정 결과 — 자동부스터(예제 A)"><span class="pin" style="left:5.87%;top:9.75%">1</span><span class="pin" style="left:5.87%;top:27.94%">2</span><span class="pin" style="left:5.87%;top:91.71%">3</span></div><figcaption><span class="fno">S15</span>산정 결과 — 자동부스터(예제 A)</figcaption><ol class="legend"><li><b>1</b><span>유량 · 양정 · 동력</span></li><li><b>2</b><span>계산 과정 · 토출압 판정</span></li><li><b>3</b><span>감압밸브 · 조닝 안내</span></li></ol></figure></div></div>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">내용</th></tr></thead><tbody><tr><td class="">고가수조 양수</td><td class="">유량 = 시간최대 예상급수량, 예비펌프로 교대 운전(별표 5 2.1.3(1))</td></tr><tr><td class="">자동부스터</td><td class="">유닛 전체 유량 = 순간최대 예상급수량, 펌프 2대 이상(별표 5 2.1.3(2)) — 펌프 1대 Q = 전체 ÷ 대수</td></tr><tr><td class="">양정</td><td class="">H = hₐ + 배관손실(L × R × 1.5) + hₒ + 안전율 — hₒ는 위생기구 최저필요수압(별표 5 2.1.6 표 2)</td></tr><tr><td class="">550 kPa</td><td class="">위생기구 수압 550 kPa 이상이면 감압밸브 또는 급수 조닝(별표 5 2.1.7). 자동부스터는 펌프 토출압(전양정 × 9.807)으로 판정 — 예제 A 59.18 m ≈ 580 kPa → 경고</td></tr><tr><td class="">고가수조</td><td class="">토출압이 기구에 걸리지 않으므로 이 앱은 판정하지 않습니다 — 고가수조에서 최하층 기구까지 낙차로 따로 확인</td></tr></tbody></table></div></div>
+<h3 id="s3-8">3-8. 기준표 탭</h3>
+<figure class="shot" id="fig-s17_ref"><div class="frame"><img src="images/s17_ref.webp" width="1292" height="553" loading="lazy" alt="기준표 — 급수펌프(방식별 유량 · 최저필요수압 · 550 kPa · 구경)"><span class="pin" style="left:1.50%;top:2.97%">1</span><span class="pin" style="left:1.50%;top:13.13%">2</span><span class="pin" style="left:34.35%;top:13.13%">3</span></div><figcaption><span class="fno">S17</span>기준표 — 급수펌프(방식별 유량 · 최저필요수압 · 550 kPa · 구경)</figcaption><ol class="legend"><li><b>1</b><span>기준표 5종 — 냉난방 · 배수 · 급탕 · HP표 · 급수펌프</span></li><li><b>2</b><span>방식별 유량 기준(별표 5 2.1.3)</span></li><li><b>3</b><span>위생기구 최저필요수압(별표 5 2.1.6)</span></li></ol></figure>
+<p>「⚡ HP표」는 표준 마력 · kW · 전원을, 「🌡️ 냉난방」 · 「🚰 배수」는 유량별 구경과 운전 온도를 보여 줍니다. 「지역별 최대 강수량」 값은 설계 지역의 기상자료로 바꿔 쓰십시오.</p>
+<h3 id="s3-9">3-9. 사용방법 창</h3>
+<figure class="shot" id="fig-s18_formula"><div class="frame"><img src="images/s18_formula.webp" width="744" height="798" loading="lazy" alt="오른쪽 아래 「사용방법」 — 공식 탭"></div><figcaption><span class="fno">S18</span>오른쪽 아래 「사용방법」 — 공식 탭</figcaption></figure>
+<p>사용방법 창에는 웹 사용법 · 프로젝트 정보 · 공식 · 법령 · 설계팁 탭이 있습니다. 프로젝트 정보(공사명 · 작성자 · 작성일)는 A4 산출서 표제에 들어갑니다.</p>
+<h3 id="s3-10">3-10. A4 미리보기·출력</h3>
+<figure class="shot" id="fig-s19_a4"><div class="frame"><img src="images/s19_a4.webp" width="1440" height="900" loading="lazy" alt="A4 미리보기 탭"><span class="pin" style="left:6.37%;top:27.13%">1</span><span class="pin" style="left:6.37%;top:60.55%">2</span><span class="pin" style="left:14.28%;top:60.55%">3</span><span class="pin" style="left:22.83%;top:70.53%">4</span></div><figcaption><span class="fno">S19</span>A4 미리보기 탭</figcaption><ol class="legend"><li><b>1</b><span>8종 요약 카드</span></li><li><b>2</b><span>인쇄 / PDF</span></li><li><b>3</b><span>JPG 저장</span></li><li><b>4</b><span>A4 산출서</span></li></ol></figure>
+<figure class="shot" id="fig-s20_a4page"><div class="frame"><img src="images/s20_a4page.webp" width="818" height="2400" loading="lazy" alt="A4 설비펌프 용량 자동선정 산출서 — 예제 A(첫 부분)"><span class="pin" style="left:8.35%;top:6.37%">1</span><span class="pin" style="left:8.35%;top:13.52%">2</span><span class="pin" style="left:8.35%;top:24.55%">3</span></div><figcaption><span class="fno">S20</span>A4 설비펌프 용량 자동선정 산출서 — 예제 A(첫 부분)</figcaption><ol class="legend"><li><b>1</b><span>공사명 · 법령 근거</span></li><li><b>2</b><span>펌프별 결과표</span></li><li><b>3</b><span>계산 과정</span></li></ol></figure>
+<p>산정한 펌프만 순서대로 나오며, 펌프마다 결과표 · 계산 과정 · 제어방식 · KS · A/B특성 효율이 한 묶음으로 쪽을 넘기지 않게 배치됩니다.</p>
+<h3 id="s3-11">3-11. 휴대전화 화면</h3>
+<div class="tri"><div><figure class="shot narrow" id="fig-s21_mobile_main"><div class="frame"><img src="images/s21_mobile_main.webp" width="390" height="844" loading="lazy" alt="입력"></div><figcaption><span class="fno">S21</span>입력</figcaption></figure></div><div><figure class="shot narrow" id="fig-s22_mobile_result"><div class="frame"><img src="images/s22_mobile_result.webp" width="390" height="844" loading="lazy" alt="결과"></div><figcaption><span class="fno">S22</span>결과</figcaption></figure></div><div><figure class="shot narrow" id="fig-s23_mobile_a4"><div class="frame"><img src="images/s23_mobile_a4.webp" width="390" height="844" loading="lazy" alt="A4 미리보기"></div><figcaption><span class="fno">S23</span>A4 미리보기</figcaption></figure></div></div>
+<p>좁은 화면에서는 진행 상태 바가 4칸씩 두 줄, 입력 → 산정 기준 → 결과가 한 줄로 쌓입니다. 탭 막대는 다른 MANMIN 도구와 같이 한 줄이며 좌우로 밀어 「매뉴얼」까지 볼 수 있습니다.</p>
+</section>
+<section class="ch" id="ch4"><h2><span class="n">04</span>기술기준 해설</h2>
+<h3 id="s4-1">4-1. 근거 체계</h3>
+<div class="brk"><div class="k1"><div class="tbl"><table><thead><tr><th class="">근거</th><th class="">내용</th></tr></thead><tbody><tr><td class="">별표 1 2.6(4)</td><td class="">판형 열교환기의 손실수두는 <b>70 kPa 이하</b></td></tr><tr><td class="">별표 1 2.8</td><td class="">펌프효율은 KS 규격 효율 이상 · 장비일람에 명기(1) / 순환펌프는 예비펌프(2) / 사용동력 · 전원 기입(3) / 제어방식 명시(4) / 대수제어면 예비 생략 가능(5)</td></tr><tr><td class="">별표 5 2.1.3</td><td class="">고가수조용 양수펌프 = 시간최대 예상급수량 · 예비펌프 교대 운전 / 자동부스터 = 순간최대 예상급수량 · 2대 이상</td></tr><tr><td class="">별표 5 2.1.6 · 2.1.7</td><td class="">위생기구 최저 필요 급수압력 표 2 / 수압 <b>550 kPa 이상</b>이면 감압밸브 또는 급수 조닝</td></tr><tr><td class="">별표 5 2.2.6</td><td class="">급탕순환펌프 유량 = 환탕유량, 양정 = 마찰손실수두가 가장 큰 순환관로 / 급탕하지 않을 때 정지 가능</td></tr><tr><td class="">별표 8 2.5(2)</td><td class="">환탕관의 유량은 급탕배관의 열손실을 구하여 계산</td></tr><tr><td class="">별표 6 2.1.3</td><td class="">배수펌프 유량 · 압력은 예상 사용 요구량에 적합 / 고형물 Ø50 · Ø25 / 집수정 Ø450 × 600 / 상시 유입 2대 이상(1대 예비)</td></tr><tr><td class="">별표 7 2.2.5</td><td class="">(오수정화시설) 배수펌프는 시간최대 처리 수량을 30분 이내 배출 · 예비펌프 — PIT 30분 검증에 준용</td></tr><tr><td class="">에너지절약설계기준 제8조제2호나목</td><td class="">펌프는 KS B 6318 · 7501 등 표시인증제품 또는 KS 효율 이상(의무)</td></tr><tr><td class="">에너지절약설계기준 제9조제4호</td><td class="">순환펌프 대수 · 가변속 제어, 급수펌프 가변속 제어, 효율 높은 펌프(권장)</td></tr></tbody></table></div></div></div>
+<p class="mono" style="font-size:13px;color:var(--text2)">기계설비 기술기준 국토교통부 고시 제2021-851호(제2026-360호로 타법개정, 2026. 7. 8. 시행) · 건축물의 에너지절약설계기준(2026. 7. 8. 시행) · 관련 KDS(각 별표 1.3): KDS 31 25 10 열원기기 · 31 30 15 급수 · 31 30 20 급탕 · 31 30 25 배수통기 · 31 30 35 우수</p>
+<h3 id="s4-2">4-2. 동력 산정식</h3>
+<div class="eq">P = ρ · g · Q · H ÷ η = Q[LPM] × H[m] × (1 + α) ÷ (6120 × η) [kW]<span class="c">물 1,000 kg/㎥ · g 9.807 · 60,000 ℓ/min = 1 ㎥/s → 6,118 ≈ 6120 · α 전동기 여유율(MANMIN 권장 10~15 %)</span></div>
+<div class="eq">HP = kW ÷ 0.7457 → 바로 위 표준 마력 &nbsp;→&nbsp; 예제 A 난방 4.123 kW ÷ 0.7457 = 5.529 HP → 7.5 HP</div>
+<p>예전 판은 Q × H ÷ (4500 × η)로 계산해 HP로 표시했습니다. 4500은 프랑스 마력(PS, 0.7355 kW) 상수라 HP · kW 환산과 1.4 % 어긋났습니다. v5.0.1부터 kW로 계산하고 HP로 바꿉니다.</p>
+<h3 id="s4-3">4-3. 냉난방 순환펌프</h3>
+<div class="eq">Q = 부하 × (1 + 여유율) ÷ ΔT ÷ 60 &nbsp;→&nbsp; 350,000 × 1.1 ÷ 10 ÷ 60 = 641.67 LPM</div>
+<div class="eq">H = (L × R × 1.5 + 코일 + 보일러) × (1 + 안전율) &nbsp;→&nbsp; (200 × 0.02 × 1.5 + 2 + 5) × 1.1 = 14.3 m<span class="c">밀폐회로 실양정 0 · 부속 손실은 직관의 50 %(MANMIN 참고값)</span></div>
+<p>냉동기 · 보일러 · 열교환기의 손실수두는 순환펌프 양정에 반영합니다(별표 1 2.2.1(2) · 2.2.2(1)). 판형 열교환기를 쓰면 그 손실수두가 70 kPa 이하인지 확인하십시오(별표 1 2.6(4)).</p>
+<h3 id="s4-4">4-4. 오·배수 펌프</h3>
+<p>기술기준은 배수펌프 유량을 「예상 사용 요구량에 적합」하도록만 정합니다(별표 6 2.1.3(4)①). 이 앱의 PIT 200 %는 유입 변동 · 이물 막힘을 고려한 MANMIN 참고값이며, 집수조를 30분 안에 비우는지는 오수정화시설 배수펌프 기준(별표 7 2.2.5)을 준용해 확인합니다. 우수 배수펌프는 시간최대 강수량 × 면적으로 유량을 구합니다.</p>
+<h3 id="s4-5">4-5. 급탕 순환펌프</h3>
+<div class="eq">Q = 배관 열손실 ÷ (60 × Δt) &nbsp;→&nbsp; 200 m × 30 W/m × 0.86 = 5,160 kcal/h ÷ (60 × 5) = 17.2 LPM<span class="c">별표 5 2.2.6(1) · 별표 8 2.5(2) — 30 W/m · Δt 5℃는 MANMIN 참고값</span></div>
+<div class="eq">H = R × I × (1 + K) ÷ 1000 &nbsp;→&nbsp; 20 × 120 × 2 ÷ 1000 = 4.8 m</div>
+<p>예전 판의 「시간최대급탕량 ÷ 2」 · 「시간최대급탕량 ÷ (60 − 5)」는 기준에 없는 식이었고, 뒤의 식은 단위(ℓ/h ÷ ℃)도 맞지 않아 v5.0.1에서 열손실 · 열량 기준으로 바꿨습니다.</p>
+<h3 id="s4-6">4-6. 급수 펌프·수압</h3>
+<div class="brk"><div class="k1"><div class="tbl"><table><thead><tr><th class="">위생기구(별표 5 2.1.6 표 2 발췌)</th><th class="">최저필요수압</th></tr></thead><tbody><tr><td class="">욕조 · 세면기 · 싱크(가정용) · 세정탱크 대변기 · 호스 수도꼭지</td><td class="">55 kPa (5.6 m)</td></tr><tr><td class="">샤워기</td><td class="">70 kPa (7.1 m)</td></tr><tr><td class="">소변기 밸브 · 대변기 세정밸브</td><td class="">100 kPa (10.2 m)</td></tr><tr><td class="">샤워기(압력식 · 온도감지 혼합밸브)</td><td class="">130 kPa (13.3 m)</td></tr></tbody></table></div></div></div>
+<div class="eq">자동부스터 H = (hₐ + L × R × 1.5 + hₒ) × (1 + 안전율) &nbsp;→&nbsp; (40 + 3.6 + 10.2) × 1.1 = 59.18 m ≈ 580 kPa ≥ 550 kPa<span class="c">별표 5 2.1.7 — 감압밸브 또는 급수 조닝으로 550 kPa 이하</span></div>
+<h3 id="s4-7">4-7. 효율·제어방식</h3>
+<p>펌프 효율은 KS 규격 효율 이상으로 하고 장비일람에 적습니다(별표 1 2.8(1) · 에너지절약설계기준 제8조제2호나목). 앱의 기본 효율(순환 0.40 · 급탕 0.35 · 급수 0.55)은 소형 펌프를 가정한 MANMIN 참고값이므로, 선정 모델의 KS 효율 · 성능곡선 값으로 바꿔 넣으십시오. 대수 · 가변속 제어는 에너지절약설계기준 제9조제4호의 권장사항이며, 예전 판에 있던 「EPI +2~3점」 표시는 근거를 확인하지 못해 v5.0.1에서 뺐습니다.</p>
+<h3 id="s4-8">4-8. 계산 범위·한계</h3>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">내용</th></tr></thead><tbody><tr><td class="">계산하는 것</td><td class="">8종 펌프의 유량 · 전양정 · 축동력(kW) · 선정 마력 · 참고 구경 · 전원 · 수량, 기기저항 70 kPa · 집수조 30분 · 토출압 550 kPa 확인</td></tr><tr><td class="">계산하지 않는 것</td><td class="">배관 마찰손실 상세 계산(관경별 R), 흡입 양정 · NPSH, 성능곡선 운전점, 냉각수 펌프, 팽창탱크, 소방펌프</td></tr><tr><td class="">계수</td><td class="">여유율 · 단위손실 · 부속 50 % · 효율 기본값 · PIT 200 % · 30 W/m는 MANMIN 참고값</td></tr></tbody></table></div></div>
+<h3 id="s4-9">4-9. v5.0.1 근거·계산 정정 (2026-10-14)</h3>
+<div class="brk"><div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">기존</th><th class="">정정</th></tr></thead><tbody><tr><td class="">헤더 근거</td><td class="">고시 제2021-851호</td><td class="">제2026-360호 타법개정(2026.7.8.) 표기</td></tr><tr><td class="">관련 KDS</td><td class="">31 20 20 냉난방 · 31 25 10 급탕 · 31 25 30 오배수</td><td class="">31 25 10 열원기기 · 31 30 20 급탕 · 31 30 25 배수통기(별표 1.3 인용)</td></tr><tr><td class="">기계설비법</td><td class="">「제정 2020.06.09 / 시행 2021.04.17」</td><td class="">현행 법률 제17453호(2020.6.9. 공포 · 시행) 제14조</td></tr><tr><td class="">70 kPa</td><td class="">「보고서 3조」</td><td class="">별표 1 2.6(4) 판형 열교환기 손실수두</td></tr><tr><td class="">PIT 200 %</td><td class="">「200% 기준 (별표 6)」</td><td class="">MANMIN 참고값 · 30분은 별표 7 2.2.5 준용</td></tr><tr><td class="">급탕 순환 Q</td><td class="">시간최대급탕량 ÷ 2 ÷ 60</td><td class="">배관 열손실 ÷ (60 × Δt) — 별표 5 2.2.6(1) · 별표 8 2.5(2)</td></tr><tr><td class="">급탕 재순환 Q</td><td class="">시간최대급탕량 ÷ (60 − 5) (단위 불일치)</td><td class="">가열장치 출력 ÷ (60 × Δt)</td></tr><tr><td class="">EPI</td><td class="">「+EPI 3점 · 2점」 · 고시 제2023-104호</td><td class="">에너지절약설계기준 제8조제2호나목 · 제9조제4호</td></tr><tr><td class="">550 kPa</td><td class="">최저필요수압 hₒ로 판정 · 「초과」</td><td class="">자동부스터 토출압으로 판정 · 「이상」(별표 5 2.1.7)</td></tr><tr><td class="">우수 효율</td><td class="">입력과 관계없이 0.30</td><td class="">입력값 사용</td></tr><tr><td class="">동력</td><td class="">Q × H ÷ (4500 × η)을 HP로 표시</td><td class="">kW = Q × H ÷ (6120 × η) → HP</td></tr><tr><td class="">0 입력</td><td class="">여유율 · 효율 · ΔT · hₒ 등 0 → 기본값</td><td class="">빈칸만 기본값</td></tr></tbody></table></div></div></div>
+<p>예전 판의 급탕 순환 · 재순환 결과와 부스터 550 kPa 판정은 다시 산정하십시오. 나머지 펌프의 동력은 약 1.4 % 작아지며, 표준 마력 경계에 걸린 경우 선정 마력이 한 단계 내려갈 수 있습니다.</p>
+</section>
+<section class="ch" id="ch5"><h2><span class="n">05</span>실무 작업 방법</h2>
+<h3 id="s5-1">5-1. 단계별 절차</h3>
+<div class="svgbox"><svg viewBox="0 0 900 210" role="img" aria-label="펌프 산정 흐름: 부하나 급수량에서 유량을 구하고, 실양정과 배관손실과 기기저항으로 전양정을, 유량과 양정과 효율로 축동력을, 여유율을 더해 표준 전동기를 고른다">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2D3A8C"/></marker></defs>
+<style>.b{fill:#E9ECF8;stroke:#2D3A8C;stroke-width:1.5}.o{fill:#FDF1E7;stroke:#C97A3A;stroke-width:1.5}.t{font:600 14px 'Noto Sans KR','Noto Sans KR Local',sans-serif;fill:#1A1A2E}.s{font:12px 'Noto Sans KR','Noto Sans KR Local',sans-serif;fill:#4A4F66}.l{stroke:#2D3A8C;stroke-width:1.6;fill:none;marker-end:url(#ar)}</style>
+<rect class="b" x="10" y="20" width="200" height="72" rx="10"/><text class="t" x="22" y="48">① 유량 Q [LPM]</text><text class="s" x="22" y="72">부하 ÷ ΔT · 급수량 · 열손실</text>
+<rect class="b" x="240" y="20" width="200" height="72" rx="10"/><text class="t" x="252" y="48">② 전양정 H [m]</text><text class="s" x="252" y="72">실양정 + 손실 + 기기 + 안전율</text>
+<rect class="b" x="470" y="20" width="200" height="72" rx="10"/><text class="t" x="482" y="48">③ 축동력 P [kW]</text><text class="s" x="482" y="72">Q × H × (1+α) ÷ (6120 η)</text>
+<rect class="o" x="700" y="20" width="190" height="72" rx="10"/><text class="t" x="712" y="48">④ 전동기 선정</text><text class="s" x="712" y="72">kW ÷ 0.7457 → 표준 HP</text>
+<path class="l" d="M210,56 L238,56"/><path class="l" d="M440,56 L468,56"/><path class="l" d="M670,56 L698,56"/>
+<rect class="b" x="240" y="122" width="430" height="66" rx="10"/><text class="t" x="252" y="148">펌프 효율 KS 규격 이상 · 장비일람에 효율 · 전원 · 제어방식</text><text class="s" x="252" y="171">기술기준 별표 1 2.8 · 에너지절약설계기준 제8조제2호나목</text>
+<path class="l" d="M570,122 L570,96"/>
+</svg></div>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">단계</th><th class="">내용</th></tr></thead><tbody><tr><td class="">① 계통 정리</td><td class="">열원 · 공조기 · 위생 계통도를 보고 펌프마다 담당 부하 · 급수량 · 배수량을 정합니다</td></tr><tr><td class="">② 유량</td><td class="">부하 ÷ ΔT(냉난방), 유입량 · 강수량(배수), 열손실 · 가열 열량(급탕), 시간 · 순간최대 예상급수량(급수)</td></tr><tr><td class="">③ 양정</td><td class="">최원단 관로의 배관 길이 · 단위손실과 기기저항, 실양정 · 최저필요수압을 넣습니다</td></tr><tr><td class="">④ 선정</td><td class="">계산 kW · 선정 HP를 보고 제조사 성능곡선에서 운전점을 확인합니다. 효율은 선정 모델 값으로 다시 넣습니다</td></tr><tr><td class="">⑤ 출력</td><td class="">8종 A4 산출서를 PDF로 남겨 장비일람 · 설계도서에 붙입니다</td></tr></tbody></table></div></div>
+<h3 id="s5-2">5-2. 장비일람 반영 전 확인</h3>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">확인</th></tr></thead><tbody><tr><td class="">효율</td><td class="">KS 규격 효율 이상 · 장비일람에 명기(별표 1 2.8(1) · 에너지절약설계기준 제8조제2호나목)</td></tr><tr><td class="">예비 · 제어</td><td class="">순환펌프 예비(2.8(2)) · 제어방식 명시(2.8(4)) · 대수제어면 예비 생략 가능(2.8(5))</td></tr><tr><td class="">전동기</td><td class="">사용동력 · 전원 기입, 비상전원 필요 여부(2.8(3)) — 배수 · 양수펌프</td></tr><tr><td class="">수압</td><td class="">자동부스터 토출압 550 kPa 이상이면 감압밸브 · 조닝(별표 5 2.1.7)</td></tr><tr><td class="">배수</td><td class="">집수정 Ø450 × 600 이상 · 고형물 · 역류방지 · 차단밸브(별표 6 2.1.3)</td></tr><tr><td class="">펌프 주변 배관</td><td class="">방진이음 · 압력계 · 스트레이너 · 흡입 직관(별표 8 2.1.3(5))</td></tr></tbody></table></div></div>
+<h3 id="s5-3">5-3. 예제 B — 부스터 hₐ 25 m</h3>
+<figure class="shot" id="fig-s16_ws_b"><div class="frame"><img src="images/s16_ws_b.webp" width="494" height="990" loading="lazy" alt="산정 결과 — 예제 B(자동부스터 · 실양정 25 m)"><span class="pin" style="left:5.87%;top:10.35%">1</span></div><figcaption><span class="fno">S16</span>산정 결과 — 예제 B(자동부스터 · 실양정 25 m)</figcaption><ol class="legend"><li><b>1</b><span>H 42.68 m · 5 HP · 550 kPa 미만</span></li></ol></figure>
+<p>예제 A와 같은 조건에서 실양정만 40 m → 25 m로 낮추면 전양정 42.68 m(≈ 419 kPa)로 550 kPa 아래로 내려가 경고가 사라지고, 선정동력도 7.5 → 5 HP로 줄어듭니다. 고층 건물은 저층부를 감압밸브나 별도 존으로 나누는 조닝을 함께 검토하십시오.</p>
+</section>
+<section class="ch" id="ch6"><h2><span class="n">06</span>문제 해결·FAQ</h2>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">증상</th><th class="">해결</th></tr></thead><tbody><tr><td class="">결과가 나오지 않아요</td><td class="">부하 · 유량 · 열손실 등 첫 입력란이 비어 있으면 계산하지 않습니다. 효율 · ΔT에 0을 넣으면 「입력하세요」 안내가 뜹니다</td></tr><tr><td class="">서브탭을 바꾸니 입력이 지워졌어요</td><td class="">난방 ↔ 냉방 전환 때 부하 · ΔT · 기기저항이 그 용도의 기본값으로 다시 채워집니다. 결과는 따로 저장되어 남습니다</td></tr><tr><td class="">「기기저항 합계 70 kPa 초과」</td><td class="">코일 + 보일러(냉동기) 저항 합계가 70 kPa를 넘었습니다. 판형 열교환기라면 손실수두 70 kPa 이하인지 확인하십시오(별표 1 2.6(4))</td></tr><tr><td class="">「최대급수압력 550 kPa 이상」</td><td class="">자동부스터 토출압이 550 kPa 이상입니다. 감압밸브 또는 급수 조닝을 계획하십시오(별표 5 2.1.7)</td></tr><tr><td class="">예전 산정서와 급탕 순환 유량이 달라요</td><td class="">v5.0.1에서 급탕량 기준 식을 열손실 기준으로 바꿨습니다(<a href="#s4-5">4-5</a>)</td></tr><tr><td class="">선정 마력이 한 단계 줄었어요</td><td class="">동력 계산을 kW 기준으로 바로잡아 약 1.4 % 작아졌습니다(<a href="#s4-2">4-2</a>)</td></tr><tr><td class="">「20+」로 나와요</td><td class="">20 HP를 넘는 대형 펌프입니다. 제조사 선정 프로그램으로 따로 확인하십시오</td></tr><tr><td class="">화면이 예전 판이에요</td><td class="">새로 고침(Ctrl+F5) 또는 앱을 닫았다 다시 여십시오</td></tr></tbody></table></div></div>
+</section>
+<section class="ch" id="ch7"><h2><span class="n">부록</span></h2>
+<h3 id="a1">A1. 예제 입력값 (예제 A — 업무시설 10층 사옥)</h3>
+<div class="brk"><div class="k1"><div class="tbl"><table><thead><tr><th class="">펌프</th><th class="">입력</th></tr></thead><tbody><tr><td class="">난방 순환펌프</td><td class="">난방 부하 350,000 kcal/h · 여유율 10 % · ΔT 10℃ · 왕복 200 m × 0.02 mAq/m · 코일 2 m · 보일러 5 m · 안전율 10 % · η 0.40 · 전동기 여유율 10 %</td></tr><tr><td class="">냉방 순환펌프</td><td class="">냉방 부하 300,000 kcal/h · ΔT 5℃ · 냉동기 3 m (그 외 난방과 같음)</td></tr><tr><td class="">PIT 배수펌프</td><td class="">시간 최대 유입 100 LPM × 200 % · 집수조 3,000 ℓ · 층고 6 m · 배관 20 m × 0.05 · 안전율 10 % · η 0.40</td></tr><tr><td class="">우수 배수펌프</td><td class="">100 mm/h × 260 ㎡ ÷ 2대 · 양정 조건은 PIT와 같음</td></tr><tr><td class="">급탕 순환펌프</td><td class="">배관 200 m × 30 W/m · Δt 5℃ · R 20 mmAq/m × I 120 m × (1 + K 1.0) · η 0.35</td></tr><tr><td class="">급탕 재순환펌프</td><td class="">가열장치 출력 225,000 kcal/h · Δt 10℃ · 양정 조건은 순환펌프와 같음</td></tr><tr><td class="">고가수조 양수펌프</td><td class="">시간최대 예상급수량 6,000 ℓ/h · hₐ 45 m · 배관 60 m × 0.03 · hₒ 5.6 m · 안전율 10 % · η 0.55</td></tr><tr><td class="">자동부스터 급수펌프</td><td class="">순간최대 예상급수량 400 LPM ÷ 2대 · hₐ 40 m · 배관 80 m × 0.03 · hₒ 10.2 m(세정밸브) · 안전율 10 % · η 0.55</td></tr></tbody></table></div></div></div>
+<h3 id="a2">A2. 예제 결과 8종</h3>
+<div class="brk"><div class="tbl"><table><thead><tr><th class="">펌프</th><th class="num">Q (LPM)</th><th class="num">H (m)</th><th class="num">계산 kW</th><th class="">선정 HP</th><th class="">구경 mm</th><th class="">수량</th></tr></thead><tbody><tr><td class="">난방 순환펌프</td><td class="num">641.67</td><td class="num">14.3</td><td class="num">4.123</td><td class=""><b>7.5</b></td><td class="">Ø 80</td><td class="">2대 (1대 예비)</td></tr><tr><td class="">냉방 순환펌프</td><td class="num">1,100</td><td class="num">12.1</td><td class="num">5.981</td><td class=""><b>10</b></td><td class="">Ø 100</td><td class="">2대 (1대 예비)</td></tr><tr><td class="">PIT 배수펌프</td><td class="num">200</td><td class="num">8.25</td><td class="num">0.741</td><td class=""><b>1</b></td><td class="">Ø 50 / 65</td><td class="">2대 (순차기동/교대운전)</td></tr><tr><td class="">우수 배수펌프</td><td class="num">216.67</td><td class="num">8.25</td><td class="num">0.803</td><td class=""><b>2</b></td><td class="">Ø 50 / 65</td><td class="">2대 (순차기동/교대운전)</td></tr><tr><td class="">급탕 순환펌프</td><td class="num">17.2</td><td class="num">4.8</td><td class="num">0.042</td><td class=""><b>1/8</b></td><td class="">Ø 25</td><td class="">2대 (1대 예비)</td></tr><tr><td class="">급탕 재순환펌프</td><td class="num">375</td><td class="num">4.8</td><td class="num">0.924</td><td class=""><b>2</b></td><td class="">Ø 65</td><td class="">2대 (1대 예비)</td></tr><tr><td class="">고가수조 양수펌프</td><td class="num">100</td><td class="num">58.63</td><td class="num">1.916</td><td class=""><b>3</b></td><td class="">Ø 50</td><td class="">2대 (1대 예비)</td></tr><tr><td class="">자동부스터 급수펌프</td><td class="num">200</td><td class="num">59.18</td><td class="num">3.868</td><td class=""><b>7.5</b></td><td class="">Ø 65</td><td class="">2대 병렬 (교번운전)</td></tr></tbody></table></div></div>
+<p>예제 B: 자동부스터 실양정 25 m → H 42.68 m · 2.790 kW · 5 HP · 550 kPa 미만.</p>
+<h3 id="a3">A3. 버전 변경 내역</h3>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">버전</th><th class="">내용</th></tr></thead><tbody><tr><td class="">Ver-5.0 · v5.0.2 (2026-10-14)</td><td class="">사용자 매뉴얼 연결(탭 막대 「📘 매뉴얼」)</td></tr><tr><td class="">Ver-5.0 · v5.0.1 (2026-10-14)</td><td class="">기술기준 별표 1 · 5 · 6 · 7 · 8 · 에너지절약설계기준 원문 대조 — 근거 표기 8건 정정, 급탕 순환 · 재순환 유량식 교체, 550 kPa 판정 · 우수 효율 · 동력 단위 · 0 입력 정정(<a href="#s4-9">4-9</a>)</td></tr><tr><td class="">Ver-5.0 (2026-09)</td><td class="">디자인 통일(헤더 · 탭 막대 · 요약 스트립), A4 미리보기 · JPG 저장, 오프라인 캐시 개선</td></tr></tbody></table></div></div>
+<h3 id="a4">A4. 용어</h3>
+<div class="brk"><div class="k1"><div class="tbl"><table><thead><tr><th class="">용어</th><th class="">뜻</th></tr></thead><tbody><tr><td class="">전양정 H</td><td class="">펌프가 물에 주는 수두(m) — 실양정 + 손실수두 + 필요 압력</td></tr><tr><td class="">실양정 hₐ</td><td class="">흡수면에서 토출 목표점까지의 높이 차(밀폐 순환계통은 0)</td></tr><tr><td class="">축동력</td><td class="">펌프 축에 필요한 동력(kW) = ρgQH ÷ η</td></tr><tr><td class="">전동기 여유율</td><td class="">축동력에 더하는 여유(α) — 과부하 · 성능 저하 대비</td></tr><tr><td class="">순간최대 예상급수량</td><td class="">가장 많이 쓰는 순간의 급수량(LPM) — 부스터 유닛 유량</td></tr><tr><td class="">환탕유량</td><td class="">급탕배관 열손실을 보상하려고 돌려보내는 유량</td></tr><tr><td class="">급수 조닝</td><td class="">높이별로 급수 계통을 나눠 수압을 550 kPa 이하로 제한하는 방법</td></tr></tbody></table></div></div></div>
+</section></main></div>
+<footer class="foot">© 2026 김만민 건축사 · ㈜대성건축사사무소 · 설비펌프 용량 자동선정 시스템 사용자 매뉴얼 Ver-5.0 · 기계설비 기술기준 별표 1 · 5 · 6 · 에너지절약설계기준 제8조 · 제9조 <span class="rev">· 화면 대응 개정 2026-10-14</span></footer>
+<div class="pfoot"><span>설비펌프 용량 자동선정 시스템 사용자 매뉴얼 Ver-5.0</span><span>2026-10-14</span></div>
+<div id="lb" role="dialog" aria-label="그림 확대"><img alt=""></div>
+<button class="totop" aria-label="맨 위로">↑</button>
+<script>
+(function(){
+  var lb=document.getElementById('lb'),li=lb.querySelector('img');
+  document.querySelectorAll('figure.shot .frame').forEach(function(f){f.addEventListener('click',function(){li.src=f.querySelector('img').src;li.alt=f.querySelector('img').alt;lb.classList.add('open');});});
+  lb.addEventListener('click',function(){lb.classList.remove('open');li.removeAttribute('src');});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('open');});
+  document.querySelector('.totop').addEventListener('click',function(){window.scrollTo(0,0);});
+  var links=[].slice.call(document.querySelectorAll('nav.toc a'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id);});}});},{rootMargin:'0px 0px -70% 0px'});
+    document.querySelectorAll('section.ch,h3[id]').forEach(function(s){io.observe(s);});
+  }
+})();
+/* 좁은 화면 표 쌓기 준비: 숫자 칸이 없는 표에 stack 표시, 각 칸에 머리글(data-th) 복사 */
+(function(){document.querySelectorAll('.tbl').forEach(function(t){var tb=t.querySelector('table');if(!tb||!tb.tHead)return;
+ if(tb.querySelector('td.num,th.num'))return;var hs=[].map.call(tb.tHead.rows[0].cells,function(c){return c.textContent.trim()});
+ [].forEach.call(tb.tBodies[0].rows,function(r){[].forEach.call(r.cells,function(c,i){if(hs[i])c.setAttribute('data-th',hs[i])})});t.classList.add('stack');if(hs.length===2)t.classList.add('c2')})})();
+</script>
+</body></html>

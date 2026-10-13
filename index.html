@@ -207,6 +207,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
 .tb:hover{color:#fff;background:rgba(255,255,255,.09);}
 /* v5.0-HDR (2026-09-02 확정) — 활성 탭 단색 배경 + 강조색 바 */
 .tb.active{color:#fff;background:#0e7490;border-bottom-color:#7dd3fc;}
+.tb.tb-manual{margin-left:auto;text-decoration:none;white-space:nowrap;}   /* v5.0.2 — 사용자 매뉴얼(탭 막대 오른쪽 끝) · 좁은 화면은 한 줄 · 좌우 밀기 */
 /* v5.0-HDR — 요약 스트립 (마스터 3층) */
 .sum-bar-wrap{background:#0f172a;padding:10px 0;}
 .sum-bar{max-width:1300px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;gap:14px;}
@@ -779,6 +780,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
     <button class="tb active" onclick="switchTab('tabCalc',this)">🔧 펌프 용량 산정</button>
     <button class="tb" onclick="switchTab('tabRef',this)">📋 기준표</button>
     <button class="tb" onclick="switchTab('tabA4',this)">📄 A4 미리보기</button>
+    <a class="tb tb-manual" href="https://manminkim-eng.github.io/Booster-Pump/manual/" target="_blank" rel="noopener" title="사용자 매뉴얼 (새 창)" onclick="if(navigator.onLine===false){event.preventDefault();showToast('매뉴얼은 인터넷 연결 시 열립니다');}">📘 매뉴얼</a>
   </div>
 </nav>
 </div><!-- /.hdr-shell -->
@@ -1754,7 +1756,7 @@ function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 
 function switchTab(id,el){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tb:not(.tb-manual)').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active'); el.classList.add('active');
   if(id==='tabA4'){ updateA4(); setTimeout(scaleA4,80); }
 }
@@ -2666,9 +2668,9 @@ function calcWS(){
     {k:'→ 전양정 H',v:`${H.toFixed(3)} m`},
     {k:'펌프 효율 η',v:`${eta}`},
     {k:`전동기 여유율(${emgPct}%)`,v:emgPct>15?`⚠️ ${emgPct}% — 권장 초과`:`${emgPct}% (적정)`},
+    {k:'최대 수압 (별표 5 2.1.7)',v:isH?'고가수조 낙차로 별도 확인':`토출압 ${dis_kpa.toFixed(0)} kPa ${over550?'≥ 550 → 감압밸브 또는 조닝':'— 550 kPa 미만'}`},
     {k:'→ P 계산',v:`${PW.kW.toFixed(3)} kW = ${P.toFixed(3)} HP`},
     {k:'→ 선정동력',v:`${hp.l} HP`},
-    {k:'최대 수압 (별표 5 2.1.7)',v:isH?'고가수조 낙차로 별도 확인':`토출압 ${dis_kpa.toFixed(0)} kPa ${over550?'≥ 550 → 감압밸브 또는 조닝':'— 550 kPa 미만'}`},
   ];
 
   const typeStr=isH?'입형 다단 원심펌프':'부스터 유닛 (병렬)';
