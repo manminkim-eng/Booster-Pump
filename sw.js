@@ -33,7 +33,7 @@ const mmMatch = (req, opt) => caches.keys()
   .then((ks) => ks.reduce((p, k) => p.then((r) => r || caches.open(k).then((c) => c.match(req, opt))), Promise.resolve(undefined)))
   .then((r) => (r && r.type === 'opaque' && req && req.mode === 'cors') ? undefined : r);
 
-const CACHE = 'pump-v5.1.6';   /* 2026-09-02 헤더 통일 */
+const CACHE = 'pump-v5.1.7';   /* 2026-10-14 v5.0.1 근거 · 계산 정정 */
 const ASSETS = [
   './',
   './index.html',

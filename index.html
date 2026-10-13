@@ -764,7 +764,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
     </div>
     <div class="hdr-right-wrap">
       <!-- v5.0-HDR — 마스터 4줄(13/11/11/10) -->
-      <div class="hdr-right"><strong>기계설비 기술기준</strong><br/>국토교통부 고시 제2021-851호<br/>별표 1 · 5 · 6<br/><em>[시행 2026. 7. 8.]</em></div>
+      <div class="hdr-right"><strong>기계설비 기술기준 별표 1 · 5 · 6</strong><br/>고시 제2021-851호 · 제2026-360호<br/>에너지절약설계기준 제8조 · 제9조<br/><em>[시행 2026. 7. 8.]</em></div>
       <div class="hdr-btns">
         <!-- v5.0 : 헤더 출력 버튼 없음 — A4 탭 출력바로 일원화한다(§3-1)
              초기화도 우측 하단 FAB 스택으로 이관했다(§16-18) -->
@@ -906,7 +906,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
             </div>
             <div class="frow">
               <div class="fgrp"><span class="flbl">전동기 여유율 (10~15% 권장)</span><input class="finput mono" type="number" id="h_emg" value="10" step="1" oninput="calcHeat()"></div>
-              <div class="fgrp"><span class="flbl">제어방식 (EPI 가점)</span>
+              <div class="fgrp"><span class="flbl">제어방식 (에너지절약 권장)</span>
                 <select class="fselect" id="h_ctrl" onchange="calcHeat()">
                   <option value="on_off">단속운전 (ON/OFF)</option>
                   <option value="inverter">인버터 가변속 제어</option>
@@ -945,13 +945,13 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
       </div>
       <div class="calc-col-mid">
         <div class="card">
-          <div class="card-head"><div class="card-ico">📐</div><span class="card-tit">산정 기준 (별표 1)</span><span class="cbadge sky">KDS 31 20 20</span></div>
+          <div class="card-head"><div class="card-ico">📐</div><span class="card-tit">산정 기준 (별표 1)</span><span class="cbadge sky">KDS 31 25 10</span></div>
           <div class="card-body">
             <div class="nb org"><div class="nb-tit">① Q [LPM]</div><div class="nb-txt">Q = 부하×(1+여유율)÷ΔT÷60<br>난방ΔT=10℃ / 냉방ΔT=5℃</div></div>
             <div class="nb blue"><div class="nb-tit">② H [m] — hₐ=0 적용</div><div class="nb-txt"><b>밀폐회로: 실양정(hₐ)=0</b><br>H = L×R + L×R×0.5 + 코일 + 보일러 + 안전율</div></div>
-            <div class="nb sky"><div class="nb-tit">③ P [HP]</div><div class="nb-txt">P = Q×H×(1+여유율%)÷(4500×η)<br>여유율 10~15% 권장, 20% 초과 금지</div></div>
-            <div class="nb red"><div class="nb-tit">⚠️ 판형 열교환기 차압 제한</div><div class="nb-txt">기기저항 합계 ≥ 7.1 m (70 kPa) 초과 시<br>에너지 효율 설계 기준 위반 가능</div></div>
-            <div class="nb grn"><div class="nb-tit">④ EPI 가점 (제어방식)</div><div class="nb-txt">인버터/대수제어 → EPI 기계부문 +2~3점<br>대수제어 채택 시 예비펌프 생략 가능</div></div>
+            <div class="nb sky"><div class="nb-tit">③ P [kW]</div><div class="nb-txt">P = Q×H×(1+여유율%)÷(6120×η) [kW] → HP = kW÷0.7457<br>여유율 10~15% 권장 (MANMIN 참고값)</div></div>
+            <div class="nb red"><div class="nb-tit">⚠️ 판형 열교환기 손실수두 70 kPa 이하</div><div class="nb-txt">별표 1 2.6(4) — 판형 열교환기 손실수두 70 kPa(7.1 m) 이하<br>기기저항 합계가 70 kPa를 넘으면 판형 열교환기 손실수두를 따로 확인</div></div>
+            <div class="nb grn"><div class="nb-tit">④ 제어방식 · KS 효율</div><div class="nb-txt">대수 · 가변속 제어 권장(에너지절약설계기준 제9조제4호)<br>대수제어 채택 시 예비펌프 생략 가능(별표 1 2.8(5))<br>펌프 KS 표시인증 또는 KS 효율 이상(제8조제2호나목)</div></div>
             <div class="nb grn"><div class="nb-tit">⑤ 구경</div><div class="nb-txt">&lt;20→Ø25 / &lt;50→Ø32 / &lt;100→Ø40<br>&lt;200→Ø50 / &lt;400→Ø65 / &lt;800→Ø80</div></div>
           </div>
         </div>
@@ -979,11 +979,11 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
           <div class="card-head"><div class="card-ico" id="d_ico">🏗️</div><span class="card-tit" id="d_card_tit">PIT 배수펌프 입력</span><span class="cbadge blue">별표 6</span></div>
           <div class="card-body">
             <div id="d_pit_block">
-              <div class="section-label">② 유량 (PIT 집수조) — 200% 기준</div>
+              <div class="section-label">② 유량 (PIT 집수조) — 200% (MANMIN 참고값)</div>
               <div><span class="flbl">시간 최대 유입 유량 Q_in (LPM)</span>
                 <div class="input-sfx"><input class="finput mono" type="number" id="d_q_pit" placeholder="100" oninput="calcDrain()"><span class="sfx">LPM</span></div>
               </div>
-              <div class="nb org"><div class="nb-tit">📌 PIT 배수 유량 기준</div><div class="nb-txt">설계 Q = 시간최대 유입량의 <b>200% 이상</b><br>전체 유입량을 <b>30분 이내</b> 완전 배출 가능해야 함</div></div>
+              <div class="nb org"><div class="nb-tit">📌 PIT 배수 유량</div><div class="nb-txt">별표 6 2.1.3(4)① — 배수펌프의 유량과 압력은 <b>예상 사용 요구량에 적합</b><br>설계 Q = 시간최대 유입량 × <b>200%</b> (MANMIN 참고값)<br>30분 배출 검증은 별표 7 2.2.5(오수정화시설 배수펌프 — 시간최대 처리수량을 30분 이내 배출) 준용</div></div>
               <div><span class="flbl">집수조 유효 용량 V (ℓ, 30분 검증용)</span>
                 <div class="input-sfx"><input class="finput mono" type="number" id="d_sump_vol" placeholder="3000" oninput="calcDrain()"><span class="sfx">ℓ</span></div>
               </div>
@@ -1050,11 +1050,11 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
       </div>
       <div class="calc-col-mid">
         <div class="card">
-          <div class="card-head"><div class="card-ico">📐</div><span class="card-tit">산정 기준 (별표 6)</span><span class="cbadge sky">KDS 31 25 30</span></div>
+          <div class="card-head"><div class="card-ico">📐</div><span class="card-tit">산정 기준 (별표 6)</span><span class="cbadge sky">KDS 31 30 25</span></div>
           <div class="card-body">
-            <div class="nb org"><div class="nb-tit">① Q [LPM]</div><div class="nb-txt">PIT: 직접 입력<br>우수: (mm/hr×m²)÷60÷대수</div></div>
+            <div class="nb org"><div class="nb-tit">① Q [LPM]</div><div class="nb-txt">PIT: 유입량 × 200% (MANMIN 참고값)<br>우수: (mm/hr×m²)÷60÷대수</div></div>
             <div class="nb blue"><div class="nb-tit">② H [m]</div><div class="nb-txt">H = 층고 + L×R + L×R×0.5 + 안전율</div></div>
-            <div class="nb sky"><div class="nb-tit">③ P [HP]</div><div class="nb-txt">P = Q×H×(1+여유율%)÷(4500×η)<br>PIT: η=0.40 / 우수: η=0.30 적용</div></div>
+            <div class="nb sky"><div class="nb-tit">③ P [kW]</div><div class="nb-txt">P = Q×H×(1+여유율%)÷(6120×η) [kW] → HP = kW÷0.7457<br>η 입력값 적용 (기본 0.40)</div></div>
             <div class="nb grn"><div class="nb-tit">④ 구경 (배수전용)</div><div class="nb-txt">&lt;100→Ø40 / &lt;250→Ø50<br>&lt;500→Ø80 / ≥500→Ø100<br>주배관은 1단계 상위 구경</div></div>
             <div class="nb red"><div class="nb-tit">⑤ 형식·운전</div><div class="nb-txt">수중형(Submersible) · 2대 순차기동</div></div>
           </div>
@@ -1083,22 +1083,24 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
           <div class="card-head"><div class="card-ico" id="hw_ico">🔄</div><span class="card-tit" id="hw_card_tit">급탕 순환펌프 입력</span><span class="cbadge blue">별표 5</span></div>
           <div class="card-body">
             <div id="hw_circ_block">
-              <div class="section-label">② 유량 (저탕조↔기구)</div>
-              <div><span class="flbl">시간 최대 급탕량 (ℓ/hr)</span>
-                <div class="input-sfx"><input class="finput mono" type="number" id="hw_max_flow" placeholder="1000" oninput="calcHW()"><span class="sfx">ℓ/hr</span></div>
-              </div>
-              <div class="nb blue"><div class="nb-tit">📌 순환펌프 Q</div><div class="nb-txt">Q = 시간최대급탕량 ÷ 2 ÷ 60 [LPM]</div></div>
-            </div>
-            <div id="hw_recirc_block" style="display:none">
-              <div class="section-label">② 유량 (보일러↔저탕조)</div>
-              <div><span class="flbl">시간최대급탕량 (ℓ/hr) — 재순환 기준</span>
-                <div class="input-sfx"><input class="finput mono" type="number" id="hw_storage" placeholder="240" oninput="calcHW()"><span class="sfx">ℓ/hr</span></div>
+              <div class="section-label">② 유량 — 급탕배관 열손실 (별표 8 2.5(2))</div>
+              <div class="frow">
+                <div class="fgrp"><span class="flbl">급탕 · 환탕 배관 길이 (m)</span><input class="finput mono" type="number" id="hw_loss_len" placeholder="200" oninput="calcHW()"></div>
+                <div class="fgrp"><span class="flbl">단위 열손실 (W/m)</span><input class="finput mono" type="number" id="hw_loss_q" value="30" step="1" oninput="calcHW()"></div>
               </div>
               <div class="frow">
-                <div class="fgrp"><span class="flbl">출탕온도 (℃)</span><input class="finput mono" type="number" id="hw_t_out" value="60" oninput="calcHW()"></div>
-                <div class="fgrp"><span class="flbl">냉각허용온도 (℃)</span><input class="finput mono" type="number" id="hw_t_cool" value="5" oninput="calcHW()"></div>
+                <div class="fgrp"><span class="flbl">열손실 직접 입력 (kcal/h · 입력 시 우선)</span><input class="finput mono" type="number" id="hw_loss_direct" placeholder="—" oninput="calcHW()"></div>
+                <div class="fgrp"><span class="flbl">환탕 온도강하 Δt (℃)</span><input class="finput mono" type="number" id="hw_dt" value="5" step="0.5" oninput="calcHW()"></div>
               </div>
-              <div class="nb org"><div class="nb-tit">📌 재순환펌프 Q 공식 (별표 5)</div><div class="nb-txt">Q = 시간최대급탕량[ℓ/hr] ÷ (출탕온도 - 냉각허용온도)[℃] → [LPM]<br>※ 출탕 60℃, 냉각허용 5℃ 기본값 (ΔT=55℃)</div></div>
+              <div class="nb blue"><div class="nb-tit">📌 순환펌프 Q</div><div class="nb-txt">Q = 배관 열손실[kcal/h] ÷ (60 × Δt) [LPM]<br>별표 5 2.2.6(1) 순환펌프 유량 = 환탕유량 · 별표 8 2.5(2) 환탕유량은 급탕배관 열손실로 계산<br>단위 열손실 30 W/m · Δt 5℃는 MANMIN 참고값 (1 W = 0.86 kcal/h)</div></div>
+            </div>
+            <div id="hw_recirc_block" style="display:none">
+              <div class="section-label">② 유량 — 가열장치 ↔ 저탕조 (열량 기준)</div>
+              <div class="frow">
+                <div class="fgrp"><span class="flbl">가열장치 출력 (kcal/h)</span><input class="finput mono" type="number" id="hw_heat_cap" placeholder="100000" oninput="calcHW()"></div>
+                <div class="fgrp"><span class="flbl">가열 온도차 Δt (℃)</span><input class="finput mono" type="number" id="hw_dt2" value="10" step="0.5" oninput="calcHW()"></div>
+              </div>
+              <div class="nb org"><div class="nb-tit">📌 재순환펌프 Q</div><div class="nb-txt">Q = 가열장치 출력[kcal/h] ÷ (60 × Δt) [LPM] — 열량 평형식<br>기준에 별도 식이 없어 MANMIN 참고값 (Δt 10℃ 기본)</div></div>
             </div>
             <div class="div-line"></div>
             <div class="section-label">③ 양정 입력</div>
@@ -1122,7 +1124,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
               <div class="fgrp"><span class="flbl">전동기 여유율 (10~15%)</span><input class="finput mono" type="number" id="hw_emg" value="10" step="1" oninput="calcHW()"></div>
             </div>
             <div id="hw_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다</div><div class="nb-txt">15% 초과 주의, 20% 초과는 에너지 절약 원칙 위반입니다.</div></div>
-            <div><span class="flbl">제어방식 (EPI 가점)</span>
+            <div><span class="flbl">제어방식 (에너지절약 권장)</span>
               <select class="fselect" id="hw_ctrl" onchange="calcHW()">
                 <option value="on_off">단속운전 (ON/OFF)</option>
                 <option value="inverter">인버터 가변속 제어</option>
@@ -1156,12 +1158,12 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
       </div>
       <div class="calc-col-mid">
         <div class="card">
-          <div class="card-head"><div class="card-ico">📐</div><span class="card-tit">산정 기준 (별표 5)</span><span class="cbadge sky">KDS 31 25 10</span></div>
+          <div class="card-head"><div class="card-ico">📐</div><span class="card-tit">산정 기준 (별표 5)</span><span class="cbadge sky">KDS 31 30 20</span></div>
           <div class="card-body">
-            <div class="nb org"><div class="nb-tit">① 순환펌프 Q</div><div class="nb-txt">Q = 시간최대급탕량[ℓ/hr] ÷ 2 ÷ 60 → [LPM]</div></div>
-            <div class="nb blue"><div class="nb-tit">② 재순환펌프 Q</div><div class="nb-txt">Q = 시간최대급탕량[ℓ/hr] ÷ (출탕℃ - 냉각허용℃) → [LPM]<br>출탕 60℃ / 냉각허용 5℃ / ΔT=55℃ 기본값</div></div>
-            <div class="nb sky"><div class="nb-tit">③ H [m]</div><div class="nb-txt">H = R×I×(1+K)÷1000<br>소규모: K=1.0~1.5, R=5~20<br>대규모: K=0.5~1.0, R=10~30</div></div>
-            <div class="nb grn"><div class="nb-tit">④ P [HP]</div><div class="nb-txt">P = Q×H×(1+여유율%) ÷ (4500×η)<br>η=0.35 기본 / 여유율 10~15% 권장</div></div>
+            <div class="nb org"><div class="nb-tit">① 순환펌프 Q</div><div class="nb-txt">Q = 배관 열손실[kcal/h] ÷ (60 × Δt) [LPM]<br>별표 5 2.2.6(1) · 별표 8 2.5(2)</div></div>
+            <div class="nb blue"><div class="nb-tit">② 재순환펌프 Q</div><div class="nb-txt">Q = 가열장치 출력[kcal/h] ÷ (60 × Δt) [LPM]<br>열량 평형식 — MANMIN 참고값</div></div>
+            <div class="nb sky"><div class="nb-tit">③ H [m]</div><div class="nb-txt">H = R×I×(1+K)÷1000 — 마찰손실이 가장 큰 순환관로(별표 5 2.2.6(1))<br>소규모: K=1.0~1.5, R=5~20<br>대규모: K=0.5~1.0, R=10~30</div></div>
+            <div class="nb grn"><div class="nb-tit">④ P [kW]</div><div class="nb-txt">P = Q×H×(1+여유율%) ÷ (6120×η) [kW] → HP = kW÷0.7457<br>η=0.35 기본 / 여유율 10~15% 권장</div></div>
           </div>
         </div>
       </div>
@@ -1169,7 +1171,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
         <div class="card">
           <div class="card-head"><div class="card-ico">📊</div><span class="card-tit">산정 결과</span><span class="cbadge org" id="hw_badge">대기</span></div>
           <div class="card-body" id="hwResult">
-            <div class="result-placeholder"><div class="rph-ico">🔥</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">급탕량 입력 후 자동 산정됩니다</div></div>
+            <div class="result-placeholder"><div class="rph-ico">🔥</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">열손실 · 열량 입력 후 자동 산정됩니다</div></div>
           </div>
         </div>
       </div>
@@ -1234,8 +1236,8 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
             </div>
             <div id="ws_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다 경고</div><div class="nb-txt">전동기 여유율이 15%를 초과합니다. 20% 이상은 에너지 절약 설계 원칙 위반입니다.</div></div>
             <div class="nb red" id="ws_550_warn" style="display:none">
-              <div class="nb-tit">⚠️ 최대급수압력 550 kPa 초과 경고</div>
-              <div class="nb-txt">말단기구 수압이 550 kPa(56.1m)를 초과합니다.<br>별표 5 2.1.7에 따라 <b>감압밸브(PRV) 설치 또는 급수 조닝</b>이 필요합니다.</div>
+              <div class="nb-tit">⚠️ 최대급수압력 550 kPa 이상</div>
+              <div class="nb-txt" id="ws_550_txt">펌프 토출압(≈ 최하층 기구 수압)이 550 kPa(56.1 m) 이상입니다.<br>별표 5 2.1.7에 따라 <b>감압밸브(PRV) 설치 또는 급수 조닝</b>이 필요합니다.</div>
             </div>
             <button class="calc-btn" onclick="calcWS()"><span id="ws_btn_ico">🏢</span> <span id="ws_btn_txt">고가수조 양수펌프 산정</span></button>
           </div>
@@ -1249,8 +1251,8 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
             <div class="nb blue"><div class="nb-tit">① 고가수조 양수펌프 Q</div><div class="nb-txt">Q = 시간최대 예상급수량 [ℓ/hr]<br>→ LPM 환산: ÷ 60</div></div>
             <div class="nb org"><div class="nb-tit">① 자동부스터 펌프 Q</div><div class="nb-txt">전체 Q = 순간최대 예상급수량 [ℓ/min]<br>각 펌프 Q = 전체 Q ÷ 운전대수 [LPM]<br>※ 펌프 2대 이상 병렬 설치 필수</div></div>
             <div class="nb sky"><div class="nb-tit">② 양정 H [m]</div><div class="nb-txt">H = hₐ + hpv + hₒ + 안전율<br>hₐ : 실양정 (흡입~토출 높이차)<br>hpv: 배관마찰손실 (L×R + L×R×0.5)<br>hₒ : 말단기구 최저필요수압</div></div>
-            <div class="nb grn"><div class="nb-tit">③ P [HP]</div><div class="nb-txt">P = Q×H×(1+여유율%) ÷ (4500×η)<br>η = 0.55 기준 / 여유율 10~15% 권장</div></div>
-            <div class="nb red"><div class="nb-tit">④ 감압밸브 필수 조건 (2.1.7)</div><div class="nb-txt">말단기구 수압 ≥ 550 kPa(56.1m) 시<br>감압밸브(PRV) 또는 급수 조닝 필수</div></div>
+            <div class="nb grn"><div class="nb-tit">③ P [kW]</div><div class="nb-txt">P = Q×H×(1+여유율%) ÷ (6120×η) [kW] → HP = kW÷0.7457<br>η = 0.55 기준 / 여유율 10~15% 권장</div></div>
+            <div class="nb red"><div class="nb-tit">④ 감압밸브 조건 (2.1.7)</div><div class="nb-txt">위생기구 수압 550 kPa(56.1 m) 이상 → 감압밸브 또는 급수 조닝<br>자동부스터: 펌프 토출압(전양정 H)으로 판정 · 고가수조: 최하층 기구까지 낙차로 별도 확인</div></div>
             <div class="nb sky"><div class="nb-tit">⑤ 위생기구 최저필요수압</div><div class="nb-txt">욕조/세면기: 55kPa(5.6m)<br>샤워기: 70kPa(7.1m)<br>소변기·대변기(밸브): 100kPa(10.2m)<br>압력식 샤워기: 130kPa(13.3m)</div></div>
           </div>
         </div>
@@ -1297,14 +1299,14 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
       </div>
       <table class="a4-meta-table">
         <tr><td class="k">공사명</td><td id="a4ProjNameOut" colspan="3">만민 건축사 신사옥 신축공사</td></tr>
-        <tr><td class="k">법령 근거</td><td colspan="3" style="font-size:9.5px;color:#64748b">국토교통부 고시 제2021-851호 · 별표 1(냉난방), 별표 5(급수·급탕), 별표 6(오·배수)</td></tr>
+        <tr><td class="k">법령 근거</td><td colspan="3" style="font-size:9.5px;color:#64748b">기계설비 기술기준(고시 제2021-851호, 제2026-360호 타법개정 · 2026.7.8. 시행) 별표 1(냉난방) · 별표 5(급수·급탕) · 별표 6(오·배수) · 건축물의 에너지절약설계기준 제8조 · 제9조</td></tr>
       </table>
       <div class="a4-section-tit">📋 펌프 용량 산정 결과 (8종)</div>
       <div id="a4ResultBody">
         <div style="text-align:center;padding:40px;color:#94a3b8;font-size:11px">※ 펌프 용량 산정 탭에서 각 펌프를 산정하면 자동으로 표시됩니다.</div>
       </div>
       <div class="a4-law">
-        ※ 본 산출서는 국토교통부 고시 제2021-851호(기계설비 기술기준) 별표 1·5·6 기준으로 산정되었습니다.<br>
+        ※ 본 산출서는 기계설비 기술기준(고시 제2021-851호, 제2026-360호 타법개정) 별표 1 · 5 · 6을 따르고, 기준에 수치가 없는 계수(여유율 · 단위손실 · 효율 기본값 · PIT 200 % 등)는 MANMIN 참고값입니다.<br>
         ※ MANMIN-Ver5.0 | 현장 여건에 따라 담당 기술자의 검토·확인이 필요합니다.
       </div>
     </div>
@@ -1367,7 +1369,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
           <tr><td>소규모</td><td class="mono">1.0~1.5</td><td class="mono">5~20</td></tr>
           <tr><td>대규모</td><td class="mono">0.5~1.0</td><td class="mono">10~30</td></tr>
         </tbody></table></div>
-        <div class="nb sky" style="margin-top:8px"><div class="nb-tit">📌 급탕 온도</div><div class="nb-txt">출탕 60℃ / 냉각허용 5℃ / ΔT=55℃</div></div>
+        <div class="nb sky" style="margin-top:8px"><div class="nb-tit">📌 급탕 온도</div><div class="nb-txt">환탕 온도강하 Δt 5℃ · 단위 열손실 30 W/m (MANMIN 참고값)</div></div>
         </div>
       </div>
     </div>
@@ -1430,7 +1432,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
           </table></div>
           <div class="nb red" style="margin-top:8px">
             <div class="nb-tit">⚠️ 최대급수압력 제한 (별표 5 2.1.7)</div>
-            <div class="nb-txt">위생기구 수압 ≥ 550 kPa(56.1 m) 시<br>감압밸브(PRV) 설치 또는 급수 조닝 필수</div>
+            <div class="nb-txt">위생기구 수압 550 kPa(56.1 m) 이상 시 감압밸브(PRV) 설치 또는 급수 조닝으로 550 kPa 이하 제한</div>
           </div>
         </div>
       </div>
@@ -1496,7 +1498,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
     <div class="bs-panel active" id="bs-guide">
       <div class="bs-intro-banner">
         <div class="bs-intro-title">💧 설비펌프 용량 자동선정 시스템 Ver5.0</div>
-        <div class="bs-intro-sub">기계설비 기술기준 국토교통부 고시 제2021-851호<br>별표 1(냉난방) · 별표 5(급수·급탕) · 별표 6(오·배수) 기반 8종 펌프 자동 산정</div>
+        <div class="bs-intro-sub">기계설비 기술기준 국토교통부 고시 제2021-851호(제2026-360호 타법개정, 2026.7.8. 시행)<br>별표 1(냉난방) · 별표 5(급수·급탕) · 별표 6(오·배수) 기반 8종 펌프 자동 산정</div>
         <div class="bs-intro-tags">
           <span class="bs-intro-tag">✅ 실시간 자동산정</span>
           <span class="bs-intro-tag">✅ EPI 가중평균 산출</span>
@@ -1522,7 +1524,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
         <div class="bs-item-head"><div class="bs-item-num">3</div><div class="bs-item-ico">⚡</div><div class="bs-item-tit">STEP 3 — 자동 산정 및 검증</div></div>
         <div class="bs-item-body">
           <div class="bs-item-txt">입력값 입력 시 실시간 자동 계산됩니다. [산정] 버튼으로 수동 갱신도 가능합니다.</div>
-          <div class="bs-item-txt">여유율 초과, 집수조 30분 검증, 550kPa 초과 등 경고가 자동 표시됩니다.</div>
+          <div class="bs-item-txt">여유율 초과, 집수조 30분 검증, 550 kPa 이상 등 경고가 자동 표시됩니다.</div>
         </div>
       </div>
       <div class="bs-item sky">
@@ -1555,13 +1557,13 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
         <div class="bs-item-body">
           <div class="bs-item-txt">Q = 부하[kcal/hr] × (1+여유율) ÷ ΔT[℃] ÷ 60 → LPM / 난방ΔT=10℃, 냉방ΔT=5℃</div>
           <div class="bs-item-txt">H 소계 = L×R + L×R×0.5 + 코일저항 + 보일러(냉동기)저항 (실양정 hₐ=0, 팽창탱크 폐회로)</div>
-          <div class="bs-item-txt">전양정 H = H소계 + H소계×안전율% / P = Q×H×(1+여유율%) ÷ (4500×η)</div>
+          <div class="bs-item-txt">전양정 H = H소계 + H소계×안전율% / P = Q×H×(1+여유율%) ÷ (6120×η) [kW]</div>
         </div>
       </div>
       <div class="bs-item org">
-        <div class="bs-item-head"><div class="bs-item-ico">🚰</div><div class="bs-item-tit">오·배수 펌프 (별표 6) — 200% 기준</div></div>
+        <div class="bs-item-head"><div class="bs-item-ico">🚰</div><div class="bs-item-tit">오·배수 펌프 (별표 6) — 200%는 MANMIN 참고값</div></div>
         <div class="bs-item-body">
-          <div class="bs-item-txt">PIT Q = 시간최대 유입량×200% / 30분 이내 완전 배출 필수</div>
+          <div class="bs-item-txt">PIT Q = 시간최대 유입량×200% (MANMIN 참고값 — 별표 6 2.1.3(4)① 예상 사용 요구량에 적합) / 30분 배출 검증은 별표 7 2.2.5 준용</div>
           <div class="bs-item-txt">우수 Q = (mm×m²)÷60÷대수 / H = 층고+L×R+L×R×0.5+안전율</div>
           <div class="bs-item-txt">집수정 Ø450 이상 / D600 이상 / 고형물: 오수Ø50, 잡배수Ø25</div>
         </div>
@@ -1569,8 +1571,8 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
       <div class="bs-item grn">
         <div class="bs-item-head"><div class="bs-item-ico">🔥</div><div class="bs-item-tit">급탕 순환/재순환 펌프 (별표 5)</div></div>
         <div class="bs-item-body">
-          <div class="bs-item-txt">순환 Q = 시간최대급탕량[ℓ/hr] ÷ 2 ÷ 60 → LPM</div>
-          <div class="bs-item-txt">재순환 Q = 시간최대급탕량[ℓ/hr] ÷ (출탕℃ - 냉각허용℃) → LPM (출탕60℃, 냉각5℃ 기준)</div>
+          <div class="bs-item-txt">순환 Q = 배관 열손실[kcal/h] ÷ (60 × Δt) → LPM (별표 5 2.2.6(1) · 별표 8 2.5(2), 30 W/m · Δt 5℃는 MANMIN 참고값)</div>
+          <div class="bs-item-txt">재순환 Q = 가열장치 출력[kcal/h] ÷ (60 × Δt) → LPM (열량 평형식, MANMIN 참고값)</div>
           <div class="bs-item-txt">H = R[mmAq/m] × I[m] × (1+K) ÷ 1000 → m / η = 0.35</div>
         </div>
       </div>
@@ -1578,13 +1580,13 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
         <div class="bs-item-head"><div class="bs-item-ico">🚿</div><div class="bs-item-tit">급수 펌프 (별표 5 2.1.3)</div></div>
         <div class="bs-item-body">
           <div class="bs-item-txt">고가수조 Q = 시간최대급수량÷60 / 자동부스터 Q = 순간최대÷운전대수</div>
-          <div class="bs-item-txt">H = hₐ+hpv+hₒ+안전율 / η = 0.55 / ≥550kPa → 감압밸브 필수</div>
+          <div class="bs-item-txt">H = hₐ+hpv+hₒ+안전율 / η = 0.55 / 자동부스터 토출압 550 kPa 이상 → 감압밸브 또는 조닝(별표 5 2.1.7)</div>
         </div>
       </div>
       <div class="bs-item red">
         <div class="bs-item-head"><div class="bs-item-ico">⚡</div><div class="bs-item-tit">공통 — 동력 선정 및 여유율</div></div>
         <div class="bs-item-body">
-          <div class="bs-item-txt">P(HP) 계산값의 직상위 표준HP 선택 / HP≤¼ → 1Φ 220V / HP>¼ → 3Φ 380V</div>
+          <div class="bs-item-txt">P[kW] = Q[LPM]×H[m]×(1+여유율)÷(6120×η) → HP = kW÷0.7457 → 직상위 표준 HP 선택 / HP≤¼ → 1Φ 220V / HP>¼ → 3Φ 380V</div>
           <div class="bs-item-txt">전동기 여유율 10~15% 권장 / 20% 초과 금지 (에너지 절약 설계 기준)</div>
         </div>
       </div>
@@ -1593,10 +1595,10 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
     <div class="bs-panel" id="bs-law">
       <div class="bs-item blue">
         <div class="bs-item-head"><div class="bs-item-ico">📜</div><div class="bs-item-tit">기계설비법 (법률 제17453호)</div></div>
-        <div class="bs-item-body"><div class="bs-item-txt">제정 2020.06.09 / 시행 2021.04.17 — 기계설비의 설계·시공·유지관리 기준 법적 근거</div></div>
+        <div class="bs-item-body"><div class="bs-item-txt">현행 법률 제17453호(2020.6.9. 공포 · 시행) — 제14조 기계설비 기술기준의 근거</div></div>
       </div>
       <div class="bs-item grn">
-        <div class="bs-item-head"><div class="bs-item-ico">📋</div><div class="bs-item-tit">기계설비 기술기준 (고시 제2021-851호)</div></div>
+        <div class="bs-item-head"><div class="bs-item-ico">📋</div><div class="bs-item-tit">기계설비 기술기준 (고시 제2021-851호, 제2026-360호 타법개정 · 2026.7.8. 시행)</div></div>
         <div class="bs-item-body">
           <div class="bs-item-txt">별표 1: 열원·냉난방설비 설계·시공 기준</div>
           <div class="bs-item-txt">별표 5: 급수·급탕설비 설계·시공 기준</div>
@@ -1606,15 +1608,16 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
       <div class="bs-item org">
         <div class="bs-item-head"><div class="bs-item-ico">📐</div><div class="bs-item-tit">관련 KDS 설계기준</div></div>
         <div class="bs-item-body">
-          <div class="bs-item-txt">KDS 31 20 20: 냉난방설비 / KDS 31 25 10: 급탕설비</div>
-          <div class="bs-item-txt">KDS 31 25 30: 위생설비(오배수) / KDS 31 30 15: 급수설비</div>
+          <div class="bs-item-txt">KDS 31 25 10: 열원기기 (별표 1 1.3(6))</div>
+          <div class="bs-item-txt">KDS 31 30 15: 급수설비 / KDS 31 30 20: 급탕설비 (별표 5 1.3(3)(4))</div>
+          <div class="bs-item-txt">KDS 31 30 25: 배수통기설비 / KDS 31 30 35: 우수설비 (별표 6 1.3(2)(3))</div>
         </div>
       </div>
       <div class="bs-item sky">
-        <div class="bs-item-head"><div class="bs-item-ico">🏆</div><div class="bs-item-tit">EPI 관련 기준 (에너지절약설계기준)</div></div>
+        <div class="bs-item-head"><div class="bs-item-ico">🏆</div><div class="bs-item-tit">건축물의 에너지절약설계기준 (2026.7.8. 시행)</div></div>
         <div class="bs-item-body">
-          <div class="bs-item-txt">국토교통부고시 제2023-104호 — KS B 6318/7501/7505 고효율 인증</div>
-          <div class="bs-item-txt">A·B특성 효율 가중평균 / 인버터·대수제어 EPI 가점</div>
+          <div class="bs-item-txt">제8조제2호나목(의무) — 펌프는 KS B 6318 · 7501 등 표시인증제품 또는 KS 효율 이상</div>
+          <div class="bs-item-txt">제9조제4호(권장) — 순환펌프 대수 · 가변속 제어, 급수펌프 가변속 제어 / A·B특성 효율은 장비선정계산서 기재용</div>
         </div>
       </div>
     </div>
@@ -1624,22 +1627,22 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
         <div class="bs-item-head"><div class="bs-item-ico">💧</div><div class="bs-item-tit">냉난방 설계 팁</div></div>
         <div class="bs-item-body">
           <div class="bs-item-txt">단위마찰손실 R = 0.02~0.04 mAq/m / 보일러저항 5~8m / 냉동기코일 3~5m</div>
-          <div class="bs-item-txt">판형 열교환기 차압 70kPa 이하 유지 / 인버터 제어로 EPI 가점 확보</div>
+          <div class="bs-item-txt">판형 열교환기 손실수두 70 kPa 이하(별표 1 2.6(4)) / 순환펌프 대수 · 가변속 제어(에너지절약설계기준 제9조제4호 가목)</div>
         </div>
       </div>
       <div class="bs-item org">
         <div class="bs-item-head"><div class="bs-item-ico">🚰</div><div class="bs-item-tit">오배수 설계 팁</div></div>
         <div class="bs-item-body">
           <div class="bs-item-txt">집수조 유효용량 = Q×5~10분 이상 확보 / 2대 교번운전 필수</div>
-          <div class="bs-item-txt">우수펌프: 지역 기상청 10년 빈도 강수량 적용 / 우수 η=0.30 적용</div>
+          <div class="bs-item-txt">우수펌프: 지역 기상청 10년 빈도 강수량 적용 / η는 입력값 적용</div>
         </div>
       </div>
       <div class="bs-item grn">
         <div class="bs-item-head"><div class="bs-item-ico">🔥</div><div class="bs-item-tit">급탕 설계 팁</div></div>
         <div class="bs-item-body">
           <div class="bs-item-txt">중규모: R=15~20 mmAq/m, K=1.0~1.2 / 소규모: R=10~20, K=1.0~1.5</div>
-          <div class="bs-item-txt">재순환펌프 Q = 시간최대급탕량[ℓ/hr] ÷ (출탕-냉각허용)[℃] — 단위 주의</div>
-          <div class="bs-item-txt">예비 1대 필수 / 급탕 출탕 60℃, 냉각허용 5℃ 기준</div>
+          <div class="bs-item-txt">순환펌프 Q = 배관 열손실 ÷ (60 × Δt) — 열손실은 보온 두께 · 관경별로 산정</div>
+          <div class="bs-item-txt">예비 1대 / 급탕하지 않을 때 순환펌프 정지 가능(별표 5 2.2.6(2))</div>
         </div>
       </div>
       <div class="bs-item red">
@@ -1647,7 +1650,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
         <div class="bs-item-body">
           <div class="bs-item-txt">KS B 6318/7501/7505 고효율 인증 입력</div>
           <div class="bs-item-txt">A특성(최대효율점) / B특성(규정토출량) 효율 입력 후 가중평균 확인</div>
-          <div class="bs-item-txt">제어방식 선택 — 인버터·대수제어 → EPI +2~3점 자동 표시</div>
+          <div class="bs-item-txt">제어방식 선택 — 인버터 · 대수제어 → 권장 조항(제9조제4호) 표시</div>
           <div class="bs-item-txt">전동기 여유율 10~15% 준수 · 20% 초과 금지</div>
         </div>
       </div>
@@ -2183,7 +2186,7 @@ function buildA4Sec(key, r){
     <tbody>
       <tr><td>유량</td><td>Q</td><td class="mc">${r.Q_lpm.toFixed(3)}</td><td class="mc">${r.Q_lpm.toFixed(2)}</td><td>LPM</td></tr>
       <tr><td>양정</td><td>H</td><td class="mc">${r.H.toFixed(3)}</td><td class="mc">${r.H.toFixed(2)}</td><td>m</td></tr>
-      <tr><td>계산동력</td><td>P</td><td class="mc">${r.P_calc.toFixed(4)}</td><td>—</td><td>HP</td></tr>
+      <tr><td>계산동력</td><td>P</td><td class="mc">${r.P_kW.toFixed(3)} kW (${r.P_calc.toFixed(3)} HP)</td><td>—</td><td>kW</td></tr>
       <tr><td>선정동력</td><td>P</td><td>—</td><td class="mc" style="color:#1d4ed8;font-weight:800">${r.hpStr}</td><td>HP</td></tr>
       <tr><td>구경</td><td>DN</td><td>—</td><td class="mc">Ø ${r.pipe}${r.pipeMain?' / 주Ø'+r.pipeMain:''}</td><td>mm</td></tr>
       <tr><td>전원</td><td>—</td><td>—</td><td>${r.power}</td><td>—</td></tr>
@@ -2216,12 +2219,12 @@ function buildPrintPages(){
     <div class="a4-subtitle">기계설비 기술기준 기반 8종 펌프 산정 [MANMIN-Ver5.0]</div></div>
     <div class="a4-company"><div>작성자: ${proj.author}</div><div>일자: ${proj.date}</div></div></div>
   <table class="a4-meta-table"><tr><td class="k">공사명</td><td>${proj.name}</td></tr>
-  <tr><td class="k">법령 근거</td><td style="font-size:7px;color:#64748b">국토교통부 고시 제2021-851호 · 별표 1·5·6</td></tr></table>
+  <tr><td class="k">법령 근거</td><td style="font-size:7px;color:#64748b">고시 제2021-851호(제2026-360호 타법개정) · 별표 1·5·6</td></tr></table>
   <div class="a4-section-tit">📋 펌프 용량 산정 결과 (${keys.length}/8종)</div>`;
   // 각 펌프 섹션별로 page-break-inside:avoid 처리됨 (CSS)
   let body=`<div class="a4-print-page">${hdr}`;
   keys.forEach(k=>{ body+=buildA4Sec(k,RESULTS[k]); });
-  body+=`<div class="a4-law">※ 국토교통부 고시 제2021-851호 기준 / MANMIN-Ver5.0</div></div>`;
+  body+=`<div class="a4-law">※ 고시 제2021-851호(제2026-360호 타법개정) 기준 / MANMIN-Ver5.0</div></div>`;
   w.innerHTML=body;
 }
 /* v5.0 — 인쇄는 화면과 같은 #a4Page 를 쓴다. 표 길이 판정만 미리 돌린다(§16-13).
@@ -2246,12 +2249,16 @@ function selPipe(q){ if(q<20)return 25; if(q<50)return 32; if(q<100)return 40; i
 function selDPipe(q){ if(q<100)return{p:40,m:50}; if(q<250)return{p:50,m:65}; if(q<500)return{p:80,m:100}; return{p:100,m:125}; }
 function selPW(v){ return v<=0.25?'1Φ 220V 60Hz':'3Φ 380V 60Hz'; }
 function n(id){ return parseFloat(document.getElementById(id)?.value)||0; }
+/* v5.0.1 — 빈칸만 기본값(0 입력은 0으로) */
+function nz(id,d){ const x=parseFloat(document.getElementById(id)?.value); return isNaN(x)?d:x; }
+/* v5.0.1 — 축동력 kW = ρgQH/η = Q[LPM]×H[m]÷(6120×η), HP = kW÷0.7457 */
+function pumpPower(Q,H,emg,eta){ const kW=Q*H*emg/(6120*eta); return {kW:kW, hp:kW/0.7457}; }
 
 function buildResHtml(r, isDrain=false){ return `
   <div class="drh-grid">
     <div class="drh-box rect"><div class="drh-lbl">유량 Q</div><div class="drh-val mono">${r.Q_lpm.toFixed(2)}</div><div class="drh-unit">LPM</div></div>
     <div class="drh-box circ"><div class="drh-lbl">양정 H</div><div class="drh-val mono">${r.H.toFixed(2)}</div><div class="drh-unit">m</div></div>
-    <div class="drh-box flat"><div class="drh-lbl">계산동력</div><div class="drh-val mono">${r.P_calc.toFixed(4)}</div><div class="drh-unit">HP</div></div>
+    <div class="drh-box flat"><div class="drh-lbl">계산동력</div><div class="drh-val mono">${r.P_kW.toFixed(3)}</div><div class="drh-unit">kW</div><div class="drh-sub">${r.P_calc.toFixed(3)} HP</div></div>
     <div class="drh-box vel"><div class="drh-lbl">선정동력</div><div class="drh-val mono">${r.hpStr}</div><div class="drh-unit">HP</div><div class="drh-sub">${(selHP(r.P_calc).v*0.7457).toFixed(3)} kW (선정)</div></div>
   </div>
   <div class="cbox">
@@ -2282,7 +2289,7 @@ function buildEpiBox(epi){
   const wAvg=(epi.effA>0&&epi.effB>0)?((epi.effA+epi.effB)/2).toFixed(1):'—';
   return `<div class="cbox" style="margin-top:8px;border-color:#bfdbfe">
     <div class="cbox-tit" style="color:#1d4ed8">📋 EPI / 장비선정계산서 정보</div>
-    <div class="crow"><span class="ck">제어방식</span><span class="cv mono" style="color:${epi.score>0?'#15803d':'inherit'}">${epi.ctrl||'미선택'}${epi.score>0?' (+EPI '+epi.score+'점)':''}</span></div>
+    <div class="crow"><span class="ck">제어방식</span><span class="cv mono" style="color:${epi.score>0?'#15803d':'inherit'}">${epi.ctrl||'미선택'}${epi.score>0?' — 에너지절약설계기준 제9조제4호 권장':''}</span></div>
     <div class="crow"><span class="ck">KS 인증 규격</span><span class="cv mono" style="color:${hasKS?'#15803d':'#94a3b8'}">${epi.ks}${hasKS?' ✓':' (미입력)'}</span></div>
     <div class="crow"><span class="ck">고효율 인증</span><span class="cv mono" style="color:${hasCert?'#15803d':'#94a3b8'}">${epi.cert}${hasCert?' ✓':' (미입력)'}</span></div>
     <div class="crow"><span class="ck">A특성 효율 (최대효율점)</span><span class="cv mono">${epi.effA>0?epi.effA+'%':'미입력'}</span></div>
@@ -2350,7 +2357,7 @@ function switchHWSub(mode, el){
   document.getElementById('hw_badge').textContent='대기'; document.getElementById('hw_badge').className='cbadge org';
   const existing=RESULTS[mode];
   if(existing) document.getElementById('hwResult').innerHTML=buildResHtml(existing);
-  else document.getElementById('hwResult').innerHTML=`<div class="result-placeholder"><div class="rph-ico">${isC?'🔄':'♻️'}</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">급탕량 입력 후 자동 산정됩니다</div></div>`;
+  else document.getElementById('hwResult').innerHTML=`<div class="result-placeholder"><div class="rph-ico">${isC?'🔄':'♻️'}</div><div class="rph-tit">결과 대기 중</div><div class="rph-sub">열손실 · 열량 입력 후 자동 산정됩니다</div></div>`;
   if(existing){document.getElementById('hw_badge').textContent='완료';document.getElementById('hw_badge').className='cbadge grn';}
 }
 
@@ -2363,12 +2370,14 @@ function calcHeat(){
   const load=n('h_load'); if(!load) return;
   const key=_heatSub;
   const isH=(key==='heat');
-  const extra=n('h_extra')/100, dt=n('h_dt')||(isH?10:5);
-  const pLen=n('h_pipelen'), fric=n('h_friction')||0.02;
+  const extra=n('h_extra')/100, dt=nz('h_dt',isH?10:5);
+  const pLen=n('h_pipelen'), fric=nz('h_friction',0.02);
   const coil=n('h_coil'), boil=n('h_boiler');
-  const saf=n('h_safety')/100, eta=n('h_eta')||0.4;
+  const saf=n('h_safety')/100, eta=nz('h_eta',0.4);
+  if(!(dt>0)){ showToast('⚠️ 온도차 ΔT를 입력하세요'); return; }
+  if(!(eta>0)){ showToast('⚠️ 펌프 효율을 입력하세요'); return; }
   // ★ emg: 입력값 % → 소수 변환 (10% → 1.10)
-  const emgPct=n('h_emg')||10;
+  const emgPct=nz('h_emg',10);
   const emg=1+(emgPct/100);
 
   // 전동기 여유율 경고 (15% 초과 시 경고, 20% 초과 시 강경고)
@@ -2385,7 +2394,7 @@ function calcHeat(){
   const gearResKpa=gearRes*9.807;
   // hₒ_warn — 결과 HTML에 포함
 
-  const P=Q*H*emg/(4500*eta), hp=selHP(P), pipe=selPipe(Q), pw=selPW(hp.v);
+  const PW=pumpPower(Q,H,emg,eta), P=PW.hp, hp=selHP(P), pipe=selPipe(Q), pw=selPW(hp.v);
   const typeStr=['라인형','입형','횡형'][['line','vert','hori'].indexOf(document.getElementById('h_type').value)]||'라인형';
 
   // EPI / KS 정보
@@ -2393,7 +2402,7 @@ function calcHeat(){
   const ks=document.getElementById('h_ks')?.value||'none';
   const cert=document.getElementById('h_cert')?.value||'none';
   const effA=n('h_eff_a'), effB=n('h_eff_b');
-  const epiCtrl={on_off:'단속운전',inverter:'인버터 가변속 (+EPI 가점)',multi:'대수분할 (+EPI 가점, 예비펌프 생략 가능)'}[ctrl];
+  const epiCtrl={on_off:'단속운전',inverter:'인버터 가변속 제어',multi:'대수분할 제어 (예비펌프 생략 가능 — 별표 1 2.8(5))'}[ctrl];
   const epiScore=(ctrl==='on_off')?0:(ctrl==='inverter')?3:2;
 
   const calcRows=[
@@ -2402,21 +2411,21 @@ function calcHeat(){
     {k:'→ Q',v:`${Q.toFixed(3)} LPM`},
     {k:'배관손실 (L×R)',v:`${pl.toFixed(3)} m`},{k:'배관부속 (×0.5)',v:`${pa.toFixed(3)} m`},
     {k:'코일 저항',v:`${coil} m`},{k:isH?'보일러 저항':'냉동기 저항',v:`${boil} m`},
-    {k:'기기저항 합계',v:`${gearRes.toFixed(3)} m (${gearResKpa.toFixed(0)} kPa)${gearResKpa>70?' ⚠️ 70kPa 초과':''}`},
+    {k:'기기저항 합계',v:`${gearRes.toFixed(3)} m (${gearResKpa.toFixed(0)} kPa)${gearResKpa>70?' ⚠️ 70 kPa 초과 — 판형 열교환기 확인(별표 1 2.6(4))':''}`},
     {k:'소계',v:`${sub.toFixed(3)} m`},{k:`안전율(${(saf*100).toFixed(0)}%)`,v:`${sm.toFixed(3)} m`},
     {k:'→ H (전양정)',v:`${H.toFixed(3)} m`},
     {k:`전동기 여유율(${emgPct}%)`,v:emgPct>15?`⚠️ ${emgPct}% — 권장 초과`:`${emgPct}% (적정)`},
-    {k:'→ P 계산',v:`${P.toFixed(4)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`},
+    {k:'→ P 계산',v:`${PW.kW.toFixed(3)} kW = ${P.toFixed(3)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`},
   ];
 
-  const r={Q_lpm:Q,H,P_calc:P,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:'2대 (1대 예비)',calcRows,
+  const r={Q_lpm:Q,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:'2대 (1대 예비)',calcRows,
     typeStr,purpose:isH?'온수 순환 펌프':'냉수 순환 펌프',
     epi:{ctrl:epiCtrl,score:epiScore,ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB},
     gearResKpa};
   RESULTS[key]=r;
   document.getElementById('h_badge').textContent='완료'; document.getElementById('h_badge').className='cbadge grn';
   document.getElementById('heatResult').innerHTML=buildResHtml(r)
-    +(gearResKpa>70?`<div class="nb red" style="margin-top:8px"><div class="nb-tit">⚠️ 판형 열교환기 차압 ${gearResKpa.toFixed(0)} kPa — 70 kPa 초과</div><div class="nb-txt">기기저항 합계가 70 kPa을 초과합니다. 에너지 효율 설계 기준 재검토 필요 (보고서 3조).</div></div>`:'')
+    +(gearResKpa>70?`<div class="nb red" style="margin-top:8px"><div class="nb-tit">⚠️ 기기저항 합계 ${gearResKpa.toFixed(0)} kPa — 70 kPa 초과</div><div class="nb-txt">기기저항 합계가 70 kPa를 넘습니다. 판형 열교환기를 쓰는 경우 열교환기 손실수두가 70 kPa 이하인지 확인하십시오 (별표 1 2.6(4)).</div></div>`:'')
     +buildEpiBox(r.epi);
   updateStatusBar();
   showToast(`✅ ${isH?'난방':'냉방'} 순환펌프 산정 완료 (${PUMP_ORDER.filter(k=>RESULTS[k]).length}/8)`);
@@ -2427,9 +2436,10 @@ function calcDrain(){
   const key=_drainSub;
   const isPit=(key==='pit');
   let Q_in=0, Q=0, Qnote='';
-  const ht=n('d_height'), pLen=n('d_pipelen'), fric=n('d_friction')||0.05;
-  const saf=n('d_safety')/100, eta=n('d_eta')||0.4;
-  const emgPct=n('d_emg')||10;
+  const ht=n('d_height'), pLen=n('d_pipelen'), fric=nz('d_friction',0.05);
+  const saf=n('d_safety')/100, eta=nz('d_eta',0.4);
+  if(!(eta>0)){ showToast('⚠️ 펌프 효율을 입력하세요'); return; }
+  const emgPct=nz('d_emg',10);
   const emg=1+(emgPct/100);
 
   // 여유율 경고
@@ -2452,13 +2462,14 @@ function calcDrain(){
       } else { warn30.style.display='none'; }
     }
   } else {
-    const rr=n('d_rain_rate'), ar=n('d_floor_area'), cnt=n('d_pump_count')||2;
-    if(!rr||!ar) return; Q=(rr*ar)/60/cnt; Q_in=Q; Qnote=`(${rr}×${ar})÷60÷${cnt}`;
+    const rr=n('d_rain_rate'), ar=n('d_floor_area'), cnt=nz('d_pump_count',2);
+    if(!rr||!ar) return;
+    if(!(cnt>=1)){ showToast('⚠️ 펌프 설치 대수를 1 이상 입력하세요'); return; } Q=(rr*ar)/60/cnt; Q_in=Q; Qnote=`(${rr}×${ar})÷60÷${cnt}`;
   }
 
   const pl=pLen*fric, pa=pLen*fric*0.5, sub=ht+pl+pa, sm=sub*saf, H=sub+sm;
-  const etaA=(key==='rain')?0.30:eta;
-  const P=Q*H*emg/(4500*etaA), hp=selHP(P), pipes=selDPipe(Q), pw=selPW(hp.v);
+  const etaA=eta;   /* v5.0.1 — 우수 0.30 고정 폐지, 입력값 사용 */
+  const PW=pumpPower(Q,H,emg,etaA), P=PW.hp, hp=selHP(P), pipes=selDPipe(Q), pw=selPW(hp.v);
 
   // 고형물 통과 직경
   const solidType=document.getElementById('d_solid_type')?.value||'25';
@@ -2471,16 +2482,16 @@ function calcDrain(){
 
   const calcRows=[
     {k:'종류',v:isPit?'PIT 집수조 배수':'우수 집수조 배수'},
-    ...(isPit?[{k:'시간최대 유입량 Q_in',v:`${Q_in} LPM`},{k:'설계 Q (×200%)',v:`${Q.toFixed(3)} LPM`}]:
+    ...(isPit?[{k:'시간최대 유입량 Q_in',v:`${Q_in} LPM`},{k:'설계 Q (×200%, MANMIN 참고값)',v:`${Q.toFixed(3)} LPM`}]:
               [{k:`Q (${Qnote})`,v:`${Q.toFixed(3)} LPM`}]),
     {k:'층고',v:`${ht} m`},{k:'배관손실 (L×R)',v:`${pl.toFixed(3)} m`},{k:'배관부속 (×0.5)',v:`${pa.toFixed(3)} m`},
     {k:'소계',v:`${sub.toFixed(3)} m`},{k:`안전율(${(saf*100).toFixed(0)}%)`,v:`${sm.toFixed(3)} m`},
     {k:'→ H',v:`${H.toFixed(3)} m`},{k:`η`,v:`${etaA}`},
     {k:`전동기 여유율(${emgPct}%)`,v:emgPct>15?`⚠️ 권장 초과`:`적정`},
-    {k:'→ P 계산',v:`${P.toFixed(4)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`},
+    {k:'→ P 계산',v:`${PW.kW.toFixed(3)} kW = ${P.toFixed(3)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`},
   ];
 
-  const r={Q_lpm:Q,H,P_calc:P,hpStr:hp.l,pipe:pipes.p,pipeMain:pipes.m,power:pw,
+  const r={Q_lpm:Q,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe:pipes.p,pipeMain:pipes.m,power:pw,
     qty:'2대 (순차기동/교대운전)',calcRows,
     typeStr:'수중형 (Submersible)',purpose:isPit?'집수조 배수 (PIT)':'집수조 배수 (우수)',
     solidLabel, epi:{ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB,ctrl:'교대운전(2대)',score:0}};
@@ -2495,37 +2506,53 @@ function calcDrain(){
 function calcHW(){
   const key=_hwSub;
   const isC=(key==='circ');
-  let Q=0, Qnote='';
+  let Q=0, Qnote='', heatRows=[];
   const R=n('hw_R'), I=n('hw_I'), K=n('hw_K');
-  const eta=n('hw_eta')||0.35;
-  const emgPct=n('hw_emg')||10;
+  const eta=nz('hw_eta',0.35);
+  if(!(eta>0)){ showToast('⚠️ 펌프 효율을 입력하세요'); return; }
+  const emgPct=nz('hw_emg',10);
   const emg=1+(emgPct/100);
 
   const emgWarn=document.getElementById('hw_emg_warn');
   if(emgWarn) emgWarn.style.display=(emgPct>15)?'':'none';
 
-  if(isC){ const mf=n('hw_max_flow'); if(!mf) return; Q=mf/2/60; Qnote=`${mf}÷2÷60`; }
-  else { const st=n('hw_storage'), to=n('hw_t_out')||60, tc=n('hw_t_cool')||5; if(!st) return; Q=st/(to-tc); Qnote=`${st}÷(${to}-${tc})`; }
+  /* v5.0.1 — 별표 5 2.2.6(1) 순환펌프 유량 = 환탕유량 · 별표 8 2.5(2) 환탕유량은 급탕배관 열손실로 계산 */
+  if(isC){
+    const direct=n('hw_loss_direct'), L=n('hw_loss_len'), qw=nz('hw_loss_q',30), dt=nz('hw_dt',5);
+    const loss=(direct>0)?direct:L*qw*0.86;
+    if(!(loss>0)) return;
+    if(!(dt>0)){ showToast('⚠️ 환탕 온도강하 Δt를 입력하세요'); return; }
+    Q=loss/(60*dt); Qnote=`${Math.round(loss).toLocaleString()}÷(60×${dt})`;
+    heatRows=(direct>0)?[{k:'배관 열손실 (직접 입력)',v:`${direct.toLocaleString()} kcal/h`}]
+      :[{k:'배관 길이 × 단위 열손실',v:`${L} m × ${qw} W/m = ${(L*qw).toLocaleString()} W`},{k:'배관 열손실',v:`${(L*qw).toLocaleString()} W × 0.86 = ${Math.round(loss).toLocaleString()} kcal/h`}];
+    heatRows.push({k:'환탕 온도강하 Δt',v:`${dt} ℃`});
+  } else {
+    const cap=n('hw_heat_cap'), dt=nz('hw_dt2',10);
+    if(!(cap>0)) return;
+    if(!(dt>0)){ showToast('⚠️ 가열 온도차 Δt를 입력하세요'); return; }
+    Q=cap/(60*dt); Qnote=`${cap.toLocaleString()}÷(60×${dt})`;
+    heatRows=[{k:'가열장치 출력',v:`${cap.toLocaleString()} kcal/h`},{k:'가열 온도차 Δt',v:`${dt} ℃`}];
+  }
   if(!I) return;
   const H=R*I*(1+K)/1000;
-  const P=Q*H*emg/(4500*eta), hp=selHP(P), pipe=selPipe(Q), pw=selPW(hp.v);
+  const PW=pumpPower(Q,H,emg,eta), P=PW.hp, hp=selHP(P), pipe=selPipe(Q), pw=selPW(hp.v);
 
   // EPI
   const ctrl=document.getElementById('hw_ctrl')?.value||'on_off';
   const ks=document.getElementById('hw_ks')?.value||'none';
   const cert=document.getElementById('hw_cert')?.value||'none';
   const effA=n('hw_eff_a'), effB=n('hw_eff_b');
-  const epiCtrl={on_off:'단속운전',inverter:'인버터 가변속 (+EPI 가점)',multi:'대수분할 (+EPI 가점)'}[ctrl];
+  const epiCtrl={on_off:'단속운전',inverter:'인버터 가변속 제어',multi:'대수분할 제어'}[ctrl];
   const epiScore=(ctrl==='on_off')?0:(ctrl==='inverter')?3:2;
 
   const calcRows=[
-    {k:'종류',v:isC?'급탕 순환펌프':'급탕 재순환펌프'},{k:`Q (${Qnote})`,v:`${Q.toFixed(3)} LPM`},
+    {k:'종류',v:isC?'급탕 순환펌프':'급탕 재순환펌프'},...heatRows,{k:`Q (${Qnote})`,v:`${Q.toFixed(3)} LPM`},
     {k:'R',v:`${R} mmAq/m`},{k:'I',v:`${I} m`},{k:'K',v:`${K}`},
     {k:'→ H',v:`${R}×${I}×(1+${K})÷1000 = ${H.toFixed(3)} m`},
     {k:'η',v:`${eta}`},{k:`전동기 여유율(${emgPct}%)`,v:emgPct>15?'⚠️ 권장 초과':'적정'},
-    {k:'→ P 계산',v:`${P.toFixed(4)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`}
+    {k:'→ P 계산',v:`${PW.kW.toFixed(3)} kW = ${P.toFixed(3)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`}
   ];
-  const r={Q_lpm:Q,H,P_calc:P,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:'2대 (1대 예비)',calcRows,
+  const r={Q_lpm:Q,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:'2대 (1대 예비)',calcRows,
     typeStr:'라인형',purpose:isC?'급탕 순환용 (저탕조↔기구)':'급탕 재순환용 (보일러↔저탕조)',
     epi:{ctrl:epiCtrl,score:epiScore,ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB}};
   RESULTS[key]=r;
@@ -2584,7 +2611,7 @@ function calcWS(){
     Q=qhr/60; Qnote=`${qhr}ℓ/hr÷60`; totalQ=Q;
   } else {
     const qmin=n('ws_b_q'); if(!qmin) return;
-    pumpCnt=Math.max(2, n('ws_b_cnt')||2);
+    pumpCnt=Math.max(2, nz('ws_b_cnt',2));
     totalQ=qmin; Q=qmin/pumpCnt;
     Qnote=`${qmin}÷${pumpCnt}(대)`;
   }
@@ -2592,11 +2619,12 @@ function calcWS(){
   // ② 양정 산정: H = hₐ + hpv + hₒ + 안전율
   const ha=n('ws_ha');          // 실양정
   const pLen=n('ws_pipelen');
-  const fric=n('ws_friction')||0.03;
-  const ho=n('ws_ho')||5.6;     // 말단기구 최저필요수압 (m환산)
+  const fric=nz('ws_friction',0.03);
+  const ho=nz('ws_ho',5.6);     // 말단기구 최저필요수압 (m환산)
   const saf=n('ws_safety')/100;
-  const eta=n('ws_eta')||0.55;
-  const emgPct=n('ws_emg')||10;
+  const eta=nz('ws_eta',0.55);
+  if(!(eta>0)){ showToast('⚠️ 펌프 효율을 입력하세요'); return; }
+  const emgPct=nz('ws_emg',10);
   const emg=1+(emgPct/100);
 
   // 여유율 경고
@@ -2611,15 +2639,19 @@ function calcWS(){
   const H=sub+sm;               // 전양정
 
   // ③ 동력
-  const P=Q*H*emg/(4500*eta);
+  const PW=pumpPower(Q,H,emg,eta);
+  const P=PW.hp;
   const hp=selHP(P);
   const pipe=selPipe(Q);
   const pw=selPW(hp.v);
 
-  // ④ 550 kPa(56.1m) 경고 판정 — 말단기구 수압 기준 (ho 값으로 판정)
-  const ho_kpa=ho*9.807; // m→kPa 환산
+  // ④ 550 kPa(56.1m) 판정 — v5.0.1 별표 5 2.1.7 : 최대 수압으로 판정
+  //    자동부스터는 펌프 토출압(≈ 최하층 기구 수압) = H×9.807 kPa, 고가수조는 낙차로 별도 확인
+  const ho_kpa=ho*9.807; // m→kPa 환산 (최저필요수압 표시용)
+  const dis_kpa=H*9.807;
+  const over550=(!isH)&&(dis_kpa>=550);
   const warn=document.getElementById('ws_550_warn');
-  if(warn) warn.style.display=(ho_kpa>=550)?'':'none';
+  if(warn) warn.style.display=over550?'':'none';
 
   const calcRows=[
     {k:'방식',v:isH?'고가수조 양수펌프':'자동부스터 급수펌프'},    {k:isH?'시간최대급수량':'순간최대급수량',v:isH?`${n('ws_h_q').toLocaleString()} ℓ/hr`:`${totalQ} LPM`},
@@ -2634,26 +2666,27 @@ function calcWS(){
     {k:'→ 전양정 H',v:`${H.toFixed(3)} m`},
     {k:'펌프 효율 η',v:`${eta}`},
     {k:`전동기 여유율(${emgPct}%)`,v:emgPct>15?`⚠️ ${emgPct}% — 권장 초과`:`${emgPct}% (적정)`},
-    {k:'→ P 계산',v:`${P.toFixed(4)} HP`},
+    {k:'→ P 계산',v:`${PW.kW.toFixed(3)} kW = ${P.toFixed(3)} HP`},
     {k:'→ 선정동력',v:`${hp.l} HP`},
+    {k:'최대 수압 (별표 5 2.1.7)',v:isH?'고가수조 낙차로 별도 확인':`토출압 ${dis_kpa.toFixed(0)} kPa ${over550?'≥ 550 → 감압밸브 또는 조닝':'— 550 kPa 미만'}`},
   ];
 
   const typeStr=isH?'입형 다단 원심펌프':'부스터 유닛 (병렬)';
   const purpose=isH?'고가수조 양수 (급수용)':'자동부스터 급수';
   const qtyStr=isH?'2대 (1대 예비)':pumpCnt+'대 병렬 (교번운전)';
 
-  const r={Q_lpm:Q,H,P_calc:P,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:qtyStr,calcRows,
+  const r={Q_lpm:Q,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:qtyStr,calcRows,
     typeStr,purpose,
     // 급수펌프 추가 정보
     totalQ,pumpCnt,ha,hpv:hpv.toFixed(3),ho,H_total:H.toFixed(3),
-    warn550:(ho_kpa>=550)
+    warn550:over550
   };
 
   RESULTS[key]=r; // ★ 독립 저장
   document.getElementById('ws_badge').textContent='완료';
   document.getElementById('ws_badge').className='cbadge grn';
   document.getElementById('wsResult').innerHTML=buildResHtml(r)
-    +(r.warn550?`<div class="nb red" style="margin-top:8px"><div class="nb-tit">⚠️ 감압밸브(PRV) 필수</div><div class="nb-txt">말단기구 수압 ${ho_kpa.toFixed(0)} kPa ≥ 550 kPa<br>별표 5 2.1.7에 따라 감압밸브 또는 급수 조닝 필수</div></div>`:'');
+    +(r.warn550?`<div class="nb red" style="margin-top:8px"><div class="nb-tit">⚠️ 감압밸브(PRV) 또는 조닝</div><div class="nb-txt">펌프 토출압 ${dis_kpa.toFixed(0)} kPa ≥ 550 kPa<br>별표 5 2.1.7에 따라 감압밸브 또는 급수 조닝으로 550 kPa 이하로 제한</div></div>`:'');
   updateStatusBar();
   showToast(`✅ ${isH?'고가수조 양수':'자동부스터 급수'}펌프 산정 완료 (${PUMP_ORDER.filter(k=>RESULTS[k]).length}/8)`);
 }
@@ -2664,7 +2697,7 @@ function resetAll(){
   document.querySelectorAll('.finput').forEach(el=>{
     const keep=['h_extra','h_friction','h_coil','h_boiler','h_safety','h_eta','h_emg',
                 'd_friction','d_safety','d_eta','d_emg',
-                'hw_R','hw_K','hw_eta','hw_emg','hw_t_out','hw_t_cool','d_pump_count',
+                'hw_R','hw_K','hw_eta','hw_emg','hw_loss_q','hw_dt','hw_dt2','d_pump_count',
                 'ws_friction','ws_safety','ws_eta','ws_emg','ws_ho','ws_b_cnt'];
     if(!keep.includes(el.id)) el.value='';
   });
