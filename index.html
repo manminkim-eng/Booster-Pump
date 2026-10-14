@@ -909,14 +909,18 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
             <div class="frow">
               <div class="fgrp"><span class="flbl">전동기 여유율 (10~15% 권장)</span><input class="finput mono" type="number" id="h_emg" value="10" step="1" oninput="calcHeat()"></div>
               <div class="fgrp"><span class="flbl">제어방식 (에너지절약 권장)</span>
-                <select class="fselect" id="h_ctrl" onchange="calcHeat()">
+                <select class="fselect" id="h_ctrl" onchange="toggleHN();calcHeat()">
                   <option value="on_off">단속운전 (ON/OFF)</option>
                   <option value="inverter">인버터 가변속 제어</option>
                   <option value="multi">대수분할 제어</option>
                 </select>
               </div>
             </div>
-            <div id="h_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다 경고</div><div class="nb-txt">전동기 여유율이 15%를 초과합니다. 20% 이상은 에너지 절약 설계 원칙 위반입니다 (가이드라인 3조).</div></div>
+            <div class="frow" id="h_n_row" style="display:none">
+              <div class="fgrp"><span class="flbl">대수제어 운전 대수 n (대, 2 이상)</span><input class="finput mono" type="number" id="h_n" value="2" min="2" step="1" oninput="calcHeat()"></div>
+              <div class="fgrp"><span class="flbl">펌프 1대 유량</span><div class="nb sky" style="margin:0;padding:8px 10px"><div class="nb-txt">전체 Q ÷ n — 예비 생략 가능(별표 1 2.8(5))</div></div></div>
+            </div>
+            <div id="h_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다 경고</div><div class="nb-txt">전동기 여유율이 15 %를 넘습니다 — MANMIN 권장 10~15 %(기준에 수치 없음). 과다 선정은 부분부하 운전 효율을 떨어뜨립니다.</div></div>
             <div class="nb sky" style="margin-top:2px"><div class="nb-tit">📌 밀폐회로 실양정 hₐ = 0</div><div class="nb-txt">팽창탱크 설치 밀폐 폐회로 → 실양정(hₐ)=0, 전양정=배관손실+기기저항만 반영</div></div>
             <div class="div-line"></div>
             <div class="section-label">④ EPI / KS 고효율 인증 (장비선정계산서)</div>
@@ -994,14 +998,17 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
             </div>
             <div id="d_rain_block" style="display:none">
               <div class="section-label">② 유량 (우수 집수조)</div>
+              <div><span class="flbl">지역 — 기상청 ASOS 1시간 최다강수량(관측 최대값)</span>
+                <select class="fselect" id="d_rain_region" onchange="setRainRegion()"><option value="">— 직접 입력 —</option></select>
+              </div>
               <div><span class="flbl">시간 최대 강수량 (mm/hr)</span>
-                <div class="input-sfx"><input class="finput mono" type="number" id="d_rain_rate" placeholder="141" oninput="calcDrain()"><span class="sfx">mm/hr</span></div>
+                <div class="input-sfx"><input class="finput mono" type="number" id="d_rain_rate" placeholder="100" oninput="document.getElementById('d_rain_region').value='';calcDrain()"><span class="sfx">mm/hr</span></div>
               </div>
               <div class="frow">
                 <div class="fgrp"><span class="flbl">집수 바닥 면적 (m²)</span><input class="finput mono" type="number" id="d_floor_area" placeholder="260" oninput="calcDrain()"></div>
                 <div class="fgrp"><span class="flbl">펌프 설치 대수</span><input class="finput mono" type="number" id="d_pump_count" value="2" oninput="calcDrain()"></div>
               </div>
-              <div class="nb blue"><div class="nb-tit">📌 우수 유량</div><div class="nb-txt">Q=(mm×m²)÷60÷대수 [LPM]</div></div>
+              <div class="nb blue"><div class="nb-tit">📌 우수 유량</div><div class="nb-txt">Q=(mm×m²)÷60÷대수 [LPM]<br>강수량은 그 지역의 기상자료에 의한 시간최대강우량(별표 8 2.8(1)) — 지역을 고르거나 직접 입력</div></div>
             </div>
             <div class="div-line"></div>
             <div class="section-label">② 배수 용도 및 고형물 기준</div>
@@ -1025,7 +1032,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
               <div class="fgrp"><span class="flbl">펌프 효율 η</span><input class="finput mono" type="number" id="d_eta" value="0.4" step="0.01" oninput="calcDrain()"></div>
               <div class="fgrp"><span class="flbl">전동기 여유율 (%)</span><input class="finput mono" type="number" id="d_emg" value="10" step="1" oninput="calcDrain()"></div>
             </div>
-            <div id="d_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다</div><div class="nb-txt">15% 초과 시 주의, 20% 초과는 에너지 절약 원칙 위반입니다.</div></div>
+            <div id="d_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다</div><div class="nb-txt">전동기 여유율이 15 %를 넘습니다 — MANMIN 권장 10~15 %(기준에 수치 없음). 과다 선정은 부분부하 운전 효율을 떨어뜨립니다.</div></div>
             <div class="frow">
               <div class="fgrp"><span class="flbl">KS 인증 규격</span>
                 <select class="fselect" id="d_ks" onchange="calcDrain()">
@@ -1125,7 +1132,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
               <div class="fgrp"><span class="flbl">펌프 효율 η</span><input class="finput mono" type="number" id="hw_eta" value="0.35" step="0.01" oninput="calcHW()"></div>
               <div class="fgrp"><span class="flbl">전동기 여유율 (10~15%)</span><input class="finput mono" type="number" id="hw_emg" value="10" step="1" oninput="calcHW()"></div>
             </div>
-            <div id="hw_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다</div><div class="nb-txt">15% 초과 주의, 20% 초과는 에너지 절약 원칙 위반입니다.</div></div>
+            <div id="hw_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다</div><div class="nb-txt">전동기 여유율이 15 %를 넘습니다 — MANMIN 권장 10~15 %(기준에 수치 없음). 과다 선정은 부분부하 운전 효율을 떨어뜨립니다.</div></div>
             <div><span class="flbl">제어방식 (에너지절약 권장)</span>
               <select class="fselect" id="hw_ctrl" onchange="calcHW()">
                 <option value="on_off">단속운전 (ON/OFF)</option>
@@ -1236,7 +1243,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
               <div class="fgrp"><span class="flbl">펌프 효율 η</span><input class="finput mono" type="number" id="ws_eta" value="0.55" step="0.01" oninput="calcWS()"></div>
               <div class="fgrp"><span class="flbl">전동기 여유율 (10~15% 권장)</span><input class="finput mono" type="number" id="ws_emg" value="10" step="1" oninput="calcWS()"></div>
             </div>
-            <div id="ws_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다 경고</div><div class="nb-txt">전동기 여유율이 15%를 초과합니다. 20% 이상은 에너지 절약 설계 원칙 위반입니다.</div></div>
+            <div id="ws_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다 경고</div><div class="nb-txt">전동기 여유율이 15 %를 넘습니다 — MANMIN 권장 10~15 %(기준에 수치 없음). 과다 선정은 부분부하 운전 효율을 떨어뜨립니다.</div></div>
             <div class="nb red" id="ws_550_warn" style="display:none">
               <div class="nb-tit">⚠️ 최대급수압력 550 kPa 이상</div>
               <div class="nb-txt" id="ws_550_txt">펌프 토출압(≈ 최하층 기구 수압)이 550 kPa(56.1 m) 이상입니다.<br>별표 5 2.1.7에 따라 <b>감압밸브(PRV) 설치 또는 급수 조닝</b>이 필요합니다.</div>
@@ -1355,12 +1362,9 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
           <tr><td class="mono">Q ≥ 500</td><td class="mono">Ø 100</td><td class="mono">Ø 125</td></tr>
         </tbody></table></div></div>
       </div>
-      <div class="card"><div class="card-head"><div class="card-ico">🌧️</div><span class="card-tit">지역별 최대 강수량</span></div>
-        <div class="card-body"><div class="twrap"><table class="rtbl"><thead><tr><th>지역</th><th>mm/hr</th></tr></thead><tbody>
-          <tr><td>서울</td><td class="mono">120</td></tr><tr><td>부산</td><td class="mono">130</td></tr>
-          <tr><td>서산·당진</td><td class="mono">141</td></tr><tr><td>광주</td><td class="mono">115</td></tr>
-          <tr><td>대구</td><td class="mono">110</td></tr>
-        </tbody></table></div></div>
+      <div class="card"><div class="card-head"><div class="card-ico">🌧️</div><span class="card-tit">지역별 시간최대강우량 (기상청 ASOS · 69곳)</span></div>
+        <div class="card-body"><div class="nb org" style="margin-bottom:8px"><div class="nb-tit">자료</div><div class="nb-txt">기상자료개방포털 조건별통계 — 지상(ASOS) 연 1시간 최다강수량의 관측 최대값(~2025, 2026-10-13 조회). 관측소 없는 시군은 인근 관측소 값(「(인근)」). 우수관경 산정 시스템과 같은 자료</div></div>
+        <div class="twrap" style="max-height:420px;overflow:auto"><table class="rtbl"><thead><tr><th>시 · 도</th><th>지점</th><th>mm/hr</th><th>발생일</th></tr></thead><tbody id="ref_rain_body"></tbody></table></div></div>
       </div>
     </div>
   </div>
@@ -1589,7 +1593,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
         <div class="bs-item-head"><div class="bs-item-ico">⚡</div><div class="bs-item-tit">공통 — 동력 선정 및 여유율</div></div>
         <div class="bs-item-body">
           <div class="bs-item-txt">P[kW] = Q[LPM]×H[m]×(1+여유율)÷(6120×η) → HP = kW÷0.7457 → 직상위 표준 HP 선택 / HP≤¼ → 1Φ 220V / HP>¼ → 3Φ 380V</div>
-          <div class="bs-item-txt">전동기 여유율 10~15% 권장 / 20% 초과 금지 (에너지 절약 설계 기준)</div>
+          <div class="bs-item-txt">전동기 여유율 10~15 % 권장 — MANMIN 참고값(기술기준 · 에너지절약설계기준에 수치 없음), 15 % 넘으면 경고</div>
         </div>
       </div>
     </div>
@@ -1636,7 +1640,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
         <div class="bs-item-head"><div class="bs-item-ico">🚰</div><div class="bs-item-tit">오배수 설계 팁</div></div>
         <div class="bs-item-body">
           <div class="bs-item-txt">집수조 유효용량 = Q×5~10분 이상 확보 / 2대 교번운전 필수</div>
-          <div class="bs-item-txt">우수펌프: 지역 기상청 10년 빈도 강수량 적용 / η는 입력값 적용</div>
+          <div class="bs-item-txt">우수펌프: 지역 시간최대강우량(별표 8 2.8(1)) — 기상청 ASOS 1시간 최다강수량 관측 최대값을 지역 선택으로 / η는 입력값 적용</div>
         </div>
       </div>
       <div class="bs-item grn">
@@ -1653,7 +1657,7 @@ body{font-family:var(--font);background:var(--c-bg);color:var(--c-dark);font-siz
           <div class="bs-item-txt">KS B 6318/7501/7505 고효율 인증 입력</div>
           <div class="bs-item-txt">A특성(최대효율점) / B특성(규정토출량) 효율 입력 후 가중평균 확인</div>
           <div class="bs-item-txt">제어방식 선택 — 인버터 · 대수제어 → 권장 조항(제9조제4호) 표시</div>
-          <div class="bs-item-txt">전동기 여유율 10~15% 준수 · 20% 초과 금지</div>
+          <div class="bs-item-txt">전동기 여유율 10~15 % 권장(MANMIN 참고값) · 사용동력 · 전원은 장비일람에 기입(별표 1 2.8(3))</div>
         </div>
       </div>
     </div><!-- /.bs-panel #bs-tip -->
@@ -2253,6 +2257,49 @@ function selPW(v){ return v<=0.25?'1Φ 220V 60Hz':'3Φ 380V 60Hz'; }
 function n(id){ return parseFloat(document.getElementById(id)?.value)||0; }
 /* v5.0.1 — 빈칸만 기본값(0 입력은 0으로) */
 function nz(id,d){ const x=parseFloat(document.getElementById(id)?.value); return isNaN(x)?d:x; }
+/* v5.0.3 — 대수제어 운전 대수 입력란 표시 */
+function toggleHN(){ const m=(document.getElementById('h_ctrl')?.value==='multi'); const r=document.getElementById('h_n_row'); if(r) r.style.display=m?'':'none'; }
+/* v5.0.3 — 지역 강우량: 우수관경 산정 시스템(Roof-Drain v5.0.13)과 같은 기상청 ASOS 자료 */
+const RD=[
+  ["서울특별시","서울",108,118.6,"1937~2025","1942-08-05","서울"],["부산광역시","부산",159,106.0,"1914~2025","2008-08-13","부산"],
+  ["대구광역시","대구",143,80.0,"1916~2025","1941-07-06","대구"],["인천광역시","인천",112,103.3,"1917~2025","1953-08-13","인천"],
+  ["광주광역시","광주",156,86.5,"1939~2025","2008-08-08","광주"],["대전광역시","대전",133,79.1,"1969~2025","1969-07-31","대전"],
+  ["울산광역시","울산",152,104.2,"1945~2025","2016-10-05","울산"],["세종특별자치시","세종",239,59.0,"2019~2025","2020-08-28","세종"],
+  ["경기도","수원",119,92.5,"1964~2025","2000-07-22","수원"],["경기도","파주",99,101.0,"2002~2025","2024-07-17","파주"],
+  ["경기도","이천",203,98.0,"1972~2025","2010-09-21","이천"],["경기도","양평",202,97.0,"1971~2025","1975-07-25","양평"],
+  ["경기도","광주",203,98.0,"1972~2025","2010-09-21","이천 (인근)"],["경기도","화성",119,92.5,"1964~2025","2000-07-22","수원 (인근)"],
+  ["경기도","동두천",98,86.0,"1998~2025","1998-08-06","동두천"],["경기도","안성",232,90.0,"1972~2025","1976-08-14","천안 (인근)"],
+  ["강원특별자치도","춘천",101,62.0,"1966~2025","1988-07-13","춘천"],["강원특별자치도","강릉",105,100.5,"1928~2025","2002-08-31","강릉"],
+  ["강원특별자치도","원주",114,79.5,"1971~2025","1976-08-13","원주"],["강원특별자치도","속초",90,91.3,"1968~2025","2023-08-10","속초"],
+  ["강원특별자치도","태백",216,75.5,"1985~2025","2005-07-01","태백"],["강원특별자치도","삼척",106,67.4,"1992~2025","2019-10-03","동해 (인근)"],
+  ["강원특별자치도","홍천",212,89.0,"1971~2025","2006-07-15","홍천"],["충청북도","청주",131,91.8,"1967~2025","2017-07-16","청주"],
+  ["충청북도","충주",127,89.5,"1972~2025","1989-07-25","충주"],["충청북도","제천",221,92.5,"1973~2025","2007-08-05","제천"],
+  ["충청북도","보은",226,95.0,"1972~2025","1998-08-12","보은"],["충청남도","서산",129,114.9,"1968~2025","2025-07-17","서산"],
+  ["충청남도","천안",232,90.0,"1972~2025","1976-08-14","천안"],["충청남도","공주",236,116.0,"1973~2025","1999-09-10","부여 (인근)"],
+  ["충청남도","보령",235,98.0,"1972~2025","2010-07-23","보령"],["충청남도","부여",236,116.0,"1973~2025","1999-09-10","부여"],
+  ["충청남도","금산",238,84.1,"1972~2025","2024-07-10","금산"],["충청남도","홍성",177,98.2,"2016~2025","2025-07-17","홍성"],
+  ["전북특별자치도","전주",146,109.6,"1918~2025","1951-05-26","전주"],["전북특별자치도","군산",140,152.2,"1968~2025","2025-09-07","군산"],
+  ["전북특별자치도","남원",247,110.2,"1973~2025","2024-08-26","남원"],["전북특별자치도","익산",140,152.2,"1968~2025","2025-09-07","군산 (인근)"],
+  ["전북특별자치도","정읍",245,83.5,"1972~2025","2010-07-01","정읍"],["전북특별자치도","장수",248,63.0,"1988~2025","2009-07-15","장수"],
+  ["전라남도","목포",165,64.5,"1927~2025","2004-07-03","목포"],["전라남도","여수",168,77.4,"1942~2025","1981-09-24","여수"],
+  ["전라남도","순천",174,82.5,"2011~2025","2014-08-25","순천"],["전라남도","나주",156,86.5,"1939~2025","2008-08-08","광주 (인근)"],
+  ["전라남도","장흥",260,95.5,"1972~2025","2000-08-04","장흥"],["전라남도","강진",259,96.5,"2010~2025","2024-09-21","강진군"],
+  ["전라남도","해남",261,80.5,"1971~2025","1998-08-02","해남"],["전라남도","고흥",262,106.6,"1972~2025","2017-06-26","고흥"],
+  ["전라남도","광양",266,106.5,"2011~2025","2011-08-07","광양시"],["경상북도","포항",138,93.4,"1949~2025","1998-09-30","포항"],
+  ["경상북도","안동",136,65.5,"1973~2025","2010-08-13","안동"],["경상북도","경주",283,56.4,"2010~2025","2022-09-06","경주시"],
+  ["경상북도","구미",279,58.6,"1973~2025","2017-08-19","구미"],["경상북도","영주",272,86.0,"1972~2025","1978-08-16","영주"],
+  ["경상북도","울진",130,104.5,"1971~2025","2019-10-03","울진"],["경상북도","영천",281,61.5,"1972~2025","1988-08-16","영천"],
+  ["경상북도","상주",137,54.2,"2002~2025","2020-08-30","상주"],["경상남도","창원",155,104.9,"1985~2025","2024-09-21","창원"],
+  ["경상남도","진주",192,80.0,"1969~2025","1970-08-07","진주"],["경상남도","통영",162,86.5,"1968~2025","1999-07-30","통영"],
+  ["경상남도","밀양",288,70.0,"1973~2025","1998-09-30","밀양"],["경상남도","거창",284,83.0,"1972~2025","2007-08-08","거창"],
+  ["경상남도","합천",285,78.6,"1973~2025","2025-07-19","합천"],["경상남도","거제",294,96.5,"1973~2025","2001-07-05","거제"],
+  ["경상남도","함양",264,62.5,"2010~2025","2011-08-07","함양군"],["제주특별자치도","제주",184,105.0,"1923~2025","1927-09-11","제주"],
+  ["제주특별자치도","서귀포",189,120.7,"1961~2025","2018-09-01","서귀포"],["제주특별자치도","성산",188,101.0,"1972~2025","1981-08-10","성산"],
+  ["제주특별자치도","고산",185,73.8,"1988~2025","2021-09-02","고산"]
+];
+function setRainRegion(){ const v=document.getElementById('d_rain_region').value; if(v==='') return; const d=RD[+v]; document.getElementById('d_rain_rate').value=d[3]; calcDrain(); }
+function fillRain(){ const sel=document.getElementById('d_rain_region'); if(sel&&sel.options.length<2) RD.forEach((d,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${d[0]} ${d[1]} — ${d[3]} mm/h (${d[6]})`;sel.appendChild(o);});
+  const tb=document.getElementById('ref_rain_body'); if(tb&&!tb.children.length) tb.innerHTML=RD.map(d=>`<tr><td>${d[0]}</td><td>${d[1]}${d[6]!==d[1]?' · '+d[6]:''}</td><td class="mono">${d[3]}</td><td class="mono">${d[5]}</td></tr>`).join(''); }
 /* v5.0.1 — 축동력 kW = ρgQH/η = Q[LPM]×H[m]÷(6120×η), HP = kW÷0.7457 */
 function pumpPower(Q,H,emg,eta){ const kW=Q*H*emg/(6120*eta); return {kW:kW, hp:kW/0.7457}; }
 
@@ -2396,7 +2443,11 @@ function calcHeat(){
   const gearResKpa=gearRes*9.807;
   // hₒ_warn — 결과 HTML에 포함
 
-  const PW=pumpPower(Q,H,emg,eta), P=PW.hp, hp=selHP(P), pipe=selPipe(Q), pw=selPW(hp.v);
+  // v5.0.3 — 대수제어: 운전 대수 n 으로 유량 분할(펌프 1대 = 전체 Q ÷ n), 예비 생략 가능(별표 1 2.8(5))
+  const ctrl0=document.getElementById('h_ctrl')?.value||'on_off';
+  const nPump=(ctrl0==='multi')?Math.max(2,Math.round(nz('h_n',2))):1;
+  const Qtot=Q, Q1=Q/nPump;
+  const PW=pumpPower(Q1,H,emg,eta), P=PW.hp, hp=selHP(P), pipe=selPipe(Q1), pw=selPW(hp.v);
   const typeStr=['라인형','입형','횡형'][['line','vert','hori'].indexOf(document.getElementById('h_type').value)]||'라인형';
 
   // EPI / KS 정보
@@ -2411,6 +2462,7 @@ function calcHeat(){
     {k:'밀폐회로 실양정 hₐ',v:'0 m (팽창탱크 설치 폐회로)'},
     {k:'부하',v:`${load.toLocaleString()} kcal/hr`},{k:'여유율',v:`${(extra*100).toFixed(0)}%`},{k:'ΔT',v:`${dt}℃`},
     {k:'→ Q',v:`${Q.toFixed(3)} LPM`},
+    ...(nPump>1?[{k:`대수제어 ${nPump}대 → 펌프 1대 Q`,v:`${Qtot.toFixed(3)} ÷ ${nPump} = ${Q1.toFixed(3)} LPM`}]:[]),
     {k:'배관손실 (L×R)',v:`${pl.toFixed(3)} m`},{k:'배관부속 (×0.5)',v:`${pa.toFixed(3)} m`},
     {k:'코일 저항',v:`${coil} m`},{k:isH?'보일러 저항':'냉동기 저항',v:`${boil} m`},
     {k:'기기저항 합계',v:`${gearRes.toFixed(3)} m (${gearResKpa.toFixed(0)} kPa)${gearResKpa>70?' ⚠️ 70 kPa 초과 — 판형 열교환기 확인(별표 1 2.6(4))':''}`},
@@ -2420,7 +2472,7 @@ function calcHeat(){
     {k:'→ P 계산',v:`${PW.kW.toFixed(3)} kW = ${P.toFixed(3)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`},
   ];
 
-  const r={Q_lpm:Q,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:'2대 (1대 예비)',calcRows,
+  const r={Q_lpm:Q1,Q_total:Qtot,nPump,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:nPump>1?`${nPump}대 대수제어 (예비 생략 가능 — 별표 1 2.8(5))`:'2대 (1대 예비)',calcRows,
     typeStr,purpose:isH?'온수 순환 펌프':'냉수 순환 펌프',
     epi:{ctrl:epiCtrl,score:epiScore,ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB},
     gearResKpa};
@@ -2697,7 +2749,7 @@ function calcWS(){
 function resetAll(){
   PUMP_ORDER.forEach(k=>RESULTS[k]=null);
   document.querySelectorAll('.finput').forEach(el=>{
-    const keep=['h_extra','h_friction','h_coil','h_boiler','h_safety','h_eta','h_emg',
+    const keep=['h_extra','h_friction','h_coil','h_boiler','h_safety','h_eta','h_emg','h_n',
                 'd_friction','d_safety','d_eta','d_emg',
                 'hw_R','hw_K','hw_eta','hw_emg','hw_loss_q','hw_dt','hw_dt2','d_pump_count',
                 'ws_friction','ws_safety','ws_eta','ws_emg','ws_ho','ws_b_cnt'];
@@ -2721,6 +2773,7 @@ function resetAll(){
 
 /* ── DOMContentLoaded ── */
 document.addEventListener('DOMContentLoaded',()=>{
+  fillRain(); toggleHN();
   const d=document.getElementById('bs_date'); if(d) d.value=today();
   proj.date=today();
   document.getElementById('projDateDisplay').textContent=today();

@@ -33,7 +33,7 @@ const mmMatch = (req, opt) => caches.keys()
   .then((ks) => ks.reduce((p, k) => p.then((r) => r || caches.open(k).then((c) => c.match(req, opt))), Promise.resolve(undefined)))
   .then((r) => (r && r.type === 'opaque' && req && req.mode === 'cors') ? undefined : r);
 
-const CACHE = 'pump-v5.1.8';   /* 2026-10-14 v5.0.2 매뉴얼 버튼 */
+const CACHE = 'pump-v5.1.9';   /* 2026-10-14 v5.0.3 여유율 문구 · 지역 강우량 · 대수제어 */
 const ASSETS = [
   './',
   './index.html',
