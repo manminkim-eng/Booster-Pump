@@ -33,7 +33,7 @@ const mmMatch = (req, opt) => caches.keys()
   .then((ks) => ks.reduce((p, k) => p.then((r) => r || caches.open(k).then((c) => c.match(req, opt))), Promise.resolve(undefined)))
   .then((r) => (r && r.type === 'opaque' && req && req.mode === 'cors') ? undefined : r);
 
-const CACHE = 'pump-v5.0.4';   /* 2026-10-26 활성 탭 색 헤더 계열로 통일(버전 불변) */
+const CACHE = 'pump-v5.0.5';   /* 2026-10-31 v5.0.5 — 설치 배너 z-index 900 → 1250 · 종전: 2026-10-26 활성 탭 색 헤더 계열로 통일(버전 불변) */
 //   /* 2026-10-14 v5.0.3 여유율 문구 · 지역 강우량 · 대수제어 */
 const ASSETS = [
   './',
