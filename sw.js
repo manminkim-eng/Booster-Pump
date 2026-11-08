@@ -33,7 +33,7 @@ const mmMatch = (req, opt) => caches.keys()
   .then((ks) => ks.reduce((p, k) => p.then((r) => r || caches.open(k).then((c) => c.match(req, opt))), Promise.resolve(undefined)))
   .then((r) => (r && r.type === 'opaque' && req && req.mode === 'cors') ? undefined : r);
 
-const CACHE = 'pump-v5.0.11';   /* 2026-11-08 공통 인쇄 원본 manmin-print v1.0 적용(§25-6-42) (종전 v5.0.10) */
+const CACHE = 'pump-v5.0.12';   /* 2026-11-08 매뉴얼 화면 이미지 23장 최신 화면으로 교체(§25-6-44) (종전 v5.0.11) */
 //   /* 2026-10-14 v5.0.3 여유율 문구 · 지역 강우량 · 대수제어 */
 const ASSETS = [
   './',
