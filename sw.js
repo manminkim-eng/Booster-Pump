@@ -1,9 +1,10 @@
 /* ═══════════════════════════════════════════════════
+   v6.1.0 (2026-11-12) — 건물개요 공통 원본 MM-PROJECT v1.2 새로 넣음(사업명 · 작성자(「사용방법」 창 프로젝트 정보 탭 — 화면 머리 표시는 「적용하기」 뒤 갱신) · 정밀검토 B6 · 작업지시서 §25-6-77) · 판 6.1 · 캐시명 v6.1.0 (종전 pump-v5.0.12)
    S6 회차 2026-09-05 — R24①② 표 선 separate·mono 한글 폴백 소급 동반 캐시명 v5.1.6
    S3-0 회차 2026-09-04 — R27 html2canvas 클론 정화 동반 캐시명 v5.1.5
    S2 회차 2026-09-04 — index 소급(R1·R21·R26 등) 동반 캐시명 v5.1.4
    R25 회차 2026-09-04 — 자기 접두어 캐시 조회 · cors 프리캐시 · opaque 가드 · 캐시명 v5.1.3 (S10)
-   설비펌프 용량 자동선정 시스템  MANMIN Ver-5.0
+   설비펌프 용량 자동선정 시스템  MANMIN Ver-6.1
    Service Worker — 오프라인 캐시 + 버전 업데이트
    ENGINEER KIM MANMIN
 
@@ -33,7 +34,7 @@ const mmMatch = (req, opt) => caches.keys()
   .then((ks) => ks.reduce((p, k) => p.then((r) => r || caches.open(k).then((c) => c.match(req, opt))), Promise.resolve(undefined)))
   .then((r) => (r && r.type === 'opaque' && req && req.mode === 'cors') ? undefined : r);
 
-const CACHE = 'pump-v5.0.12';   /* 2026-11-08 매뉴얼 화면 이미지 23장 최신 화면으로 교체(§25-6-44) (종전 v5.0.11) */
+const CACHE = 'pump-v6.1.0';   /* 2026-11-08 매뉴얼 화면 이미지 23장 최신 화면으로 교체(§25-6-44) (종전 v5.0.11) */
 //   /* 2026-10-14 v5.0.3 여유율 문구 · 지역 강우량 · 대수제어 */
 const ASSETS = [
   './',
