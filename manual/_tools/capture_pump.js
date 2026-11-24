@@ -58,6 +58,9 @@ const SHOTS=[
  {id:'s18_formula',pre:"__tab(0);openBsTab('bs-formula')",wait:900,fixed:true,post:"closeBS()",clip:'#bottomSheet',m:[]},
  {id:'s19_a4',pre:"__A();__tab(2);scrollTo(0,0)",wait:1500,clip:'viewport',m:[['#a4SummaryGrid','8종 요약 카드'],['.mm-btn-print','인쇄 / PDF'],['.mm-btn-jpg','JPG 저장'],['#a4Page','A4 산출서']]},
  {id:'s20_a4page',clip:'#a4Page',crop:2400,m:[['.a4-meta-table','공사명 · 법령 근거'],['nth:.a4-pump-sec|0','펌프별 결과표'],['nth:#a4Page .a4-calc-box|0','계산 과정']]},
+ /* v6.1.5 — 무효 입력(효율 40 → 「입력 확인 필요」 · 대기 배지 · 칸 경고) / 빈 여유율 → A4 「⚠ 입력 확인」 줄 */
+ {id:'s24_invalid',pre:"__tab(0);__show('heat');__S({h_eta:40});calcHeat();document.getElementById('h_eta').dispatchEvent(new Event('input',{bubbles:true}));scrollTo(0,0)",wait:1500,clip:'card:난방 순환펌프 입력',union:'card:산정 결과',post:"__A()",m:[['#h_eta','효율 칸 경고'],['#heatResult','입력 확인 필요'],['#h_badge','대기 배지']]},
+ {id:'s25_a4warn',pre:"__A();__S({h_emg:''});__quiet(()=>{goPump('pumpHeat',0);calcHeat();});__tab(2);scrollTo(0,0)",wait:1800,clip:'#a4Page .a4-law',union:'#a4Page .mm-warn-note',post:"__tab(0);__A()",m:[['.mm-warn-note','⚠ 입력 확인 줄']]},
 ];
 (async()=>{
  const s=await server(repo,PORT);const b=await chromium.launch();
@@ -73,6 +76,8 @@ const SHOTS=[
   await pg.waitForTimeout(S.wait||600);
   if(S.id==='s01_overview'){ex.A=await pg.evaluate('__ex()');}
   if(S.id==='s16_ws_b')ex.B=await pg.evaluate('__ex()').then(o=>o.ws_boost);
+  if(S.id==='s24_invalid')ex.invalid={res:await pg.evaluate(()=>document.getElementById('heatResult').innerText.replace(/\s+/g,' ')),badge:await pg.evaluate(()=>document.getElementById('h_badge').textContent),warn:await pg.evaluate(()=>{const m=document.querySelector('#h_eta').closest('.fgrp').querySelector('.mm-warn-msg');return m?m.textContent:null;}),heat:await pg.evaluate(()=>RESULTS.heat===null)};
+  if(S.id==='s25_a4warn')ex.a4warn=await pg.evaluate(()=>{const e=document.querySelector('#a4Page .mm-warn-note');return e?e.textContent:null;});
   if(S.id==='s20_a4page')ex.A_a4=await pg.evaluate(()=>document.getElementById('a4Page').innerText.replace(/\s+/g,' '));
   const info=await pg.evaluate(({S,VW,VH})=>{
    const abs=e=>{const r=e.getBoundingClientRect();return {x:r.left+scrollX,y:r.top+scrollY,w:r.width,h:r.height};};
