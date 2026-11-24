@@ -1018,11 +1018,11 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
               <div><span class="flbl">시간 최대 유입 유량 Q_in (LPM)</span>
                 <div class="input-sfx"><input class="finput mono" type="number" id="d_q_pit" placeholder="100" oninput="calcDrain()"><span class="sfx">LPM</span></div>
               </div>
-              <div class="nb org"><div class="nb-tit">📌 PIT 배수 유량</div><div class="nb-txt">별표 6 2.1.3(4)① — 배수펌프의 유량과 압력은 <b>예상 사용 요구량에 적합</b><br>설계 Q = 시간최대 유입량 × <b>200%</b> (MANMIN 참고값)<br>30분 배출 검증은 별표 7 2.2.5(오수정화시설 배수펌프 — 시간최대 처리수량을 30분 이내 배출) 준용</div></div>
+              <div class="nb org"><div class="nb-tit">📌 PIT 배수 유량</div><div class="nb-txt">별표 6 2.1.3(4)① — 배수펌프의 유량과 압력은 <b>예상 사용 요구량에 적합</b><br>설계 Q = 시간최대 유입량 × <b>200%</b> (MANMIN 참고값)<br>30분 배출 검증은 별표 7 2.2.5(오수정화시설 배수펌프 — 시간최대 처리수량을 30분 이내 배출) 준용(참고 안내)<br><b>공동구 배수설비</b>는 별표 6 2.2.5 직접 적용 — 전체 펌프 유량 = 시간최대 유입수량의 <b>200 % 이상</b> · 집수정 = 유입수 <b>30분 이상 저장</b></div></div>
               <div><span class="flbl">집수조 유효 용량 V (ℓ, 30분 검증용)</span>
                 <div class="input-sfx"><input class="finput mono" type="number" id="d_sump_vol" placeholder="3000" oninput="calcDrain()"><span class="sfx">ℓ</span></div>
               </div>
-              <div id="d_30min_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 30분 배출 기준 미달</div><div class="nb-txt" id="d_30min_txt">현재 유량으로 집수조를 30분 내에 배출할 수 없습니다.</div></div>
+              <div id="d_30min_warn" class="nb sky" style="display:none"><div class="nb-tit">📌 30분 배출 안내 (참고)</div><div class="nb-txt" id="d_30min_txt">현재 유량으로 집수조를 30분 내에 배출할 수 없습니다.</div></div>
               <div class="nb blue" style="margin-top:4px"><div class="nb-tit">📌 집수정 최소 규격</div><div class="nb-txt">직경 Ø450mm 이상 / 깊이 600mm 이상 확보 (별표 6 2.1.3(4)②)</div></div>
             </div>
             <div id="d_rain_block" style="display:none">
@@ -1090,10 +1090,10 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
         <div class="card">
           <div class="card-head"><div class="card-ico">📐</div><span class="card-tit">산정 기준 (별표 6)</span><span class="cbadge sky">KDS 31 30 25</span></div>
           <div class="card-body">
-            <div class="nb org"><div class="nb-tit">① Q [LPM]</div><div class="nb-txt">PIT: 유입량 × 200% (MANMIN 참고값)<br>우수: (mm/hr×m²)÷60÷대수</div></div>
+            <div class="nb org"><div class="nb-tit">① Q [LPM]</div><div class="nb-txt">PIT: 유입량 × 200% (MANMIN 참고값 · 공동구는 별표 6 2.2.5 「200 % 이상」 직접)<br>우수: (mm/hr×m²)÷60÷대수</div></div>
             <div class="nb blue"><div class="nb-tit">② H [m]</div><div class="nb-txt">H = 층고 + L×R + L×R×0.5 + 안전율</div></div>
             <div class="nb sky"><div class="nb-tit">③ P [kW]</div><div class="nb-txt">P = Q×H×(1+여유율%)÷(6120×η) [kW] → HP = kW÷0.7457<br>η 입력값 적용 (기본 0.40)</div></div>
-            <div class="nb grn"><div class="nb-tit">④ 구경 (배수전용)</div><div class="nb-txt">&lt;100→Ø40 / &lt;250→Ø50<br>&lt;500→Ø80 / ≥500→Ø100<br>주배관은 1단계 상위 구경</div></div>
+            <div class="nb grn"><div class="nb-tit">④ 구경 (배수전용 · 펌프 토출 구경 기준(KDS 표 4.1-6 배수 주관과 다름))</div><div class="nb-txt">&lt;100→Ø40 / &lt;250→Ø50<br>&lt;500→Ø80 / ≥500→Ø100<br>주배관은 1단계 상위 구경</div></div>
             <div class="nb red"><div class="nb-tit">⑤ 형식·운전</div><div class="nb-txt">수중형(Submersible) · 2대 순차기동</div></div>
           </div>
         </div>
@@ -1250,7 +1250,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
             </div>
 
             <div class="div-line"></div>
-            <div class="section-label" id="ws_h_sec">② 양정 — 실양정 + 배관손실 + 최저필요수압</div>
+            <div class="section-label" id="ws_h_sec">② 양정 — 실양정 + 배관손실 + 수조 유입 여유압</div>
 
             <div><span class="flbl">실양정 hₐ (저수조→고가수조 높이차, m)</span>
               <div class="input-sfx"><input class="finput mono" type="number" id="ws_ha" placeholder="20" oninput="calcWS()"><span class="sfx">m</span></div>
@@ -1259,7 +1259,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
               <div class="fgrp"><span class="flbl">배관 길이 L (m)</span><input class="finput mono" type="number" id="ws_pipelen" placeholder="60" oninput="calcWS()"></div>
               <div class="fgrp"><span class="flbl">단위마찰손실 R (mAq/m)</span><input class="finput mono" type="number" id="ws_friction" value="0.03" step="0.005" oninput="calcWS()"></div>
             </div>
-            <div><span class="flbl">말단기구 최저필요수압 hₒ (m)</span>
+            <div><span class="flbl" id="ws_ho_lbl">수조 유입 여유압 hₒ (m)</span>
               <div class="input-sfx"><input class="finput mono" type="number" id="ws_ho" value="5.6" step="0.1" oninput="calcWS()"><span class="sfx">m</span></div>
             </div>
             <div class="nb sky"><div class="nb-tit">📌 최저필요수압 환산 기준</div><div class="nb-txt">세면기 55kPa → 5.6m / 샤워기 70kPa → 7.1m<br>소변기(밸브) 100kPa → 10.2m / 대변기(밸브) 100kPa → 10.2m<br>압력식 샤워기 130kPa → 13.3m</div></div>
@@ -1288,7 +1288,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
           <div class="card-body">
             <div class="nb blue"><div class="nb-tit">① 고가수조 양수펌프 Q</div><div class="nb-txt">Q = 시간최대 예상급수량 [ℓ/hr]<br>→ LPM 환산: ÷ 60</div></div>
             <div class="nb org"><div class="nb-tit">① 자동부스터 펌프 Q</div><div class="nb-txt">전체 Q = 순간최대 예상급수량 [ℓ/min]<br>각 펌프 Q = 전체 Q ÷ 운전대수 [LPM]<br>※ 펌프 2대 이상 병렬 설치 필수</div></div>
-            <div class="nb sky"><div class="nb-tit">② 양정 H [m]</div><div class="nb-txt">H = hₐ + hpv + hₒ + 안전율<br>hₐ : 실양정 (흡입~토출 높이차)<br>hpv: 배관마찰손실 (L×R + L×R×0.5)<br>hₒ : 말단기구 최저필요수압</div></div>
+            <div class="nb sky"><div class="nb-tit">② 양정 H [m]</div><div class="nb-txt">H = hₐ + hpv + hₒ + 안전율<br>hₐ : 실양정 (흡입~토출 높이차)<br>hpv: 배관마찰손실 (L×R + L×R×0.5)<br>hₒ : 고가수조 양수 = 수조 유입 여유압 · 자동부스터 = 말단기구 최저필요수압</div></div>
             <div class="nb grn"><div class="nb-tit">③ P [kW]</div><div class="nb-txt">P = Q×H×(1+여유율%) ÷ (6120×η) [kW] → HP = kW÷0.7457<br>η = 0.55 기준 / 여유율 10~15% 권장</div></div>
             <div class="nb red"><div class="nb-tit">④ 감압밸브 조건 (2.1.7)</div><div class="nb-txt">위생기구 수압 550 kPa(56.1 m) 이상 → 감압밸브 또는 급수 조닝<br>자동부스터: 펌프 토출압(전양정 H)으로 판정 · 고가수조: 최하층 기구까지 낙차로 별도 확인</div></div>
             <div class="nb sky"><div class="nb-tit">⑤ 위생기구 최저필요수압</div><div class="nb-txt">욕조/세면기: 55kPa(5.6m)<br>샤워기: 70kPa(7.1m)<br>소변기·대변기(밸브): 100kPa(10.2m)<br>압력식 샤워기: 130kPa(13.3m)</div></div>
@@ -1383,7 +1383,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
   </div>
   <div class="ref-panel" id="rD">
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px">
-      <div class="card"><div class="card-head"><div class="card-ico">📏</div><span class="card-tit">배수펌프 구경</span></div>
+      <div class="card"><div class="card-head"><div class="card-ico">📏</div><span class="card-tit">배수펌프 구경 — 펌프 토출 구경 기준(KDS 표 4.1-6 배수 주관과 다름)</span></div>
         <div class="card-body"><div class="twrap"><table class="rtbl"><thead><tr><th>Q (LPM)</th><th>펌프</th><th>주배관</th></tr></thead><tbody>
           <tr><td class="mono">Q &lt; 100</td><td class="mono">Ø 40</td><td class="mono">Ø 50</td></tr>
           <tr><td class="mono">100~250</td><td class="mono">Ø 50</td><td class="mono">Ø 65</td></tr>
@@ -1445,7 +1445,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
           </table></div>
           <div class="nb blue" style="margin-top:8px">
             <div class="nb-tit">📌 양정 공식</div>
-            <div class="nb-txt">H = hₐ(실양정) + hpv(배관마찰) + hₒ(말단기구최저수압) + 안전율<br>hpv = L×R (직관) + L×R×0.5 (부속)</div>
+            <div class="nb-txt">H = hₐ(실양정) + hpv(배관마찰) + hₒ + 안전율<br>hₒ : 고가수조 양수 = 수조 유입 여유압 · 자동부스터 = 말단기구 최저수압<br>hpv = L×R (직관) + L×R×0.5 (부속)</div>
           </div>
         </div>
       </div>
@@ -1598,7 +1598,8 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
       <div class="bs-item org">
         <div class="bs-item-head"><div class="bs-item-ico">🚰</div><div class="bs-item-tit">오·배수 펌프 (별표 6) — 200%는 MANMIN 참고값</div></div>
         <div class="bs-item-body">
-          <div class="bs-item-txt">PIT Q = 시간최대 유입량×200% (MANMIN 참고값 — 별표 6 2.1.3(4)① 예상 사용 요구량에 적합) / 30분 배출 검증은 별표 7 2.2.5 준용</div>
+          <div class="bs-item-txt">PIT Q = 시간최대 유입량×200% (MANMIN 참고값 — 별표 6 2.1.3(4)① 예상 사용 요구량에 적합) / 30분 배출 검증은 별표 7 2.2.5 준용(참고 안내)</div>
+          <div class="bs-item-txt">공동구 배수설비: 별표 6 2.2.5 직접 — 전체 펌프 유량 시간최대 유입수량의 200 % 이상 · 집수정 유입수 30분 이상 저장</div>
           <div class="bs-item-txt">우수 Q = (mm×m²)÷60÷대수 / H = 층고+L×R+L×R×0.5+안전율</div>
           <div class="bs-item-txt">집수정 Ø450 이상 / D600 이상(별표 6 2.1.3(4)②) / 고형물: 오수Ø50, 잡배수Ø25</div>
         </div>
@@ -1615,7 +1616,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
         <div class="bs-item-head"><div class="bs-item-ico">🚿</div><div class="bs-item-tit">급수 펌프 (별표 5 2.1.3)</div></div>
         <div class="bs-item-body">
           <div class="bs-item-txt">고가수조 Q = 시간최대급수량÷60 / 자동부스터 Q = 순간최대÷운전대수</div>
-          <div class="bs-item-txt">H = hₐ+hpv+hₒ+안전율 / η = 0.55 / 자동부스터 토출압 550 kPa 이상 → 감압밸브 또는 조닝(별표 5 2.1.7)</div>
+          <div class="bs-item-txt">H = hₐ+hpv+hₒ+안전율 (hₒ: 고가수조 양수 = 수조 유입 여유압 · 자동부스터 = 말단기구 최저필요수압) / η = 0.55 / 자동부스터 토출압 550 kPa 이상 → 감압밸브 또는 조닝(별표 5 2.1.7)</div>
         </div>
       </div>
       <div class="bs-item red">
@@ -2224,7 +2225,7 @@ function buildA4Sec(key, r){
       <tr><td>양정</td><td>H</td><td class="mc">${r.H.toFixed(3)}</td><td class="mc">${r.H.toFixed(2)}</td><td>m</td></tr>
       <tr><td>계산동력</td><td>P</td><td class="mc">${r.P_kW.toFixed(3)} kW (${r.P_calc.toFixed(3)} HP)</td><td>—</td><td>kW</td></tr>
       <tr><td>선정동력</td><td>P</td><td>—</td><td class="mc" style="color:#2d5186;font-weight:800">${r.hpStr}</td><td>HP</td></tr>
-      <tr><td>구경</td><td>DN</td><td>—</td><td class="mc">Ø ${r.pipe}${r.pipeMain?' / 주Ø'+r.pipeMain:''}${r.pipeOver?`<br><span style="color:#b91c1c;font-size:10px">${PIPE_OVER_TXT}</span>`:''}</td><td>mm</td></tr>
+      <tr><td>구경${isDrain?'<br><span style="font-size:9px;color:#64748b">펌프 토출 구경 기준(KDS 표 4.1-6 배수 주관과 다름)</span>':''}</td><td>DN</td><td>—</td><td class="mc">Ø ${r.pipe}${r.pipeMain?' / 주Ø'+r.pipeMain:''}${r.pipeOver?`<br><span style="color:#b91c1c;font-size:10px">${PIPE_OVER_TXT}</span>`:''}</td><td>mm</td></tr>
       <tr><td>전원</td><td>—</td><td>—</td><td>${r.power}</td><td>—</td></tr>
       <tr><td>수량</td><td>N</td><td>—</td><td>${r.qty}</td><td>대</td></tr>
       ${isDrain&&r.solidLabel?`<tr><td>고형물 통과</td><td>—</td><td>—</td><td>${r.solidLabel}</td><td>—</td></tr>`:''}
@@ -2366,7 +2367,7 @@ function buildResHtml(r, isDrain=false){ return `
     <div class="spec-row"><span class="sk">유량</span><span class="sv">${r.Q_lpm.toFixed(2)} LPM</span></div>
     <div class="spec-row"><span class="sk">양정</span><span class="sv">${r.H.toFixed(2)} m</span></div>
     <div class="spec-row"><span class="sk">동력</span><span class="sv">${r.hpStr} HP = ${(selHP(r.P_calc).v*0.7457).toFixed(3)} kW (선정기준)</span></div>
-    <div class="spec-row"><span class="sk">구경</span><span class="sv">Ø ${r.pipe}${r.pipeMain?' / 주Ø'+r.pipeMain:''} mm${r.pipeOver?` <b style="color:#b91c1c">— ${PIPE_OVER_TXT}</b>`:''}</span></div>
+    <div class="spec-row"><span class="sk">구경</span><span class="sv">Ø ${r.pipe}${r.pipeMain?' / 주Ø'+r.pipeMain:''} mm${r.pipeOver?` <b style="color:#b91c1c">— ${PIPE_OVER_TXT}</b>`:''}${isDrain?'<br><small style="color:#64748b">펌프 토출 구경 기준(KDS 표 4.1-6 배수 주관과 다름)</small>':''}</span></div>
     <div class="spec-row"><span class="sk">전원</span><span class="sv">${r.power}</span></div>
     <div class="spec-row"><span class="sk">수량</span><span class="sv">${r.qty}</span></div>
     ${isDrain&&r.solidLabel?`<div class="spec-row"><span class="sk">고형물 통과</span><span class="sv">${r.solidLabel}</span></div>`:''}
@@ -2557,7 +2558,8 @@ function calcDrain(){
       const Q_30min=Q*30; // LPM×30min → ℓ
       if(sumpVol>Q_30min){
         warn30.style.display='';
-        txt30.textContent=`집수조 ${sumpVol}ℓ를 배출하려면 ${(sumpVol/Q).toFixed(1)}분 소요 → 30분 기준 초과 (기준: 유입량 30분 이내 배출).`;
+        /* v6.1.6 — 경고 → 안내 등급(판단 항목 J1): 별표 7 2.2.5 준용 참고 · 공동구는 별표 6 2.2.5(집수정 30분 이상 저장) — 결과 · 출력은 막지 않음 */
+        txt30.textContent=`집수조 ${sumpVol}ℓ를 배출하려면 ${(sumpVol/Q).toFixed(1)}분 소요 — 30분 초과(참고: 별표 7 2.2.5 준용 안내, 출력에는 영향 없음). 공동구 배수설비는 별표 6 2.2.5에 따라 집수정이 유입수를 30분 이상 저장해야 합니다.`;
       } else { warn30.style.display='none'; }
     }
   } else {
@@ -2583,7 +2585,7 @@ function calcDrain(){
 
   const calcRows=[
     {k:'종류',v:isPit?'PIT 집수조 배수':'우수 집수조 배수'},
-    ...(isPit?[{k:'시간최대 유입량 Q_in',v:`${Q_in} LPM`},{k:'설계 Q (×200%, MANMIN 참고값)',v:`${Q.toFixed(3)} LPM`}]:
+    ...(isPit?[{k:'시간최대 유입량 Q_in',v:`${Q_in} LPM`},{k:'설계 Q (×200%, MANMIN 참고값 · 공동구 별표 6 2.2.5 200 % 이상)',v:`${Q.toFixed(3)} LPM`}]:
               [{k:`Q (${Qnote})`,v:`${Q.toFixed(3)} LPM`}]),
     {k:'층고',v:`${ht} m`},{k:'배관손실 (L×R)',v:`${pl.toFixed(3)} m`},{k:'배관부속 (×0.5)',v:`${pa.toFixed(3)} m`},
     {k:'소계',v:`${sub.toFixed(3)} m`},{k:`안전율(${(saf*100).toFixed(0)}%)`,v:`${sm.toFixed(3)} m`},
@@ -2681,8 +2683,10 @@ function switchWSSub(mode, el){
   document.getElementById('ws_hoist_block').style.display=isH?'':'none';
   document.getElementById('ws_boost_block').style.display=isH?'none':'';
   document.getElementById('ws_h_sec').textContent=isH
-    ?'② 양정 — 실양정 + 배관손실 + 최저필요수압'
+    ?'② 양정 — 실양정 + 배관손실 + 수조 유입 여유압'
     :'② 양정 — 실양정 + 배관손실 + 말단기구 최저필요수압';
+  /* v6.1.6 — 고가수조 양수의 hₒ = 수조 유입 여유압 · 자동부스터 = 말단기구 최저필요수압(판단 항목 J5, 값 그대로) */
+  const hoL=document.getElementById('ws_ho_lbl'); if(hoL) hoL.textContent=isH?'수조 유입 여유압 hₒ (m)':'말단기구 최저필요수압 hₒ (m)';
   document.getElementById('ws_btn_ico').textContent=isH?'🏢':'⚡';
   document.getElementById('ws_btn_txt').textContent=isH?'고가수조 양수펌프 산정':'자동부스터 급수펌프 산정';
   document.getElementById('ws_badge').textContent='대기';
@@ -2697,7 +2701,7 @@ function switchWSSub(mode, el){
 
 /* ═══════════════════════════════════════════════
    급수 펌프 계산 — 별표 5 2.1.3
-   H = hₐ(실양정) + hpv(배관마찰) + hₒ(말단기구최저수압) + 안전율
+   H = hₐ(실양정) + hpv(배관마찰) + hₒ(고가수조 = 수조 유입 여유압 · 부스터 = 말단기구최저수압) + 안전율
    [고가수조] Q = 시간최대급수량(ℓ/hr) ÷ 60 → LPM
    [자동부스터] 각 펌프 Q = 순간최대급수량(LPM) ÷ 운전대수
    ⚠️ 말단기구 수압 ≥ 550 kPa(56.1m) → 감압밸브 경고
@@ -2722,7 +2726,7 @@ function calcWS(){
   const ha=n('ws_ha');          // 실양정
   const pLen=n('ws_pipelen');
   const fric=nz('ws_friction',0.03);
-  const ho=nz('ws_ho',5.6);     // 말단기구 최저필요수압 (m환산)
+  const ho=nz('ws_ho',5.6);     // 고가수조 = 수조 유입 여유압 · 부스터 = 말단기구 최저필요수압 (m환산)
   const saf=n('ws_safety')/100;
   const eta=nz('ws_eta',0.55);
   if(etaBad(eta)){ showToast('⚠️ 펌프 효율을 0 초과 1 이하로 입력하세요'); mmInvalid(key,'wsResult','ws_badge','펌프 효율 η를 0 초과 1 이하(예 0.55)로 입력하세요'); document.getElementById('ws_550_warn').style.display='none'; return; }
@@ -2762,7 +2766,7 @@ function calcWS(){
     {k:'실양정 hₐ',v:`${ha} m`},
     {k:'배관손실 (L×R)',v:`${pl.toFixed(3)} m`},
     {k:'배관부속 (×0.5)',v:`${pa.toFixed(3)} m`},
-    {k:'말단기구 최저수압 hₒ',v:`${ho} m (${ho_kpa.toFixed(0)} kPa)`},
+    {k:isH?'수조 유입 여유압 hₒ':'말단기구 최저수압 hₒ',v:`${ho} m (${ho_kpa.toFixed(0)} kPa)`},
     {k:'소계 (hₐ+hpv+hₒ)',v:`${sub.toFixed(3)} m`},
     {k:`안전율 (${(saf*100).toFixed(0)}%)`,v:`${sm.toFixed(3)} m`},
     {k:'→ 전양정 H',v:`${H.toFixed(3)} m`},
@@ -3075,7 +3079,7 @@ input[data-mm-warn]{outline:2px solid #d32f2f!important;outline-offset:1px;backg
   drv('hw_I','[급탕] 왕복 배관길이 I'); neg('hw_K','[급탕] 국부저항 비율 K','0'); eta('hw_eta','[급탕] 펌프 효율 η','0.35'); neg('hw_emg','[급탕] 전동기 여유율','10 %');
   eff('hw_eff_a','[급탕] A특성 효율'); eff('hw_eff_b','[급탕] B특성 효율');
   drv('ws_h_q','[양수] 시간최대 예상급수량'); drv('ws_b_q','[부스터] 순간최대 예상급수량'); cnt('ws_b_cnt','[부스터] 병렬 운전 대수',2);
-  neg('ws_ha','[급수] 실양정 hₐ'); neg('ws_pipelen','[급수] 배관 길이 L'); neg('ws_friction','[급수] 단위마찰손실 R','0.03 mAq/m'); neg('ws_ho','[급수] 말단기구 최저필요수압 hₒ','5.6 m');
+  neg('ws_ha','[급수] 실양정 hₐ'); neg('ws_pipelen','[급수] 배관 길이 L'); neg('ws_friction','[급수] 단위마찰손실 R','0.03 mAq/m'); neg('ws_ho','[급수] hₒ(수조 유입 여유압 · 말단기구 최저필요수압)','5.6 m');
   neg('ws_safety','[급수] 안전율','0 %'); eta('ws_eta','[급수] 펌프 효율 η','0.55'); neg('ws_emg','[급수] 전동기 여유율','10 %');
   window.MM_WARN_CFG={report:'#a4Page',all:true,rules:R};
 })();
