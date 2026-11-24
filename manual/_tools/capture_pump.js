@@ -61,6 +61,10 @@ const SHOTS=[
  /* v6.1.5 — 무효 입력(효율 40 → 「입력 확인 필요」 · 대기 배지 · 칸 경고) / 빈 여유율 → A4 「⚠ 입력 확인」 줄 */
  {id:'s24_invalid',pre:"__tab(0);__show('heat');__S({h_eta:40});calcHeat();document.getElementById('h_eta').dispatchEvent(new Event('input',{bubbles:true}));scrollTo(0,0)",wait:1500,clip:'card:난방 순환펌프 입력',union:'card:산정 결과',post:"__A()",m:[['#h_eta','효율 칸 경고'],['#heatResult','입력 확인 필요'],['#h_badge','대기 배지']]},
  {id:'s25_a4warn',pre:"__A();__S({h_emg:''});__quiet(()=>{goPump('pumpHeat',0);calcHeat();});__tab(2);scrollTo(0,0)",wait:1800,clip:'#a4Page .a4-law',union:'#a4Page .mm-warn-note',post:"__tab(0);__A()",m:[['.mm-warn-note','⚠ 입력 확인 줄']]},
+ /* v6.1.6 — J1 PIT 30분 「안내(참고)」 파란 상자 · 공동구 별표 6 2.2.5 / J5 고가수조 hₒ 「수조 유입 여유압」(화면 · A4) */
+ {id:'s26_pit30',pre:"__tab(0);__show('pit');__S({d_sump_vol:10000});calcDrain();scrollTo(0,0)",wait:800,clip:'nth:#d_pit_block .nb.org|0',union:'#d_30min_warn',post:"__show('pit')",m:[['nth:#d_pit_block .nb.org|0','PIT 배수 유량 — 공동구 별표 6 2.2.5'],['#d_30min_warn','30분 배출 안내 (참고)']]},
+ {id:'s27_hoist',pre:"__tab(0);__show('ws_hoist')",wait:800,clip:'card:고가수조용 양수펌프 입력',union:'card:산정 결과',m:[['#ws_h_sec','② 양정 머리'],['#ws_ho','수조 유입 여유압 hₒ'],['nth:.cbox|0','계산 과정 — hₒ 줄']]},
+ {id:'s28_a4hoist',pre:"__A();__tab(2);scrollTo(0,0);[...document.querySelectorAll('#a4Page .a4-pump-sec')].find(e=>e.textContent.includes('수조 유입 여유압')).id='__hoistSec'",wait:1500,clip:'#__hoistSec',post:"__tab(0);__A()",m:[]},
 ];
 (async()=>{
  const s=await server(repo,PORT);const b=await chromium.launch();
@@ -78,6 +82,8 @@ const SHOTS=[
   if(S.id==='s16_ws_b')ex.B=await pg.evaluate('__ex()').then(o=>o.ws_boost);
   if(S.id==='s24_invalid')ex.invalid={res:await pg.evaluate(()=>document.getElementById('heatResult').innerText.replace(/\s+/g,' ')),badge:await pg.evaluate(()=>document.getElementById('h_badge').textContent),warn:await pg.evaluate(()=>{const m=document.querySelector('#h_eta').closest('.fgrp').querySelector('.mm-warn-msg');return m?m.textContent:null;}),heat:await pg.evaluate(()=>RESULTS.heat===null)};
   if(S.id==='s25_a4warn')ex.a4warn=await pg.evaluate(()=>{const e=document.querySelector('#a4Page .mm-warn-note');return e?e.textContent:null;});
+  if(S.id==='s26_pit30')ex.pit30=await pg.evaluate(()=>{const w=document.getElementById('d_30min_warn');return {cls:w.className,tit:w.querySelector('.nb-tit').textContent,txt:document.getElementById('d_30min_txt').textContent,result:!!RESULTS.pit};});
+  if(S.id==='s27_hoist')ex.hoist={lbl:await pg.evaluate(()=>document.getElementById('ws_ho_lbl').textContent),sec:await pg.evaluate(()=>document.getElementById('ws_h_sec').textContent)};
   if(S.id==='s20_a4page')ex.A_a4=await pg.evaluate(()=>document.getElementById('a4Page').innerText.replace(/\s+/g,' '));
   const info=await pg.evaluate(({S,VW,VH})=>{
    const abs=e=>{const r=e.getBoundingClientRect();return {x:r.left+scrollX,y:r.top+scrollY,w:r.width,h:r.height};};
