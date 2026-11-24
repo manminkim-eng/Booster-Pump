@@ -947,7 +947,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
             </div>
             <div class="frow" id="h_n_row" style="display:none">
               <div class="fgrp"><span class="flbl">대수제어 운전 대수 n (대, 2 이상)</span><input class="finput mono" type="number" id="h_n" value="2" min="2" step="1" oninput="calcHeat()"></div>
-              <div class="fgrp"><span class="flbl">펌프 1대 유량</span><div class="nb sky" style="margin:0;padding:8px 10px"><div class="nb-txt">전체 Q ÷ n — 예비 생략 가능(별표 1 2.8(5))</div></div></div>
+              <div class="fgrp"><span class="flbl">펌프 1대 유량</span><div class="nb sky" style="margin:0;padding:8px 10px"><div class="nb-txt">전체 Q ÷ n — 예비 생략 검토 가능(별표 1 2.8(5)) · 원칙: 열원기기마다 순환펌프 1대 · 예비 별도(2.1(5))</div></div></div>
             </div>
             <div id="h_emg_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 여유율 과다 경고</div><div class="nb-txt">전동기 여유율이 15 %를 넘습니다 — MANMIN 권장 10~15 %(기준에 수치 없음). 과다 선정은 부분부하 운전 효율을 떨어뜨립니다.</div></div>
             <div class="nb sky" style="margin-top:2px"><div class="nb-tit">📌 밀폐회로 실양정 hₐ = 0</div><div class="nb-txt">팽창탱크 설치 밀폐 폐회로 → 실양정(hₐ)=0, 전양정=배관손실+기기저항만 반영</div></div>
@@ -986,7 +986,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
             <div class="nb blue"><div class="nb-tit">② H [m] — hₐ=0 적용</div><div class="nb-txt"><b>밀폐회로: 실양정(hₐ)=0</b><br>H = L×R + L×R×0.5 + 코일 + 보일러 + 안전율</div></div>
             <div class="nb sky"><div class="nb-tit">③ P [kW]</div><div class="nb-txt">P = Q×H×(1+여유율%)÷(6120×η) [kW] → HP = kW÷0.7457<br>여유율 10~15% 권장 (MANMIN 참고값)</div></div>
             <div class="nb red"><div class="nb-tit">⚠️ 판형 열교환기 손실수두 70 kPa 이하</div><div class="nb-txt">별표 1 2.6(4) — 판형 열교환기 손실수두 70 kPa(7.1 m) 이하<br>기기저항 합계가 70 kPa를 넘으면 판형 열교환기 손실수두를 따로 확인</div></div>
-            <div class="nb grn"><div class="nb-tit">④ 제어방식 · KS 효율</div><div class="nb-txt">대수 · 가변속 제어 권장(에너지절약설계기준 제9조제4호)<br>대수제어 채택 시 예비펌프 생략 가능(별표 1 2.8(5))<br>펌프 KS 표시인증 또는 KS 효율 이상(제8조제2호나목)</div></div>
+            <div class="nb grn"><div class="nb-tit">④ 제어방식 · KS 효율</div><div class="nb-txt">대수 · 가변속 제어 권장(에너지절약설계기준 제9조제4호가목)<br>대수제어 채택 시 예비펌프 생략 검토 가능(별표 1 2.8(5)) — 원칙: 열원기기마다 순환펌프 1대 · 예비 별도(2.1(5))<br>펌프 KS 표시인증 또는 KS 효율 이상(제8조제2호나목)</div></div>
             <div class="nb grn"><div class="nb-tit">⑤ 구경</div><div class="nb-txt">&lt;20→Ø25 / &lt;50→Ø32 / &lt;100→Ø40<br>&lt;200→Ø50 / &lt;400→Ø65 / &lt;800→Ø80</div></div>
           </div>
         </div>
@@ -1023,7 +1023,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
                 <div class="input-sfx"><input class="finput mono" type="number" id="d_sump_vol" placeholder="3000" oninput="calcDrain()"><span class="sfx">ℓ</span></div>
               </div>
               <div id="d_30min_warn" class="nb red" style="display:none"><div class="nb-tit">⚠️ 30분 배출 기준 미달</div><div class="nb-txt" id="d_30min_txt">현재 유량으로 집수조를 30분 내에 배출할 수 없습니다.</div></div>
-              <div class="nb blue" style="margin-top:4px"><div class="nb-tit">📌 집수정 최소 규격</div><div class="nb-txt">직경 Ø450mm 이상 / 깊이 600mm 이상 확보</div></div>
+              <div class="nb blue" style="margin-top:4px"><div class="nb-tit">📌 집수정 최소 규격</div><div class="nb-txt">직경 Ø450mm 이상 / 깊이 600mm 이상 확보 (별표 6 2.1.3(4)②)</div></div>
             </div>
             <div id="d_rain_block" style="display:none">
               <div class="section-label">② 유량 (우수 집수조)</div>
@@ -1037,7 +1037,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
                 <div class="fgrp"><span class="flbl">집수 바닥 면적 (m²)</span><input class="finput mono" type="number" id="d_floor_area" placeholder="260" oninput="calcDrain()"></div>
                 <div class="fgrp"><span class="flbl">펌프 설치 대수</span><input class="finput mono" type="number" id="d_pump_count" value="2" oninput="calcDrain()"></div>
               </div>
-              <div class="nb blue"><div class="nb-tit">📌 우수 유량</div><div class="nb-txt">Q=(mm×m²)÷60÷대수 [LPM]<br>강수량은 그 지역의 기상자료에 의한 시간최대강우량(별표 8 2.8(1)) — 지역을 고르거나 직접 입력</div></div>
+              <div class="nb blue"><div class="nb-tit">📌 우수 유량</div><div class="nb-txt">Q=(mm×m²)÷60÷대수 [LPM]<br>강수량은 그 지역의 기상자료에 의한 시간최대강우량(별표 8 2.8(1)(우수관 구경) 준용) — 지역을 고르거나 직접 입력</div></div>
             </div>
             <div class="div-line"></div>
             <div class="section-label">② 배수 용도 및 고형물 기준</div>
@@ -1130,7 +1130,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
                 <div class="fgrp"><span class="flbl">열손실 직접 입력 (kcal/h · 입력 시 우선)</span><input class="finput mono" type="number" id="hw_loss_direct" placeholder="—" oninput="calcHW()"></div>
                 <div class="fgrp"><span class="flbl">환탕 온도강하 Δt (℃)</span><input class="finput mono" type="number" id="hw_dt" value="5" step="0.5" oninput="calcHW()"></div>
               </div>
-              <div class="nb blue"><div class="nb-tit">📌 순환펌프 Q</div><div class="nb-txt">Q = 배관 열손실[kcal/h] ÷ (60 × Δt) [LPM]<br>별표 5 2.2.6(1) 순환펌프 유량 = 환탕유량 · 별표 8 2.5(2) 환탕유량은 급탕배관 열손실로 계산<br>단위 열손실 30 W/m · Δt 5℃는 MANMIN 참고값 (1 W = 0.86 kcal/h)</div></div>
+              <div class="nb blue"><div class="nb-tit">📌 순환펌프 Q</div><div class="nb-txt">Q = 배관 열손실[kcal/h] ÷ (60 × Δt) [LPM]<br>별표 5 2.2.6(1) 순환펌프 유량 = 환탕유량 · 별표 8 2.5(2) 환탕유량은 급탕배관 열손실로 계산<br>단위 열손실 30 W/m · Δt 5℃는 KDS 31 30 20 : 2026 4.1.2(2) — 공동주택 5 K 이하 · 열손실 30 W/m (1 W = 0.86 kcal/h)</div></div>
             </div>
             <div id="hw_recirc_block" style="display:none">
               <div class="section-label">② 유량 — 가열장치 ↔ 저탕조 (열량 기준)</div>
@@ -1344,7 +1344,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
         <div style="text-align:center;padding:40px;color:#94a3b8;font-size:11px">※ 펌프 용량 산정 탭에서 각 펌프를 산정하면 자동으로 표시됩니다.</div>
       </div>
       <div class="a4-law">
-        ※ 본 산출서는 기계설비 기술기준(고시 제2021-851호, 제2026-360호 타법개정) 별표 1 · 5 · 6을 따르고, 기준에 수치가 없는 계수(여유율 · 단위손실 · 효율 기본값 · PIT 200 % 등)는 MANMIN 참고값입니다.<br>
+        ※ 본 산출서는 기계설비 기술기준(고시 제2021-851호, 제2026-360호 타법개정) 별표 1 · 5 · 6을 따르고, 기준에 수치가 없는 계수(여유율 · 단위손실 · 배관부속 50 % · 구경 선정표 · 효율 기본값 · PIT 200 % 등)는 MANMIN 참고값입니다.<br>
         ※ MANMIN-Ver6.1 | 현장 여건에 따라 담당 기술자의 검토·확인이 필요합니다.
       </div>
     </div>
@@ -1404,7 +1404,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
           <tr><td>소규모</td><td class="mono">1.0~1.5</td><td class="mono">5~20</td></tr>
           <tr><td>대규모</td><td class="mono">0.5~1.0</td><td class="mono">10~30</td></tr>
         </tbody></table></div>
-        <div class="nb sky" style="margin-top:8px"><div class="nb-tit">📌 급탕 온도</div><div class="nb-txt">환탕 온도강하 Δt 5℃ · 단위 열손실 30 W/m (MANMIN 참고값)</div></div>
+        <div class="nb sky" style="margin-top:8px"><div class="nb-tit">📌 급탕 온도</div><div class="nb-txt">환탕 온도강하 Δt 5℃ · 단위 열손실 30 W/m (KDS 31 30 20 : 2026 4.1.2(2) — 공동주택 5 K 이하 · 열손실 30 W/m)</div></div>
         </div>
       </div>
     </div>
@@ -1532,7 +1532,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
     <div class="bs-body">
     <div class="bs-panel active" id="bs-guide">
       <div class="bs-intro-banner">
-        <div class="bs-intro-title">💧 설비펌프 용량 자동선정 시스템 Ver5.0</div>
+        <div class="bs-intro-title">💧 설비펌프 용량 자동선정 시스템 Ver6.1</div>
         <div class="bs-intro-sub">기계설비 기술기준 국토교통부 고시 제2021-851호(제2026-360호 타법개정, 2026.7.8. 시행)<br>별표 1(냉난방) · 별표 5(급수·급탕) · 별표 6(오·배수) 기반 8종 펌프 자동 산정</div>
         <div class="bs-intro-tags">
           <span class="bs-intro-tag">✅ 실시간 자동산정</span>
@@ -1600,7 +1600,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
         <div class="bs-item-body">
           <div class="bs-item-txt">PIT Q = 시간최대 유입량×200% (MANMIN 참고값 — 별표 6 2.1.3(4)① 예상 사용 요구량에 적합) / 30분 배출 검증은 별표 7 2.2.5 준용</div>
           <div class="bs-item-txt">우수 Q = (mm×m²)÷60÷대수 / H = 층고+L×R+L×R×0.5+안전율</div>
-          <div class="bs-item-txt">집수정 Ø450 이상 / D600 이상 / 고형물: 오수Ø50, 잡배수Ø25</div>
+          <div class="bs-item-txt">집수정 Ø450 이상 / D600 이상(별표 6 2.1.3(4)②) / 고형물: 오수Ø50, 잡배수Ø25</div>
         </div>
       </div>
       <div class="bs-item grn">
@@ -1630,7 +1630,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
     <div class="bs-panel" id="bs-law">
       <div class="bs-item blue">
         <div class="bs-item-head"><div class="bs-item-ico">📜</div><div class="bs-item-tit">기계설비법 (법률 제17453호)</div></div>
-        <div class="bs-item-body"><div class="bs-item-txt">현행 법률 제17453호(2020.6.9. 공포 · 시행) — 제14조 기계설비 기술기준의 근거</div></div>
+        <div class="bs-item-body"><div class="bs-item-txt">현행 법률 제17453호(2020.6.9. 공포 · 시행) — 제14조 기계설비 기술기준의 근거</div><div class="bs-item-txt">시행 예정: 일부개정 법률 제21813호(2026.6.16. 공포 · 2026.12.17. 시행) — 제14조 문언 같음</div></div>
       </div>
       <div class="bs-item grn">
         <div class="bs-item-head"><div class="bs-item-ico">📋</div><div class="bs-item-tit">기계설비 기술기준 (고시 제2021-851호, 제2026-360호 타법개정 · 2026.7.8. 시행)</div></div>
@@ -1652,7 +1652,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
         <div class="bs-item-head"><div class="bs-item-ico">🏆</div><div class="bs-item-tit">건축물의 에너지절약설계기준 (2026.7.8. 시행)</div></div>
         <div class="bs-item-body">
           <div class="bs-item-txt">제8조제2호나목(의무) — 펌프는 KS B 6318 · 7501 등 표시인증제품 또는 KS 효율 이상</div>
-          <div class="bs-item-txt">제9조제4호(권장) — 순환펌프 대수 · 가변속 제어, 급수펌프 가변속 제어 / A·B특성 효율은 장비선정계산서 기재용</div>
+          <div class="bs-item-txt">제9조제4호(권장) — 가목 냉난방 순환수 · 냉각수 순환펌프 대수 · 가변속 제어, 나목 급수 · 급수가압펌프 가변속 제어(급탕 순환펌프는 해당 목 없음 — 일반 권고) / A·B특성 효율은 장비선정계산서 기재용</div>
         </div>
       </div>
     </div>
@@ -1669,7 +1669,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
         <div class="bs-item-head"><div class="bs-item-ico">🚰</div><div class="bs-item-tit">오배수 설계 팁</div></div>
         <div class="bs-item-body">
           <div class="bs-item-txt">집수조 유효용량 = Q×5~10분 이상 확보 / 2대 교번운전 필수</div>
-          <div class="bs-item-txt">우수펌프: 지역 시간최대강우량(별표 8 2.8(1)) — 기상청 ASOS 1시간 최다강수량 관측 최대값을 지역 선택으로 / η는 입력값 적용</div>
+          <div class="bs-item-txt">우수펌프: 지역 시간최대강우량(별표 8 2.8(1)(우수관 구경) 준용) — 기상청 ASOS 1시간 최다강수량 관측 최대값을 지역 선택으로 / η는 입력값 적용</div>
         </div>
       </div>
       <div class="bs-item grn">
@@ -1685,7 +1685,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
         <div class="bs-item-body">
           <div class="bs-item-txt">KS B 6318/7501/7505 고효율 인증 입력</div>
           <div class="bs-item-txt">A특성(최대효율점) / B특성(규정토출량) 효율 입력 후 가중평균 확인</div>
-          <div class="bs-item-txt">제어방식 선택 — 인버터 · 대수제어 → 권장 조항(제9조제4호) 표시</div>
+          <div class="bs-item-txt">제어방식 선택 — 인버터 · 대수제어 → 냉난방 순환은 제9조제4호가목 권장, 급탕 순환은 일반 권고(해당 목 없음) 표시</div>
           <div class="bs-item-txt">전동기 여유율 10~15 % 권장(MANMIN 참고값) · 사용동력 · 전원은 장비일람에 기입(별표 1 2.8(3))</div>
         </div>
       </div>
@@ -1767,7 +1767,8 @@ let _wsSub     = 'ws_hoist'; // 'ws_hoist' | 'ws_boost'
 /* ═══════════════════════════════════════════════
    공통 유틸
 ═══════════════════════════════════════════════ */
-function today(){ return new Date().toISOString().slice(0,10); }
+/* v6.1.5 — 로컬(한국) 날짜. 종전 toISOString(UTC)은 00:00~08:59에 전날이 됨(기계 2차 교차검증 P15) */
+function today(){ const d=new Date(), z=x=>(x<10?'0':'')+x; return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate()); }
 
 /* ── Canvas roundRect 폴리필 (iOS Safari ≤ 15 등 구형 대응) ── */
 if(typeof CanvasRenderingContext2D!=='undefined' && !CanvasRenderingContext2D.prototype.roundRect){
@@ -2223,11 +2224,11 @@ function buildA4Sec(key, r){
       <tr><td>양정</td><td>H</td><td class="mc">${r.H.toFixed(3)}</td><td class="mc">${r.H.toFixed(2)}</td><td>m</td></tr>
       <tr><td>계산동력</td><td>P</td><td class="mc">${r.P_kW.toFixed(3)} kW (${r.P_calc.toFixed(3)} HP)</td><td>—</td><td>kW</td></tr>
       <tr><td>선정동력</td><td>P</td><td>—</td><td class="mc" style="color:#2d5186;font-weight:800">${r.hpStr}</td><td>HP</td></tr>
-      <tr><td>구경</td><td>DN</td><td>—</td><td class="mc">Ø ${r.pipe}${r.pipeMain?' / 주Ø'+r.pipeMain:''}</td><td>mm</td></tr>
+      <tr><td>구경</td><td>DN</td><td>—</td><td class="mc">Ø ${r.pipe}${r.pipeMain?' / 주Ø'+r.pipeMain:''}${r.pipeOver?`<br><span style="color:#b91c1c;font-size:10px">${PIPE_OVER_TXT}</span>`:''}</td><td>mm</td></tr>
       <tr><td>전원</td><td>—</td><td>—</td><td>${r.power}</td><td>—</td></tr>
       <tr><td>수량</td><td>N</td><td>—</td><td>${r.qty}</td><td>대</td></tr>
       ${isDrain&&r.solidLabel?`<tr><td>고형물 통과</td><td>—</td><td>—</td><td>${r.solidLabel}</td><td>—</td></tr>`:''}
-      ${isDrain?`<tr><td>집수정 규격</td><td>—</td><td>—</td><td>Ø450×D600 이상</td><td>mm</td></tr>`:''}
+      ${isDrain?`<tr><td>집수정 규격</td><td>—</td><td>—</td><td>Ø450×D600 이상 (별표 6 2.1.3(4)②)</td><td>mm</td></tr>`:''}
     </tbody>
   </table>
   <div class="a4-calc-box">
@@ -2237,7 +2238,7 @@ function buildA4Sec(key, r){
   ${epi?`<div class="a4-calc-box" style="margin-top:4px;border-color:#c2d9f7;background:#eff5fd">
     <div style="font-weight:700;color:#2d5186;margin-bottom:4px;font-size:12px">▶ EPI / 장비선정계산서</div>
     <div class="a4-calc-row"><span>제어방식</span><span>${epi.ctrl||'—'}</span></div>
-    <div class="a4-calc-row"><span>KS 인증</span><span>${epi.ks||'—'}</span></div>
+    <div class="a4-calc-row"><span>KS 인증</span><span>${epi.ks==='미선택'?'미선택 — KS 표시인증 · 효율 확인 필요(제8조제2호나목 의무)':(epi.ks||'—')}</span></div>
     <div class="a4-calc-row"><span>고효율 인증</span><span>${epi.cert||'—'}</span></div>
     <div class="a4-calc-row"><span>A특성 / B특성</span><span>${epi.effA>0?epi.effA+'%':'—'} / ${epi.effB>0?epi.effB+'%':'—'}</span></div>
     <div class="a4-calc-row" style="font-weight:700"><span>A/B 가중평균 효율</span><span>${wAvg}${wAvg!=='—'?' %':''}</span></div>
@@ -2283,6 +2284,20 @@ function selHP(p){ for(let i=0;i<HPT.length;i++) if(p<=HPT[i]*1.001) return{v:HP
 function selPipe(q){ if(q<20)return 25; if(q<50)return 32; if(q<100)return 40; if(q<200)return 50; if(q<400)return 65; if(q<800)return 80; return 100; }
 function selDPipe(q){ if(q<100)return{p:40,m:50}; if(q<250)return{p:50,m:65}; if(q<500)return{p:80,m:100}; return{p:100,m:125}; }
 function selPW(v){ return v<=0.25?'1Φ 220V 60Hz':'3Φ 380V 60Hz'; }
+/* v6.1.5 — 구경 선정표 끝(급수 800 LPM 이상 Ø100 · 배수 500 LPM 이상 Ø100/125)을 넘으면 「표 범위 초과」 표시(기계 2차 교차검증 P8) */
+const PIPE_OVER_TXT='표 범위 초과 — 구경 별도 검토';
+/* v6.1.5 — 무효 입력(0 · 빈 값 · 음수 · 효율 범위 밖)이면 그 펌프 결과 · 배지 · A4를 지운다(기계 2차 교차검증 P1) */
+function mmInvalid(key, resId, badgeId, msg){
+  RESULTS[key]=null;
+  const box=document.getElementById(resId);
+  if(box) box.innerHTML=`<div class="result-placeholder"><div class="rph-ico">⚠️</div><div class="rph-tit">입력 확인 필요</div><div class="rph-sub">${msg}</div></div>`;
+  const b=document.getElementById(badgeId); if(b){ b.textContent='대기'; b.className='cbadge org'; }
+  updateStatusBar(); updateA4();
+}
+/* v6.1.5 — 효율 η 0 초과 1 이하만 산정(기계 2차 교차검증 P4) */
+function etaBad(eta){ return !(eta>0&&eta<=1); }
+/* v6.1.5 — 550 kPa 경계 표시: 미만은 소수 1자리 내림(549.96 → 549.9), 이상은 소수 1자리(기계 2차 교차검증 P7) */
+function kpaTxt(k,over){ return over?k.toFixed(1):(Math.floor(k*10)/10).toFixed(1); }
 function n(id){ return parseFloat(document.getElementById(id)?.value)||0; }
 /* v5.0.1 — 빈칸만 기본값(0 입력은 0으로) */
 function nz(id,d){ const x=parseFloat(document.getElementById(id)?.value); return isNaN(x)?d:x; }
@@ -2351,11 +2366,11 @@ function buildResHtml(r, isDrain=false){ return `
     <div class="spec-row"><span class="sk">유량</span><span class="sv">${r.Q_lpm.toFixed(2)} LPM</span></div>
     <div class="spec-row"><span class="sk">양정</span><span class="sv">${r.H.toFixed(2)} m</span></div>
     <div class="spec-row"><span class="sk">동력</span><span class="sv">${r.hpStr} HP = ${(selHP(r.P_calc).v*0.7457).toFixed(3)} kW (선정기준)</span></div>
-    <div class="spec-row"><span class="sk">구경</span><span class="sv">Ø ${r.pipe}${r.pipeMain?' / 주Ø'+r.pipeMain:''} mm</span></div>
+    <div class="spec-row"><span class="sk">구경</span><span class="sv">Ø ${r.pipe}${r.pipeMain?' / 주Ø'+r.pipeMain:''} mm${r.pipeOver?` <b style="color:#b91c1c">— ${PIPE_OVER_TXT}</b>`:''}</span></div>
     <div class="spec-row"><span class="sk">전원</span><span class="sv">${r.power}</span></div>
     <div class="spec-row"><span class="sk">수량</span><span class="sv">${r.qty}</span></div>
     ${isDrain&&r.solidLabel?`<div class="spec-row"><span class="sk">고형물 통과</span><span class="sv">${r.solidLabel}</span></div>`:''}
-    ${isDrain?`<div class="spec-row"><span class="sk">집수정 규격</span><span class="sv">Ø450mm 이상 / 깊이 600mm 이상</span></div>`:''}
+    ${isDrain?`<div class="spec-row"><span class="sk">집수정 규격</span><span class="sv">Ø450mm 이상 / 깊이 600mm 이상 (별표 6 2.1.3(4)②)</span></div>`:''}
   </div>`; }
 
 /* EPI 정보 박스 빌더 */
@@ -2367,8 +2382,8 @@ function buildEpiBox(epi){
   const wAvg=(epi.effA>0&&epi.effB>0)?((epi.effA+epi.effB)/2).toFixed(1):'—';
   return `<div class="cbox" style="margin-top:8px;border-color:#c2d9f7">
     <div class="cbox-tit" style="color:#2d5186">📋 EPI / 장비선정계산서 정보</div>
-    <div class="crow"><span class="ck">제어방식</span><span class="cv mono" style="color:${epi.score>0?'#15803d':'inherit'}">${epi.ctrl||'미선택'}${epi.score>0?' — 에너지절약설계기준 제9조제4호 권장':''}</span></div>
-    <div class="crow"><span class="ck">KS 인증 규격</span><span class="cv mono" style="color:${hasKS?'#15803d':'#94a3b8'}">${epi.ks}${hasKS?' ✓':' (미입력)'}</span></div>
+    <div class="crow"><span class="ck">제어방식</span><span class="cv mono" style="color:${epi.score>0?'#15803d':'inherit'}">${epi.ctrl||'미선택'}${epi.score>0?' — '+(epi.law||'에너지 절약 제어 권장'):''}</span></div>
+    <div class="crow"><span class="ck">KS 인증 규격</span><span class="cv mono" style="color:${hasKS?'#15803d':'#94a3b8'}">${epi.ks}${hasKS?' ✓':' — KS 표시인증 · 효율 확인 필요(에너지절약설계기준 제8조제2호나목 의무)'}</span></div>
     <div class="crow"><span class="ck">고효율 인증</span><span class="cv mono" style="color:${hasCert?'#15803d':'#94a3b8'}">${epi.cert}${hasCert?' ✓':' (미입력)'}</span></div>
     <div class="crow"><span class="ck">A특성 효율 (최대효율점)</span><span class="cv mono">${epi.effA>0?epi.effA+'%':'미입력'}</span></div>
     <div class="crow"><span class="ck">B특성 효율 (규정토출량)</span><span class="cv mono">${epi.effB>0?epi.effB+'%':'미입력'}</span></div>
@@ -2445,15 +2460,15 @@ function switchHWSub(mode, el){
 
 /* 냉난방 순환펌프 (난방 또는 냉방 — 서브탭에 따라 저장 키 분리) */
 function calcHeat(){
-  const load=n('h_load'); if(!load) return;
   const key=_heatSub;
   const isH=(key==='heat');
+  const load=n('h_load'); if(!(load>0)){ mmInvalid(key,'heatResult','h_badge','부하를 0보다 크게 입력하세요'); return; }
   const extra=n('h_extra')/100, dt=nz('h_dt',isH?10:5);
   const pLen=n('h_pipelen'), fric=nz('h_friction',0.02);
   const coil=n('h_coil'), boil=n('h_boiler');
   const saf=n('h_safety')/100, eta=nz('h_eta',0.4);
-  if(!(dt>0)){ showToast('⚠️ 온도차 ΔT를 입력하세요'); return; }
-  if(!(eta>0)){ showToast('⚠️ 펌프 효율을 입력하세요'); return; }
+  if(!(dt>0)){ showToast('⚠️ 온도차 ΔT를 입력하세요'); mmInvalid(key,'heatResult','h_badge','온도차 ΔT를 0보다 크게 입력하세요'); return; }
+  if(etaBad(eta)){ showToast('⚠️ 펌프 효율을 0 초과 1 이하로 입력하세요'); mmInvalid(key,'heatResult','h_badge','펌프 효율 η를 0 초과 1 이하(예 0.4)로 입력하세요'); return; }
   // ★ emg: 입력값 % → 소수 변환 (10% → 1.10)
   const emgPct=nz('h_emg',10);
   const emg=1+(emgPct/100);
@@ -2472,11 +2487,11 @@ function calcHeat(){
   const gearResKpa=gearRes*9.807;
   // hₒ_warn — 결과 HTML에 포함
 
-  // v5.0.3 — 대수제어: 운전 대수 n 으로 유량 분할(펌프 1대 = 전체 Q ÷ n), 예비 생략 가능(별표 1 2.8(5))
+  // v5.0.3 — 대수제어: 운전 대수 n 으로 유량 분할(펌프 1대 = 전체 Q ÷ n), 예비 생략 검토 가능(별표 1 2.8(5) · 원칙 2.1(5))
   const ctrl0=document.getElementById('h_ctrl')?.value||'on_off';
   const nPump=(ctrl0==='multi')?Math.max(2,Math.round(nz('h_n',2))):1;
   const Qtot=Q, Q1=Q/nPump;
-  const PW=pumpPower(Q1,H,emg,eta), P=PW.hp, hp=selHP(P), pipe=selPipe(Q1), pw=selPW(hp.v);
+  const PW=pumpPower(Q1,H,emg,eta), P=PW.hp, hp=selHP(P), pipe=selPipe(Q1), pw=selPW(hp.v), pipeOver=(Q1>=800);
   const typeStr=['라인형','입형','횡형'][['line','vert','hori'].indexOf(document.getElementById('h_type').value)]||'라인형';
 
   // EPI / KS 정보
@@ -2484,7 +2499,7 @@ function calcHeat(){
   const ks=document.getElementById('h_ks')?.value||'none';
   const cert=document.getElementById('h_cert')?.value||'none';
   const effA=n('h_eff_a'), effB=n('h_eff_b');
-  const epiCtrl={on_off:'단속운전',inverter:'인버터 가변속 제어',multi:'대수분할 제어 (예비펌프 생략 가능 — 별표 1 2.8(5))'}[ctrl];
+  const epiCtrl={on_off:'단속운전',inverter:'인버터 가변속 제어',multi:'대수분할 제어 (예비펌프 생략 검토 가능 — 별표 1 2.8(5) · 원칙: 열원기기마다 순환펌프 1대 · 예비 별도(2.1(5)))'}[ctrl];
   const epiScore=(ctrl==='on_off')?0:(ctrl==='inverter')?3:2;
 
   const calcRows=[
@@ -2494,21 +2509,21 @@ function calcHeat(){
     ...(nPump>1?[{k:`대수제어 ${nPump}대 → 펌프 1대 Q`,v:`${Qtot.toFixed(3)} ÷ ${nPump} = ${Q1.toFixed(3)} LPM`}]:[]),
     {k:'배관손실 (L×R)',v:`${pl.toFixed(3)} m`},{k:'배관부속 (×0.5)',v:`${pa.toFixed(3)} m`},
     {k:'코일 저항',v:`${coil} m`},{k:isH?'보일러 저항':'냉동기 저항',v:`${boil} m`},
-    {k:'기기저항 합계',v:`${gearRes.toFixed(3)} m (${gearResKpa.toFixed(0)} kPa)${gearResKpa>70?' ⚠️ 70 kPa 초과 — 판형 열교환기 확인(별표 1 2.6(4))':''}`},
+    {k:'기기저항 합계',v:`${gearRes.toFixed(3)} m (${gearResKpa.toFixed(0)} kPa)${gearResKpa>70?' ⚠️ 70 kPa 초과 — 판형 열교환기 사용 시 개별 손실수두 확인(별표 1 2.6(4))':''}`},
     {k:'소계',v:`${sub.toFixed(3)} m`},{k:`안전율(${(saf*100).toFixed(0)}%)`,v:`${sm.toFixed(3)} m`},
     {k:'→ H (전양정)',v:`${H.toFixed(3)} m`},
     {k:`전동기 여유율(${emgPct}%)`,v:emgPct>15?`⚠️ ${emgPct}% — 권장 초과`:`${emgPct}% (적정)`},
     {k:'→ P 계산',v:`${PW.kW.toFixed(3)} kW = ${P.toFixed(3)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`},
   ];
 
-  const r={Q_lpm:Q1,Q_total:Qtot,nPump,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:nPump>1?`${nPump}대 대수제어 (예비 생략 가능 — 별표 1 2.8(5))`:'2대 (1대 예비)',calcRows,
+  const r={Q_lpm:Q1,Q_total:Qtot,nPump,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:nPump>1?`${nPump}대 대수제어 (예비 생략 검토 가능 — 별표 1 2.8(5))`:'2대 (1대 예비)',calcRows,
     typeStr,purpose:isH?'온수 순환 펌프':'냉수 순환 펌프',
-    epi:{ctrl:epiCtrl,score:epiScore,ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB},
-    gearResKpa};
+    epi:{ctrl:epiCtrl,score:epiScore,law:'에너지절약설계기준 제9조제4호가목 권장',ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB},
+    gearResKpa,pipeOver};
   RESULTS[key]=r;
   document.getElementById('h_badge').textContent='완료'; document.getElementById('h_badge').className='cbadge grn';
   document.getElementById('heatResult').innerHTML=buildResHtml(r)
-    +(gearResKpa>70?`<div class="nb red" style="margin-top:8px"><div class="nb-tit">⚠️ 기기저항 합계 ${gearResKpa.toFixed(0)} kPa — 70 kPa 초과</div><div class="nb-txt">기기저항 합계가 70 kPa를 넘습니다. 판형 열교환기를 쓰는 경우 열교환기 손실수두가 70 kPa 이하인지 확인하십시오 (별표 1 2.6(4)).</div></div>`:'')
+    +(gearResKpa>70?`<div class="nb red" style="margin-top:8px"><div class="nb-tit">⚠️ 기기저항 합계 ${gearResKpa.toFixed(0)} kPa — 70 kPa 초과 · 판형 열교환기 사용 시 개별 손실수두 확인</div><div class="nb-txt">기기저항 합계가 70 kPa를 넘습니다. 판형 열교환기를 쓰는 경우 열교환기 손실수두가 70 kPa 이하인지 확인하십시오 (별표 1 2.6(4)).</div></div>`:'')
     +buildEpiBox(r.epi);
   updateStatusBar();
   showToast(`✅ ${isH?'난방':'냉방'} 순환펌프 산정 완료 (${PUMP_ORDER.filter(k=>RESULTS[k]).length}/8)`);
@@ -2518,10 +2533,11 @@ function calcHeat(){
 function calcDrain(){
   const key=_drainSub;
   const isPit=(key==='pit');
-  let Q_in=0, Q=0, Qnote='';
+  let Q_in=0, Q=0, Qnote='', cnt=2;
   const ht=n('d_height'), pLen=n('d_pipelen'), fric=nz('d_friction',0.05);
   const saf=n('d_safety')/100, eta=nz('d_eta',0.4);
-  if(!(eta>0)){ showToast('⚠️ 펌프 효율을 입력하세요'); return; }
+  const warn30=document.getElementById('d_30min_warn');
+  if(etaBad(eta)){ showToast('⚠️ 펌프 효율을 0 초과 1 이하로 입력하세요'); if(isPit&&warn30) warn30.style.display='none'; mmInvalid(key,'drainResult','d_badge','펌프 효율 η를 0 초과 1 이하(예 0.4)로 입력하세요'); return; }
   const emgPct=nz('d_emg',10);
   const emg=1+(emgPct/100);
 
@@ -2530,14 +2546,14 @@ function calcDrain(){
   if(emgWarn) emgWarn.style.display=(emgPct>15)?'':'none';
 
   if(isPit){
-    Q_in=n('d_q_pit'); if(!Q_in) return;
+    Q_in=n('d_q_pit'); if(!(Q_in>0)){ if(warn30) warn30.style.display='none'; mmInvalid(key,'drainResult','d_badge','시간 최대 유입 유량을 0보다 크게 입력하세요'); return; }
     // ★ 설계 Q = 시간최대 유입량의 200% 이상
     Q=Q_in*2; Qnote=`${Q_in} LPM×200%`;
     // 30분 배출 검증
     const sumpVol=n('d_sump_vol');
-    const warn30=document.getElementById('d_30min_warn');
     const txt30=document.getElementById('d_30min_txt');
-    if(sumpVol&&warn30&&txt30){
+    if(!(sumpVol>0)&&warn30) warn30.style.display='none';   /* v6.1.5 — 집수조 용량을 지우면 경고도 끔(P6) */
+    if(sumpVol>0&&warn30&&txt30){
       const Q_30min=Q*30; // LPM×30min → ℓ
       if(sumpVol>Q_30min){
         warn30.style.display='';
@@ -2545,14 +2561,16 @@ function calcDrain(){
       } else { warn30.style.display='none'; }
     }
   } else {
-    const rr=n('d_rain_rate'), ar=n('d_floor_area'), cnt=nz('d_pump_count',2);
-    if(!rr||!ar) return;
-    if(!(cnt>=1)){ showToast('⚠️ 펌프 설치 대수를 1 이상 입력하세요'); return; } Q=(rr*ar)/60/cnt; Q_in=Q; Qnote=`(${rr}×${ar})÷60÷${cnt}`;
+    const rr=n('d_rain_rate'), ar=n('d_floor_area'), cnt0=nz('d_pump_count',2);
+    if(!(rr>0)||!(ar>0)){ mmInvalid(key,'drainResult','d_badge','강수량 · 집수 면적을 0보다 크게 입력하세요'); return; }
+    if(!(cnt0>=1)){ showToast('⚠️ 펌프 설치 대수를 1 이상 입력하세요'); mmInvalid(key,'drainResult','d_badge','펌프 설치 대수를 1 이상 입력하세요'); return; }
+    cnt=Math.round(cnt0);   /* v6.1.5 — 대수는 정수(소수는 반올림 · 칸 옆 경고) */
+    Q=(rr*ar)/60/cnt; Q_in=Q; Qnote=`(${rr}×${ar})÷60÷${cnt}`;
   }
 
   const pl=pLen*fric, pa=pLen*fric*0.5, sub=ht+pl+pa, sm=sub*saf, H=sub+sm;
   const etaA=eta;   /* v5.0.1 — 우수 0.30 고정 폐지, 입력값 사용 */
-  const PW=pumpPower(Q,H,emg,etaA), P=PW.hp, hp=selHP(P), pipes=selDPipe(Q), pw=selPW(hp.v);
+  const PW=pumpPower(Q,H,emg,etaA), P=PW.hp, hp=selHP(P), pipes=selDPipe(Q), pw=selPW(hp.v), pipeOver=(Q>=500);
 
   // 고형물 통과 직경
   const solidType=document.getElementById('d_solid_type')?.value||'25';
@@ -2574,10 +2592,10 @@ function calcDrain(){
     {k:'→ P 계산',v:`${PW.kW.toFixed(3)} kW = ${P.toFixed(3)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`},
   ];
 
-  const r={Q_lpm:Q,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe:pipes.p,pipeMain:pipes.m,power:pw,
-    qty:'2대 (순차기동/교대운전)',calcRows,
+  const r={Q_lpm:Q,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe:pipes.p,pipeMain:pipes.m,power:pw,pipeOver,
+    qty:isPit?'2대 (순차기동/교대운전)':`${cnt}대 (1대 Q = 전체 ÷ ${cnt}, 병렬운전)`,calcRows,   /* v6.1.5 — 우수 수량 = 실제 대수(P2) */
     typeStr:'수중형 (Submersible)',purpose:isPit?'집수조 배수 (PIT)':'집수조 배수 (우수)',
-    solidLabel, epi:{ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB,ctrl:'교대운전(2대)',score:0}};
+    solidLabel, epi:{ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB,ctrl:isPit?'교대운전(2대)':`병렬운전(${cnt}대)`,score:0}};
   RESULTS[key]=r;
   document.getElementById('d_badge').textContent='완료'; document.getElementById('d_badge').className='cbadge grn';
   document.getElementById('drainResult').innerHTML=buildResHtml(r,true)+buildEpiBox(r.epi);
@@ -2592,7 +2610,8 @@ function calcHW(){
   let Q=0, Qnote='', heatRows=[];
   const R=n('hw_R'), I=n('hw_I'), K=n('hw_K');
   const eta=nz('hw_eta',0.35);
-  if(!(eta>0)){ showToast('⚠️ 펌프 효율을 입력하세요'); return; }
+  const bad=m=>mmInvalid(key,'hwResult','hw_badge',m);
+  if(etaBad(eta)){ showToast('⚠️ 펌프 효율을 0 초과 1 이하로 입력하세요'); bad('펌프 효율 η를 0 초과 1 이하(예 0.35)로 입력하세요'); return; }
   const emgPct=nz('hw_emg',10);
   const emg=1+(emgPct/100);
 
@@ -2603,22 +2622,22 @@ function calcHW(){
   if(isC){
     const direct=n('hw_loss_direct'), L=n('hw_loss_len'), qw=nz('hw_loss_q',30), dt=nz('hw_dt',5);
     const loss=(direct>0)?direct:L*qw*0.86;
-    if(!(loss>0)) return;
-    if(!(dt>0)){ showToast('⚠️ 환탕 온도강하 Δt를 입력하세요'); return; }
+    if(!(loss>0)){ bad('배관 열손실(길이 × 단위 열손실 또는 직접 입력)을 0보다 크게 입력하세요'); return; }
+    if(!(dt>0)){ showToast('⚠️ 환탕 온도강하 Δt를 입력하세요'); bad('환탕 온도강하 Δt를 0보다 크게 입력하세요'); return; }
     Q=loss/(60*dt); Qnote=`${Math.round(loss).toLocaleString()}÷(60×${dt})`;
     heatRows=(direct>0)?[{k:'배관 열손실 (직접 입력)',v:`${direct.toLocaleString()} kcal/h`}]
       :[{k:'배관 길이 × 단위 열손실',v:`${L} m × ${qw} W/m = ${(L*qw).toLocaleString()} W`},{k:'배관 열손실',v:`${(L*qw).toLocaleString()} W × 0.86 = ${Math.round(loss).toLocaleString()} kcal/h`}];
     heatRows.push({k:'환탕 온도강하 Δt',v:`${dt} ℃`});
   } else {
     const cap=n('hw_heat_cap'), dt=nz('hw_dt2',10);
-    if(!(cap>0)) return;
-    if(!(dt>0)){ showToast('⚠️ 가열 온도차 Δt를 입력하세요'); return; }
+    if(!(cap>0)){ bad('가열장치 출력을 0보다 크게 입력하세요'); return; }
+    if(!(dt>0)){ showToast('⚠️ 가열 온도차 Δt를 입력하세요'); bad('가열 온도차 Δt를 0보다 크게 입력하세요'); return; }
     Q=cap/(60*dt); Qnote=`${cap.toLocaleString()}÷(60×${dt})`;
     heatRows=[{k:'가열장치 출력',v:`${cap.toLocaleString()} kcal/h`},{k:'가열 온도차 Δt',v:`${dt} ℃`}];
   }
-  if(!I) return;
+  if(!(I>0)){ bad('왕복 배관길이 I를 0보다 크게 입력하세요'); return; }
   const H=R*I*(1+K)/1000;
-  const PW=pumpPower(Q,H,emg,eta), P=PW.hp, hp=selHP(P), pipe=selPipe(Q), pw=selPW(hp.v);
+  const PW=pumpPower(Q,H,emg,eta), P=PW.hp, hp=selHP(P), pipe=selPipe(Q), pw=selPW(hp.v), pipeOver=(Q>=800);
 
   // EPI
   const ctrl=document.getElementById('hw_ctrl')?.value||'on_off';
@@ -2635,9 +2654,9 @@ function calcHW(){
     {k:'η',v:`${eta}`},{k:`전동기 여유율(${emgPct}%)`,v:emgPct>15?'⚠️ 권장 초과':'적정'},
     {k:'→ P 계산',v:`${PW.kW.toFixed(3)} kW = ${P.toFixed(3)} HP`},{k:'→ 선정동력',v:`${hp.l} HP`}
   ];
-  const r={Q_lpm:Q,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:'2대 (1대 예비)',calcRows,
+  const r={Q_lpm:Q,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe,pipeMain:null,power:pw,pipeOver,qty:'2대 (1대 예비)',calcRows,
     typeStr:'라인형',purpose:isC?'급탕 순환용 (저탕조↔기구)':'급탕 재순환용 (보일러↔저탕조)',
-    epi:{ctrl:epiCtrl,score:epiScore,ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB}};
+    epi:{ctrl:epiCtrl,score:epiScore,law:'에너지 절약 제어 — 일반 권고(급탕 순환펌프는 에너지절약설계기준 제9조제4호 가 · 나목 대상 아님)',ks:ks==='none'?'미선택':ks,cert:cert==='none'?'미선택':cert,effA,effB}};
   RESULTS[key]=r;
   document.getElementById('hw_badge').textContent='완료'; document.getElementById('hw_badge').className='cbadge grn';
   document.getElementById('hwResult').innerHTML=buildResHtml(r)+buildEpiBox(r.epi);
@@ -2690,11 +2709,11 @@ function calcWS(){
 
   // ① 유량 산정
   if(isH){
-    const qhr=n('ws_h_q'); if(!qhr) return;
+    const qhr=n('ws_h_q'); if(!(qhr>0)){ mmInvalid(key,'wsResult','ws_badge','시간최대 예상급수량을 0보다 크게 입력하세요'); document.getElementById('ws_550_warn').style.display='none'; return; }
     Q=qhr/60; Qnote=`${qhr}ℓ/hr÷60`; totalQ=Q;
   } else {
-    const qmin=n('ws_b_q'); if(!qmin) return;
-    pumpCnt=Math.max(2, nz('ws_b_cnt',2));
+    const qmin=n('ws_b_q'); if(!(qmin>0)){ mmInvalid(key,'wsResult','ws_badge','순간최대 예상급수량을 0보다 크게 입력하세요'); document.getElementById('ws_550_warn').style.display='none'; return; }
+    pumpCnt=Math.max(2, Math.round(nz('ws_b_cnt',2)));   /* v6.1.5 — 정수 2 이상(별표 5 2.1.3(2)②, 기계 2차 교차검증 P3) */
     totalQ=qmin; Q=qmin/pumpCnt;
     Qnote=`${qmin}÷${pumpCnt}(대)`;
   }
@@ -2706,7 +2725,7 @@ function calcWS(){
   const ho=nz('ws_ho',5.6);     // 말단기구 최저필요수압 (m환산)
   const saf=n('ws_safety')/100;
   const eta=nz('ws_eta',0.55);
-  if(!(eta>0)){ showToast('⚠️ 펌프 효율을 입력하세요'); return; }
+  if(etaBad(eta)){ showToast('⚠️ 펌프 효율을 0 초과 1 이하로 입력하세요'); mmInvalid(key,'wsResult','ws_badge','펌프 효율 η를 0 초과 1 이하(예 0.55)로 입력하세요'); document.getElementById('ws_550_warn').style.display='none'; return; }
   const emgPct=nz('ws_emg',10);
   const emg=1+(emgPct/100);
 
@@ -2725,7 +2744,7 @@ function calcWS(){
   const PW=pumpPower(Q,H,emg,eta);
   const P=PW.hp;
   const hp=selHP(P);
-  const pipe=selPipe(Q);
+  const pipe=selPipe(Q), pipeOver=(Q>=800);
   const pw=selPW(hp.v);
 
   // ④ 550 kPa(56.1m) 판정 — v5.0.1 별표 5 2.1.7 : 최대 수압으로 판정
@@ -2749,7 +2768,8 @@ function calcWS(){
     {k:'→ 전양정 H',v:`${H.toFixed(3)} m`},
     {k:'펌프 효율 η',v:`${eta}`},
     {k:`전동기 여유율(${emgPct}%)`,v:emgPct>15?`⚠️ ${emgPct}% — 권장 초과`:`${emgPct}% (적정)`},
-    {k:'최대 수압 (별표 5 2.1.7)',v:isH?'고가수조 낙차로 별도 확인':`토출압 ${dis_kpa.toFixed(0)} kPa ${over550?'≥ 550 → 감압밸브 또는 조닝':'— 550 kPa 미만'}`},
+    {k:'최대 수압 (별표 5 2.1.7)',v:isH?'고가수조 낙차로 별도 확인':`토출압 ${kpaTxt(dis_kpa,over550)} kPa ${over550?'≥ 550 → 감압밸브 또는 조닝':'— 550 kPa 미만'}`},
+    {k:'제어방식 (에너지절약설계기준 제9조제4호나목)',v:'급수 · 급수가압펌프 전동기 — 가변속제어 등 에너지절약적 제어방식 채택 권장'},
     {k:'→ P 계산',v:`${PW.kW.toFixed(3)} kW = ${P.toFixed(3)} HP`},
     {k:'→ 선정동력',v:`${hp.l} HP`},
   ];
@@ -2758,7 +2778,7 @@ function calcWS(){
   const purpose=isH?'고가수조 양수 (급수용)':'자동부스터 급수';
   const qtyStr=isH?'2대 (1대 예비)':pumpCnt+'대 병렬 (교번운전)';
 
-  const r={Q_lpm:Q,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe,pipeMain:null,power:pw,qty:qtyStr,calcRows,
+  const r={Q_lpm:Q,H,P_calc:P,P_kW:PW.kW,hpStr:hp.l,pipe,pipeMain:null,power:pw,pipeOver,qty:qtyStr,calcRows,
     typeStr,purpose,
     // 급수펌프 추가 정보
     totalQ,pumpCnt,ha,hpv:hpv.toFixed(3),ho,H_total:H.toFixed(3),
@@ -2769,7 +2789,7 @@ function calcWS(){
   document.getElementById('ws_badge').textContent='완료';
   document.getElementById('ws_badge').className='cbadge grn';
   document.getElementById('wsResult').innerHTML=buildResHtml(r)
-    +(r.warn550?`<div class="nb red" style="margin-top:8px"><div class="nb-tit">⚠️ 감압밸브(PRV) 또는 조닝</div><div class="nb-txt">펌프 토출압 ${dis_kpa.toFixed(0)} kPa ≥ 550 kPa<br>별표 5 2.1.7에 따라 감압밸브 또는 급수 조닝으로 550 kPa 이하로 제한</div></div>`:'');
+    +(r.warn550?`<div class="nb red" style="margin-top:8px"><div class="nb-tit">⚠️ 감압밸브(PRV) 또는 조닝</div><div class="nb-txt">펌프 토출압 ${kpaTxt(dis_kpa,true)} kPa ≥ 550 kPa<br>별표 5 2.1.7에 따라 감압밸브 또는 급수 조닝으로 550 kPa 이하로 제한</div></div>`:'');
   updateStatusBar();
   showToast(`✅ ${isH?'고가수조 양수':'자동부스터 급수'}펌프 산정 완료 (${PUMP_ORDER.filter(k=>RESULTS[k]).length}/8)`);
 }
@@ -2781,9 +2801,12 @@ function resetAll(){
     const keep=['h_extra','h_friction','h_coil','h_boiler','h_safety','h_eta','h_emg','h_n',
                 'd_friction','d_safety','d_eta','d_emg',
                 'hw_R','hw_K','hw_eta','hw_emg','hw_loss_q','hw_dt','hw_dt2','d_pump_count',
-                'ws_friction','ws_safety','ws_eta','ws_emg','ws_ho','ws_b_cnt'];
+                'ws_friction','ws_safety','ws_eta','ws_emg','ws_ho','ws_b_cnt','h_dt'];
     if(!keep.includes(el.id)) el.value='';
   });
+  /* v6.1.5 — 선택칸(h_type · h_ctrl · KS · 고효율 · 지역 · 고형물 · 제어방식)도 처음 선택값으로(기계 2차 교차검증 P16) */
+  document.querySelectorAll('select.fselect').forEach(el=>{ const i=[...el.options].findIndex(o=>o.defaultSelected); el.selectedIndex=i<0?0:i; });
+  toggleHN();
   // 모든 경고창 숨기기
   ['h_emg_warn','d_emg_warn','d_30min_warn','hw_emg_warn','ws_emg_warn','ws_550_warn'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.style.display='none';
@@ -3014,6 +3037,97 @@ document.addEventListener('DOMContentLoaded',()=>{
     window.addEventListener('afterprint', function () { printing = false; req(); });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+</script>
+<!-- 입력값 경고(정밀검토 B10 · 2026-11-12 · 작업지시서 §25-6-79) — 빈 값 · 0 이 기본값으로 바뀌거나 음수가 그대로 계산에 들어가는 칸에 빨간 테두리와 안내, 계산서 끝에 「입력 확인」 줄. 계산 값은 바꾸지 않음 -->
+<style id="mm-warn-css">
+input[data-mm-warn]{outline:2px solid #d32f2f!important;outline-offset:1px;background:#fff5f5!important;}
+.mm-warn-msg{display:block;flex-basis:100%;width:100%;color:#d32f2f;font-size:11px;font-weight:700;line-height:1.35;margin-top:3px;}
+[data-mm-warn-after]::after{content:attr(data-mm-warn-after);display:block;color:#d32f2f;font-size:11px;font-weight:700;line-height:1.35;margin-top:3px;}
+.mm-warn-note{margin-top:8px;padding:5px 8px;border:1px solid #d32f2f;border-radius:3px;color:#b71c1c;background:#fff5f5;font-size:9pt;line-height:1.5;text-align:left;}
+@media print{input[data-mm-warn]{outline:none!important;background:transparent!important;}.mm-warn-msg{display:none!important;}[data-mm-warn-after]::after{content:none!important;}
+.mm-warn-note{-webkit-print-color-adjust:exact;print-color-adjust:exact;break-inside:avoid;}}
+</style>
+<script id="mm-warn-cfg">
+/* v6.1.5 — 기계 2차 교차검증(2026-11-24) P3 · P4: all:true(숨은 탭 칸도 판정 → A4 · 인쇄 · JPG에 「⚠ 입력 확인」 줄) · 음수 · 효율 0~1 · 빈 여유율 · 안전율 → 0 % · 대수 정수 */
+(function(){
+  var R=[];
+  function z(n){return n<=0;}
+  function drv(id,nm){R.push({sel:'#'+id,name:nm,neg:'음수 — 산정 안 함',extra:function(el,n){return n===0?'0 — 산정 안 함':null;}});}
+  function pos(id,nm,d){R.push({sel:'#'+id,name:nm,empty:d,extra:function(el,n){return z(n)?'0 이하 — 산정 안 함':null;}});}
+  function neg(id,nm,d,m){var r={sel:'#'+id,name:nm,neg:m||true};if(d!=null)r.empty=d;R.push(r);}
+  function eta(id,nm,d){R.push({sel:'#'+id,name:nm,empty:d,extra:function(el,n){return z(n)?'0 이하 — 산정 안 함':(n>1?'1 초과 — 효율은 0~1 소수(예 0.55) · 산정 안 함':null);}});}
+  function eff(id,nm){R.push({sel:'#'+id,name:nm,neg:true,extra:function(el,n){return n>100?'100 % 초과 — 확인':null;}});}
+  function cnt(id,nm,min,cond){R.push({sel:'#'+id,name:nm,empty:'2대',cond:cond,extra:function(el,n){
+    if(n<min)return min>1?min+' 미만 → '+min+'대 적용':'1 미만 — 산정 안 함';
+    return n%1?'소수 → '+Math.max(min,Math.round(n))+'대 적용':null;}});}
+  drv('h_load','[냉난방] 부하'); neg('h_extra','[냉난방] 배관부하 여유율','0 %'); pos('h_dt','[냉난방] 온도차 ΔT','난방 10 ℃ · 냉방 5 ℃');
+  neg('h_pipelen','[냉난방] 왕복배관 길이'); neg('h_friction','[냉난방] 단위손실','0.02 mAq/m'); neg('h_coil','[냉난방] 코일 저항'); neg('h_boiler','[냉난방] 보일러(냉동기) 저항');
+  neg('h_safety','[냉난방] 안전율','0 %'); eta('h_eta','[냉난방] 펌프 효율 η','0.4'); neg('h_emg','[냉난방] 전동기 여유율','10 %');
+  cnt('h_n','[냉난방] 대수제어 운전 대수',2,function(){var c=document.getElementById('h_ctrl');return !!c&&c.value==='multi';});
+  eff('h_eff_a','[냉난방] A특성 효율'); eff('h_eff_b','[냉난방] B특성 효율');
+  drv('d_q_pit','[PIT] 시간 최대 유입 유량'); neg('d_sump_vol','[PIT] 집수조 유효 용량'); drv('d_rain_rate','[우수] 시간 최대 강수량'); drv('d_floor_area','[우수] 집수 바닥 면적');
+  cnt('d_pump_count','[우수] 펌프 설치 대수',1); neg('d_height','[오·배수] 건물 층고'); neg('d_pipelen','[오·배수] 배관 길이'); neg('d_friction','[오·배수] 단위손실','0.05 mAq/m');
+  neg('d_safety','[오·배수] 안전율','0 %'); eta('d_eta','[오·배수] 펌프 효율 η','0.4'); neg('d_emg','[오·배수] 전동기 여유율','10 %'); eff('d_eff_a','[오·배수] A특성 효율'); eff('d_eff_b','[오·배수] B특성 효율');
+  neg('hw_loss_len','[급탕 순환] 배관 길이'); neg('hw_loss_q','[급탕 순환] 단위 열손실','30 W/m'); neg('hw_loss_direct','[급탕 순환] 열손실 직접 입력',null,'음수 — 무시하고 배관 길이로 계산');
+  pos('hw_dt','[급탕 순환] 환탕 온도강하 Δt','5 ℃'); drv('hw_heat_cap','[급탕 재순환] 가열장치 출력'); pos('hw_dt2','[급탕 재순환] 가열 온도차 Δt','10 ℃');
+  R.push({sel:'#hw_R',name:'[급탕] 배관저항 R',empty:'0(양정 0 m)',neg:true,extra:function(el,n){return n===0?'0 — 양정 0 m':null;}});
+  drv('hw_I','[급탕] 왕복 배관길이 I'); neg('hw_K','[급탕] 국부저항 비율 K','0'); eta('hw_eta','[급탕] 펌프 효율 η','0.35'); neg('hw_emg','[급탕] 전동기 여유율','10 %');
+  eff('hw_eff_a','[급탕] A특성 효율'); eff('hw_eff_b','[급탕] B특성 효율');
+  drv('ws_h_q','[양수] 시간최대 예상급수량'); drv('ws_b_q','[부스터] 순간최대 예상급수량'); cnt('ws_b_cnt','[부스터] 병렬 운전 대수',2);
+  neg('ws_ha','[급수] 실양정 hₐ'); neg('ws_pipelen','[급수] 배관 길이 L'); neg('ws_friction','[급수] 단위마찰손실 R','0.03 mAq/m'); neg('ws_ho','[급수] 말단기구 최저필요수압 hₒ','5.6 m');
+  neg('ws_safety','[급수] 안전율','0 %'); eta('ws_eta','[급수] 펌프 효율 η','0.55'); neg('ws_emg','[급수] 전동기 여유율','10 %');
+  window.MM_WARN_CFG={report:'#a4Page',all:true,rules:R};
+})();
+</script>
+<script id="mm-warn-js">
+(function(){
+  var C=window.MM_WARN_CFG; if(!C) return;
+  var A=function(x){return Array.prototype.slice.call(x);};
+  function els(s){try{return (typeof s==='function'?s():A(document.querySelectorAll(s))).filter(Boolean);}catch(e){return [];}}
+  function vis(el){return !!(el.offsetWidth||el.offsetHeight||el.getClientRects().length);}
+  function lbl(el){var p=el;for(var i=0;i<4&&p;i++){p=p.parentElement;if(!p)break;var l=p.querySelector('label,.lbl,.flbl,.field-label');if(l&&!l.contains(el))return l.textContent.replace(/\s+/g,' ').trim().slice(0,30);}return el.id||'입력값';}
+  function judge(r,el){
+    if(r.cond&&!r.cond(el))return null;
+    var v=String(el.value==null?'':el.value).trim();
+    if(v==='')return r.empty!=null?'빈 값 → 기본값 '+r.empty+' 적용':null;
+    if(r.text&&!/^-?\d+(\.\d+)?$/.test(v)){var p=parseFloat(v);return '숫자 외 글자 — '+(isNaN(p)?0:p)+'(으)로 계산';}
+    var n=parseFloat(v);if(isNaN(n))return r.empty!=null?'빈 값 → 기본값 '+r.empty+' 적용':null;
+    if(n<0&&r.neg)return typeof r.neg==='string'?r.neg:'음수 입력 — 확인';
+    if(n===0&&r.zero!=null)return '0 → 기본값 '+r.zero+' 적용';
+    if(r.int&&n%1)return '소수 → '+Math.floor(n)+r.int+' 적용';
+    return r.extra?r.extra(el,n):null;}
+  function show(r,el,m){
+    var t=m?'⚠ '+m:'';
+    if(m){if(el.getAttribute('data-mm-warn')!=='1')el.setAttribute('data-mm-warn','1');}else if(el.hasAttribute('data-mm-warn'))el.removeAttribute('data-mm-warn');
+    if(C.react){var at=r.at?r.at(el):el.parentElement;if(!at)return;
+      if(m){if(at.getAttribute('data-mm-warn-after')!==t)at.setAttribute('data-mm-warn-after',t);}else if(at.hasAttribute('data-mm-warn-after'))at.removeAttribute('data-mm-warn-after');return;}
+    var h=el.closest('.input-sfx,.inp-wrap,.flex-row,.dstp')||el,s=h.nextElementSibling,has=!!(s&&s.classList.contains('mm-warn-msg'));
+    if(m){if(!has){s=document.createElement('span');s.className='mm-warn-msg';h.parentNode.insertBefore(s,h.nextSibling);}if(s.textContent!==t)s.textContent=t;}
+    else if(has)s.parentNode.removeChild(s);}
+  function note(list){
+    var txt=list.length?'⚠ 입력 확인 — 다음 값은 입력 그대로가 아니거나 확인이 필요함(기본값 적용 · 음수 입력): '+list.join(' · '):'';
+    [].concat(C.report).forEach(function(sel){els(sel).forEach(function(box){
+      var n=A(box.children).filter(function(c){return c.classList.contains('mm-warn-note');})[0];
+      if(!txt){if(n)box.removeChild(n);return;}
+      if(!n){n=document.createElement('div');n.className='mm-warn-note';}
+      if(n.textContent!==txt)n.textContent=txt;
+      if(box.lastElementChild!==n)box.appendChild(n);});});}
+  function run(){var list=[];
+    C.rules.forEach(function(r){var es=els(r.sel),got=[];
+      if(!es.length&&C.keep&&r._last){got=r._last;}
+      es.forEach(function(el){
+        var m=null;try{m=(C.all||vis(el))?judge(r,el):null;}catch(e){}
+        show(r,el,m);
+        if(m)got.push((typeof r.name==='function'?r.name(el):(r.name||lbl(el)))+' '+m);});
+      if(es.length)r._last=got;
+      got.forEach(function(s){if(list.indexOf(s)<0)list.push(s);});});
+    note(list);}
+  window.MMWarn={version:'1.0',run:run};
+  var q=function(){setTimeout(run,0);};
+  document.addEventListener('input',q,true);document.addEventListener('change',q,true);document.addEventListener('click',q,true);
+  window.addEventListener('beforeprint',run);
+  setTimeout(run,600);setInterval(run,1000);
 })();
 </script>
 <!-- MM-PROJECT:BEGIN v1.3 -->
